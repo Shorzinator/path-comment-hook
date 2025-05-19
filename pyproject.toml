@@ -7,7 +7,7 @@ name = "path-comment"
 dynamic = ["version"]
 description = "Pre-commit hook that injects relative-path comments"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = "MIT"
 keywords = []
 authors = [

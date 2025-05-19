@@ -1,0 +1,13 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.6
+    hooks:
+      - id: ruff
+  - repo: local
+    hooks:
+      - id: path-comment
+        name: Path Comment Hook
+        entry: path-comment
+        language: python
+        stages: [pre-commit]   # will run on every commit
+        files: \.(py|js|ts|yaml|yml|sh)$

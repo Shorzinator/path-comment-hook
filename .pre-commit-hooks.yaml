@@ -1,0 +1,6 @@
+- id: path-comment
+  name: Ensure relative-path comment header
+  entry: path-comment
+  language: python
+  types_or: [python, javascript, typescript, yaml, json, shell]
+  minimum_pre_commit_version: "3.0.0"

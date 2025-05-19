@@ -1,0 +1,10 @@
+# venv
+.venv/
+# Python cache
+__pycache__/
+*.py[cod]
+# testing & coverage
+htmlcov/
+.coverage*
+# editors
+.vscode/

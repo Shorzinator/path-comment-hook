@@ -1,3 +1,4 @@
+# .pre-commit-hooks.yaml
 - id: path-comment
   name: Ensure relative-path comment header
   entry: path-comment

@@ -26,8 +26,11 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "mypy", "hypothesis", "identify", "typer"]
+
 [project.scripts]
-path-comment = "path_comment.cli:main"
+path-comment = "path_comment.cli:app"
 
 [project.urls]
 Documentation = "https://github.com/Shorzinator/src/path-comment#readme"

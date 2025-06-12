@@ -1,29 +1,28 @@
 # src/path_comment/injector.py
-"""
-injector.py
-===========
+"""Path comment injection logic.
 
 Ensure every source file starts with a comment that contains its path
-relative to the project root.  Operates in two modes:
- • check → just verify, no edits
- • fix   → rewrite the file in-place if needed
+relative to the project root.  Operates in two modes:  • check → just
+verify, no edits  • fix   → rewrite the file in-place if needed
 """
 
 from __future__ import annotations
 
-import shutil
-import tempfile
 from enum import Enum, auto
 from pathlib import Path, PurePosixPath
+
 from identify.identify import tags_from_path
 
 from .detectors import comment_prefix
+from .file_handler import FileHandler, FileHandlingError
 
 
 class Result(Enum):
-    OK = auto()        # header already present
-    CHANGED = auto()   # header inserted / fixed
-    SKIPPED = auto()   # binary or unsupported
+    """Result states for path comment processing."""
+
+    OK = auto()  # header already present
+    CHANGED = auto()  # header inserted / fixed
+    SKIPPED = auto()  # binary or unsupported
 
 
 def _has_shebang(first_line: str) -> bool:
@@ -35,12 +34,12 @@ def ensure_header(
     project_root: Path,
     mode: str = "fix",  # "check" | "fix"
 ) -> Result:
-    """
-    Ensure *file_path* contains the correct header.
+    """Ensure *file_path* contains the correct header.
 
-    Returns a Result enum; in "check" mode we never modify files.
+    Returns a Result enum; in "check" mode we never modify files. Uses
+    the new FileHandler for safe operations with CRLF preservation,
+    encoding detection, and atomic writes.
     """
-
     # ------------------------------------------------------------------ #
     # Normalize paths:                                                    #
     #  • pre-commit passes *relative* paths; tests pass absolute paths.   #
@@ -62,15 +61,37 @@ def ensure_header(
     rel = PurePosixPath(file_path.relative_to(project_root))
     expected_line = f"{prefix} {rel}\n"
 
-    with file_path.open("r", encoding="utf-8") as fh:
-        first_line = fh.readline()
-        rest = fh.read()
+    # Use the new FileHandler for safe file operations
+    try:
+        handler = FileHandler(file_path)
+        file_info = handler.read()
+    except FileHandlingError:
+        # If we can't read the file, skip it
+        return Result.SKIPPED
+
+    lines = file_info.content.splitlines(keepends=True)
+    if not lines:
+        # Empty file - add the header
+        if mode == "check":
+            return Result.CHANGED
+        try:
+            handler.write(expected_line, file_info.line_ending)
+            return Result.CHANGED
+        except FileHandlingError:
+            return Result.SKIPPED
+
+    first_line = lines[0]
 
     # Handle files that start with a shebang; header must go *after* it
     if _has_shebang(first_line):
         header_pos = 1
-        present_header = rest.splitlines()[0] + "\n" if rest else ""
-        needs_change = present_header != expected_line
+        if len(lines) > 1:
+            present_header = lines[1]
+            needs_change = present_header != expected_line
+        else:
+            # File only has shebang, need to add header
+            needs_change = True
+            present_header = ""
     else:
         header_pos = 0
         present_header = first_line
@@ -81,17 +102,22 @@ def ensure_header(
     if mode == "check":
         return Result.CHANGED
 
-    # --- rewrite in-place (atomic temp file swap) --------------------------
-    with tempfile.NamedTemporaryFile("w", encoding="utf-8", delete=False) as tmp:
-        if header_pos == 1:               # keep shebang first
-            tmp.write(first_line)
-        tmp.write(expected_line)
+    # --- rewrite with safe file handling and line ending preservation ---
+    try:
+        new_lines = lines.copy()
 
-        # write the remaining original content (skip old header if it exists)
-        if header_pos == 1:
-            tmp.write("\n".join(rest.splitlines()[1:]) + ("\n" if rest else ""))
-        else:
-            tmp.write(first_line + rest if present_header != "" else rest)
+        if header_pos == 1:  # Insert after shebang
+            if len(new_lines) > 1:
+                new_lines[1] = expected_line  # Replace existing header
+            else:
+                new_lines.append(expected_line)  # Add header after shebang
+        else:  # Insert at beginning
+            new_lines[0] = expected_line  # Replace first line with header
 
-    shutil.move(tmp.name, file_path)
-    return Result.CHANGED
+        new_content = "".join(new_lines)
+        handler.write(new_content, file_info.line_ending)
+        return Result.CHANGED
+
+    except FileHandlingError:
+        # If write fails, return SKIPPED to avoid breaking the workflow
+        return Result.SKIPPED

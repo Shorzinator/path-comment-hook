@@ -1,11 +1,9 @@
 # src/path_comment/cli.py
-"""
-cli.py
-======
+"""CLI interface for path-comment-hook.
 
 Root CLI for the *path-comment* pre-commit hook.
 Calling pattern expected by pre-commit:
-    path-comment  [--check/-c]  <file1> <file2> ...
+    path-comment-hook  [--check/-c]  <file1> <file2> ...
 """
 
 from __future__ import annotations
@@ -14,25 +12,26 @@ import sys
 from pathlib import Path
 
 import typer
+from rich.console import Console
+from rich.table import Table
 
-from .injector import Result, ensure_header
+from .config import ConfigError, load_config
+from .processor import print_processing_summary, process_files_parallel
 
-# Typer application object (console-script points here)
+# Rich console for better output
+console = Console()
+
+# Main typer app
 app = typer.Typer(
-    add_completion=False,
-    help="Insert or verify a relative-path comment at the top of each file.",
+    help="Insert or verify a relative-path comment at the top of each file."
 )
 
 
-# Root callback: runs even when no sub-command is given
-@app.callback(invoke_without_command=True)
-def main(  # noqa: D401 (imperative mood fine for CLI)
+@app.command()
+def run(
     files: list[Path] = typer.Argument(
         ...,
-        exists=True,
-        dir_okay=False,
-        readable=True,
-        help="Files passed by pre-commit (or manually).",
+        help="Files to process",
     ),
     check: bool = typer.Option(
         False,
@@ -45,21 +44,134 @@ def main(  # noqa: D401 (imperative mood fine for CLI)
         "--project-root",
         help="Root directory used to compute the relative header path.",
     ),
+    workers: int = typer.Option(
+        None,
+        "--workers",
+        help="Number of worker threads for parallel processing. Defaults to CPU count.",
+    ),
+    verbose: bool = typer.Option(
+        False,
+        "--verbose",
+        "-v",
+        help="Show detailed processing information.",
+    ),
+    show_progress: bool = typer.Option(
+        False,
+        "--progress",
+        help="Show progress bar during processing.",
+    ),
 ) -> None:
-    """Process each *file* and ensure it has the correct header."""
+    """Process files and ensure they have the correct header."""
+    # Validate files exist
+    for file_path in files:
+        if not file_path.exists():
+            console.print(
+                f"[bold red]Error:[/bold red] File '{file_path}' does not exist."
+            )
+            raise typer.Exit(code=1)
+        if not file_path.is_file():
+            console.print(f"[bold red]Error:[/bold red] '{file_path}' is not a file.")
+            raise typer.Exit(code=1)
+
     mode = "check" if check else "fix"
-    had_changes = False
 
-    for raw in files:
-        result = ensure_header(raw, project_root, mode=mode)
-        if result is Result.CHANGED:
-            had_changes = True
-            typer.echo(f"{'Would update' if check else 'Updated'} {raw}")
+    # Process files in parallel
+    results = process_files_parallel(
+        files=files,
+        project_root=project_root,
+        mode=mode,
+        workers=workers,
+        show_progress=show_progress,
+    )
 
-    if had_changes and check:
-        sys.exit(1)
+    # Print summary if verbose or if there were changes/errors
+    has_changes = any(r.result.name == "CHANGED" for r in results)
+    has_errors = any(r.error is not None for r in results)
+
+    if verbose or has_errors:
+        print_processing_summary(results, mode, show_details=verbose)
+    elif has_changes and not check:
+        # Just show simple output for changed files in fix mode
+        for result in results:
+            if result.result.name == "CHANGED":
+                console.print(f"Updated {result.file_path}")
+    elif has_changes and check:
+        # Show what would be updated in check mode
+        for result in results:
+            if result.result.name == "CHANGED":
+                console.print(f"Would update {result.file_path}")
+
+    # Exit with error code if in check mode and there were changes or errors
+    if check and (has_changes or has_errors):
+        raise typer.Exit(code=1)
+    elif has_errors:
+        raise typer.Exit(code=1)
+
+
+@app.command("show-config")
+def show_config(
+    project_root: Path = typer.Option(
+        Path.cwd(),
+        "--project-root",
+        help="Root directory to search for pyproject.toml",
+    ),
+) -> None:
+    """Display the current path-comment-hook configuration."""
+    try:
+        config = load_config(project_root)
+        config_dict = config.to_dict()
+
+        console.print("\n[bold green]Path-Comment-Hook Configuration[/bold green]")
+        console.print(f"[dim]Loaded from: {project_root / 'pyproject.toml'}[/dim]\n")
+
+        # Create a nice table for display
+        table = Table(
+            title="Configuration Settings",
+            show_header=True,
+            header_style="bold magenta",
+        )
+        table.add_column("Setting", style="cyan", no_wrap=True)
+        table.add_column("Value", style="white")
+
+        # Add configuration rows
+        table.add_row("exclude_globs", str(config_dict["exclude_globs"]))
+        table.add_row(
+            "custom_comment_map",
+            str(config_dict["custom_comment_map"])
+            if config_dict["custom_comment_map"]
+            else "[dim]None[/dim]",
+        )
+        table.add_row("default_mode", config_dict["default_mode"])
+
+        console.print(table)
+        console.print()
+
+    except ConfigError as e:
+        console.print(f"[bold red]Configuration Error:[/bold red] {e}")
+        raise typer.Exit(code=1) from e
+    except Exception as e:
+        console.print(f"[bold red]Unexpected error:[/bold red] {e}")
+        raise typer.Exit(code=1) from e
+
+
+def main() -> None:
+    """Main entry point that handles pre-commit hook behavior."""
+    # If called with file arguments but no subcommand, assume 'run' command
+    if len(sys.argv) > 1:
+        first_arg = sys.argv[1]
+        # If first arg is not a known command and not a flag, assume it's a file
+        # for 'run'
+        if (
+            not first_arg.startswith("-")
+            and first_arg not in ["show-config", "run"]
+            and first_arg not in ["--help", "-h", "--version"]
+        ):
+            # Insert 'run' command for pre-commit hook compatibility
+            sys.argv.insert(1, "run")
+
+    app()
 
 
 # Convenience: python -m path_comment.cli
 if __name__ == "__main__":
-    app()
+    main()

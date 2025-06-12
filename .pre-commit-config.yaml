@@ -1,14 +1,67 @@
 # .pre-commit-config.yaml
 repos:
+  # Code formatting and linting
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.4.6
     hooks:
       - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.16.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-requests]
+
+  # Security scanning
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.3
+    hooks:
+      - id: bandit
+        args: ["-r", "src"]
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+
+  # Documentation formatting
+  - repo: https://github.com/pycqa/docformatter
+    rev: v1.7.5
+    hooks:
+      - id: docformatter
+        args: ["--in-place", "--wrap-summaries", "88"]
+
+  # Commit message formatting
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.20.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ["--maxkb=1000"]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: debug-statements
+
+  # Local path-comment hook
   - repo: local
     hooks:
       - id: path-comment
-        name: Path Comment Hook
-        entry: path-comment
+        name: Ensure relative-path comment header
+        entry: path-comment-hook
         language: python
-        stages: [pre-commit]   # will run on every commit
-        files: \.(py|js|ts|yaml|yml|sh)$
+        types: [python, javascript, yaml, json, shell]
+        minimum_pre_commit_version: "3.0.0"

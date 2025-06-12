@@ -1,5 +1,6 @@
-"""Configuration management for path-comment-hook.
+# src/path_comment/config.py
 
+"""
 This module handles loading and validating configuration from
 pyproject.toml files, providing a centralized way to manage tool
 settings.

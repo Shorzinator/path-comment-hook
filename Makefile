@@ -62,4 +62,4 @@ run:
 	poetry run path-comment-hook --help
 
 show-config:
-	poetry run path-comment-hook show-config 
+	poetry run path-comment-hook show-config

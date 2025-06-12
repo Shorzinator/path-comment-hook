@@ -1,5 +1,6 @@
-"""Tests for advanced file handling.
+# tests/test_file_handling.py
 
+"""
 Including CRLF preservation, encoding detection, and atomic writes.
 """
 
@@ -7,6 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+
 from path_comment.file_handler import (
     FileHandler,
     FileHandlingError,

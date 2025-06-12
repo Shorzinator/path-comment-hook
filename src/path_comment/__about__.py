@@ -1,4 +1,4 @@
-"""Version information for path-comment-hook package."""
+# src/path_comment/__about__.py
 
 # src/path_comment/__about__.py
 

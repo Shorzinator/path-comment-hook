@@ -1,8 +1,9 @@
-"""Tests for configuration loading and validation."""
+# tests/test_config.py
 
 from pathlib import Path
 
 import pytest
+
 from path_comment.config import Config, ConfigError, load_config
 
 

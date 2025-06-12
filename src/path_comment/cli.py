@@ -30,8 +30,8 @@ app = typer.Typer(
 @app.command()
 def run(
     files: list[Path] = typer.Argument(
-        ...,
-        help="Files to process",
+        None,
+        help="Files to process. If omitted, use --all to process entire project.",
     ),
     check: bool = typer.Option(
         False,
@@ -60,14 +60,31 @@ def run(
         "--progress",
         help="Show progress bar during processing.",
     ),
+    all_files: bool = typer.Option(
+        False,
+        "--all",
+        help="Process all supported files under --project-root (recursively)",
+    ),
 ) -> None:
     """Process files and ensure they have the correct header."""
-    # Validate files exist
+    # If --all specified or no files provided, discover files automatically
+    if all_files or not files:
+        try:
+            cfg = load_config(project_root)
+        except ConfigError as e:
+            console.print(f"[bold red]Configuration Error:[/bold red] {e}")
+            raise typer.Exit(code=1)
+
+        files = _discover_files(project_root, cfg)
+
+        if not files:
+            console.print("[yellow]No eligible files found to process.[/yellow]")
+            raise typer.Exit(code=0)
+
+    # Validate provided/discovered files
     for file_path in files:
         if not file_path.exists():
-            console.print(
-                f"[bold red]Error:[/bold red] File '{file_path}' does not exist."
-            )
+            console.print(f"[bold red]Error:[/bold red] File '{file_path}' does not exist.")
             raise typer.Exit(code=1)
         if not file_path.is_file():
             console.print(f"[bold red]Error:[/bold red] '{file_path}' is not a file.")
@@ -152,6 +169,24 @@ def show_config(
     except Exception as e:
         console.print(f"[bold red]Unexpected error:[/bold red] {e}")
         raise typer.Exit(code=1) from e
+
+
+def _discover_files(project_root: Path, config: "Config") -> list[Path]:
+    """Recursively discover files to process under *project_root*.
+
+    The discovery respects *exclude_globs* from the configuration and also
+    consults :func:`path_comment.detectors.comment_prefix` to skip binaries or
+    unsupported types.
+    """
+
+    from .detectors import comment_prefix  # local import to avoid CLI startup cost
+
+    files: list[Path] = []
+    for path in project_root.rglob("*"):
+        if path.is_file() and not config.should_exclude(path):
+            if comment_prefix(path) is not None:  # only supported types
+                files.append(path)
+    return files
 
 
 def main() -> None:

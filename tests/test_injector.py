@@ -1,6 +1,7 @@
 # tests/test_injector.py
 from pathlib import Path
-from path_comment.injector import ensure_header, Result
+
+from path_comment.injector import Result, ensure_header
 
 
 def test_fix_plain_python(tmp_path: Path) -> None:
@@ -33,16 +34,14 @@ def test_fix_shebang(tmp_path: Path) -> None:
 
     assert ensure_header(sh, tmp_path, mode="fix") is Result.CHANGED
     lines = sh.read_text().splitlines()
-    assert lines[0].startswith("#!")           # shebang preserved
-    assert lines[1] == "# bin/foo"             # header inserted right after
+    assert lines[0].startswith("#!")  # shebang preserved
+    assert lines[1] == "# bin/foo"  # header inserted right after
 
 
 def test_fix_c_file(tmp_path: Path) -> None:
     c_file = tmp_path / "src" / "main.c"
     c_file.parent.mkdir(parents=True)
-    c_file.write_text(
-        '#include <stdio.h>\nint main(){return 0;}\n', encoding="utf-8"
-    )
+    c_file.write_text("#include <stdio.h>\nint main(){return 0;}\n", encoding="utf-8")
 
     assert ensure_header(c_file, tmp_path, mode="fix") is Result.CHANGED
     assert c_file.read_text().startswith("// src/main.c\n")

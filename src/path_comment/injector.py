@@ -112,7 +112,13 @@ def ensure_header(
             else:
                 new_lines.append(expected_line)  # Add header after shebang
         else:  # Insert at beginning
-            new_lines[0] = expected_line  # Replace first line with header
+            # Prepend header, keep original first line, and add blank line
+            original_first = new_lines[0]
+            new_lines[0] = expected_line
+            # Ensure a blank line after header for readability
+            blank = file_info.line_ending.value
+            new_lines.insert(1, blank)
+            new_lines.insert(2, original_first)
 
         new_content = "".join(new_lines)
         handler.write(new_content, file_info.line_ending)

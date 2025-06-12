@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import typer
 from rich.console import Console
@@ -17,6 +18,9 @@ from rich.table import Table
 
 from .config import ConfigError, load_config
 from .processor import print_processing_summary, process_files_parallel
+
+if TYPE_CHECKING:
+    from .config import Config
 
 # Rich console for better output
 console = Console()

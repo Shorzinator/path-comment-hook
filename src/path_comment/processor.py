@@ -1,8 +1,8 @@
 """Parallel file processing for path-comment-hook.
 
-This module provides multiprocessing capabilities using ThreadPoolExecutor
-to process multiple files concurrently, improving performance for large
-codebases.
+This module provides multiprocessing capabilities using
+ThreadPoolExecutor to process multiple files concurrently, improving
+performance for large codebases.
 """
 
 from __future__ import annotations

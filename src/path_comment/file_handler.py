@@ -1,7 +1,5 @@
 # src/path_comment/file_handler.py
-
-"""
-Safe file handling with CRLF preservation, encoding detection, and atomic writes.
+"""Safe file handling with CRLF preservation, encoding detection, and atomic writes.
 
 This module provides robust file handling capabilities that preserve
 line endings, detect encodings with fallback, and ensure atomic writes

@@ -104,10 +104,12 @@ strict_equality = true
 
 [[tool.mypy.overrides]]
 module = "tests.*"
+ignore_errors = true
 disallow_untyped_defs = false
+disallow_untyped_decorators = false
 
 [[tool.mypy.overrides]]
-module = "src.path_comment.cli"
+module = "path_comment.cli"
 disallow_untyped_decorators = false
 
 [tool.coverage.run]

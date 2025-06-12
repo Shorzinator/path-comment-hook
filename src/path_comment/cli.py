@@ -30,45 +30,67 @@ app = typer.Typer(
     help="Insert or verify a relative-path comment at the top of each file."
 )
 
+# Constants for Typer parameter defaults to avoid function calls in default
+
+# Argument/Option factory calls are evaluated at import time here, avoiding
+# ruff B008 (function calls in default argument values) inside the actual
+# function signatures.
+
+# -- Files argument
+FILES_ARGUMENT = typer.Argument(
+    None,
+    help="Files to process. If omitted, use --all to process entire project.",
+)
+
+# -- Common options
+CHECK_OPTION = typer.Option(
+    False,
+    "--check",
+    "-c",
+    help="Dry-run: only verify; exit 1 if any file would change.",
+)
+
+PROJECT_ROOT_OPTION = typer.Option(
+    Path.cwd(),
+    "--project-root",
+    help="Root directory used to compute the relative header path.",
+)
+
+WORKERS_OPTION = typer.Option(
+    None,
+    "--workers",
+    help="Number of worker threads for parallel processing. Defaults to CPU count.",
+)
+
+VERBOSE_OPTION = typer.Option(
+    False,
+    "--verbose",
+    "-v",
+    help="Show detailed processing information.",
+)
+
+PROGRESS_OPTION = typer.Option(
+    False,
+    "--progress",
+    help="Show progress bar during processing.",
+)
+
+ALL_FILES_OPTION = typer.Option(
+    False,
+    "--all",
+    help="Process all supported files under --project-root (recursively)",
+)
+
 
 @app.command()
 def run(
-    files: list[Path] = typer.Argument(
-        None,
-        help="Files to process. If omitted, use --all to process entire project.",
-    ),
-    check: bool = typer.Option(
-        False,
-        "--check",
-        "-c",
-        help="Dry-run: only verify; exit 1 if any file would change.",
-    ),
-    project_root: Path = typer.Option(
-        Path.cwd(),
-        "--project-root",
-        help="Root directory used to compute the relative header path.",
-    ),
-    workers: int = typer.Option(
-        None,
-        "--workers",
-        help="Number of worker threads for parallel processing. Defaults to CPU count.",
-    ),
-    verbose: bool = typer.Option(
-        False,
-        "--verbose",
-        "-v",
-        help="Show detailed processing information.",
-    ),
-    show_progress: bool = typer.Option(
-        False,
-        "--progress",
-        help="Show progress bar during processing.",
-    ),
-    all_files: bool = typer.Option(
-        False,
-        "--all",
-        help="Process all supported files under --project-root (recursively)",
-    ),
+    files: list[Path] = FILES_ARGUMENT,
+    check: bool = CHECK_OPTION,
+    project_root: Path = PROJECT_ROOT_OPTION,
+    workers: int = WORKERS_OPTION,
+    verbose: bool = VERBOSE_OPTION,
+    show_progress: bool = PROGRESS_OPTION,
+    all_files: bool = ALL_FILES_OPTION,
 ) -> None:
     """Process files and ensure they have the correct header."""
     # If --all specified or no files provided, discover files automatically
@@ -77,7 +99,7 @@ def run(
             cfg = load_config(project_root)
         except ConfigError as e:
             console.print(f"[bold red]Configuration Error:[/bold red] {e}")
-            raise typer.Exit(code=1)
+            raise typer.Exit(code=1) from e
 
         files = _discover_files(project_root, cfg)
 
@@ -88,7 +110,9 @@ def run(
     # Validate provided/discovered files
     for file_path in files:
         if not file_path.exists():
-            console.print(f"[bold red]Error:[/bold red] File '{file_path}' does not exist.")
+            console.print(
+                f"[bold red]Error:[/bold red] File '{file_path}' does not exist."
+            )
             raise typer.Exit(code=1)
         if not file_path.is_file():
             console.print(f"[bold red]Error:[/bold red] '{file_path}' is not a file.")
@@ -131,11 +155,7 @@ def run(
 
 @app.command("show-config")
 def show_config(
-    project_root: Path = typer.Option(
-        Path.cwd(),
-        "--project-root",
-        help="Root directory to search for pyproject.toml",
-    ),
+    project_root: Path = PROJECT_ROOT_OPTION,
 ) -> None:
     """Display the current path-comment-hook configuration."""
     try:
@@ -175,14 +195,13 @@ def show_config(
         raise typer.Exit(code=1) from e
 
 
-def _discover_files(project_root: Path, config: "Config") -> list[Path]:
+def _discover_files(project_root: Path, config: Config) -> list[Path]:
     """Recursively discover files to process under *project_root*.
 
     The discovery respects *exclude_globs* from the configuration and also
     consults :func:`path_comment.detectors.comment_prefix` to skip binaries or
     unsupported types.
     """
-
     from .detectors import comment_prefix  # local import to avoid CLI startup cost
 
     files: list[Path] = []

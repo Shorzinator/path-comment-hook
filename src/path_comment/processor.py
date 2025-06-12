@@ -1,9 +1,9 @@
 # src/path_comment/processor.py
+"""Provide multiprocessing capabilities using :class:`ThreadPoolExecutor`.
 
-"""
-This module provides multiprocessing capabilities using
-ThreadPoolExecutor to process multiple files concurrently, improving
-performance for large codebases.
+Processing multiple files concurrently significantly improves
+performance on large codebases, especially when the I/O bound operations
+dominate runtime.
 """
 
 from __future__ import annotations

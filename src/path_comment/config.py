@@ -1,18 +1,18 @@
 # src/path_comment/config.py
+"""Handle loading and validating configuration from *pyproject.toml* files.
 
-"""
-This module handles loading and validating configuration from
-pyproject.toml files, providing a centralized way to manage tool
-settings.
+Providing a centralized way to manage tool settings ensures that the
+rest of the codebase can rely on a single, validated source of truth.
 """
 
 from __future__ import annotations
 
 import fnmatch
-import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+import tomllib
 
 
 class ConfigError(Exception):

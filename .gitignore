@@ -1,5 +1,9 @@
 # venv
 .venv/
+# Poetry
+dist/
+*.egg-info/
+
 # Python cache
 __pycache__/
 *.py[cod]
@@ -8,3 +12,6 @@ htmlcov/
 .coverage*
 # editors
 .vscode/
+.DS_Store
+.ruff_cache/
+.pytest_cache/

@@ -1,0 +1,16 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include pyproject.toml
+include setup.py
+include Makefile
+recursive-include src/path_comment *.py *.typed
+recursive-include docs *.md *.yml *.yaml
+recursive-include examples *.py *.toml
+exclude tests/*
+exclude site/*
+exclude .github/*
+exclude .git/*
+prune __pycache__
+prune *.egg-info

@@ -1,18 +1,22 @@
 # Makefile
 
-.PHONY: install test lint format clean help
+.PHONY: install test lint format clean help docs docs-serve docs-build docs-deploy welcome
 
 # Default target
 help:
 	@echo "Available commands:"
-	@echo "  install    - Install dependencies with Poetry"
-	@echo "  test       - Run tests"
-	@echo "  lint       - Run linting checks"
-	@echo "  format     - Format code"
-	@echo "  clean      - Clean up temporary files"
-	@echo "  pre-commit - Run pre-commit hooks"
-	@echo "  build      - Build the package"
-	@echo "  publish    - Publish to PyPI (dry-run)"
+	@echo "  install      - Install dependencies with Poetry"
+	@echo "  test         - Run tests"
+	@echo "  lint         - Run linting checks"
+	@echo "  format       - Format code"
+	@echo "  clean        - Clean up temporary files"
+	@echo "  pre-commit   - Run pre-commit hooks"
+	@echo "  build        - Build the package"
+	@echo "  publish      - Publish to PyPI (dry-run)"
+	@echo "  welcome      - Show welcome message with ASCII art"
+	@echo "  docs-serve   - Serve documentation locally"
+	@echo "  docs-build   - Build documentation"
+	@echo "  docs-deploy  - Deploy documentation to GitHub Pages"
 
 install:
 	poetry install
@@ -65,3 +69,16 @@ run:
 
 show-config:
 	poetry run path-comment-hook show-config
+
+welcome:
+	poetry run path-comment-hook welcome
+
+# Documentation commands
+docs-serve:  ## Serve documentation locally
+	poetry run mkdocs serve
+
+docs-build:  ## Build documentation
+	poetry run mkdocs build --clean --strict
+
+docs-deploy:  ## Deploy documentation to GitHub Pages
+	poetry run mkdocs gh-deploy --force

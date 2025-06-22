@@ -20,6 +20,7 @@ from rich.table import Table
 from .__about__ import __version__
 from .config import ConfigError, load_config
 from .processor import print_processing_summary, process_files_parallel
+from .welcome import show_welcome
 
 if TYPE_CHECKING:
     from .config import Config
@@ -336,6 +337,12 @@ def delete(
         raise typer.Exit(code=1)
 
 
+@app.command()
+def welcome() -> None:
+    """Display the welcome message with ASCII art and quick start guide."""
+    show_welcome()
+
+
 def _discover_files(project_root: Path, config: Config) -> list[Path]:
     """Recursively discover files to process under *project_root*.
 
@@ -374,6 +381,7 @@ def main() -> None:
         "run",
         "show-config",
         "delete",
+        "welcome",
     }  # Add any other top-level commands
     is_known_command_call = args[0] in known_commands
 

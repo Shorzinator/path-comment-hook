@@ -1,382 +1,290 @@
-# Path-Comment Hook
+# path-comment-hook
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+```
+    /·\
+   /│·│\    ┌─┐┌─┐┬ ┬
+  / │·│ \   ├─┘│  ├─┤
+ /  │·│  >  ┴  └─┘┴ ┴
+/___│·│___\ path-comment-hook
+```
+
+<div align="center">
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI version](https://badge.fury.io/py/path-comment-hook.svg)](https://badge.fury.io/py/path-comment-hook)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Tests](https://github.com/shouryamaheshwari/path-comment-hook/workflows/Tests/badge.svg)](https://github.com/shouryamaheshwari/path-comment-hook/actions)
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://shouryamaheshwari.github.io/path-comment-hook)
+[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/shouryamaheshwari/path-comment-hook)
 
-A powerful pre-commit hook that automatically injects relative path comments into your source files, improving code navigation and project understanding.
+**Automatically add file path headers to your source code for better navigation and context.**
 
-## 🚀 What It Does
+Never lose track of where you are in large codebases. This pre-commit hook automatically adds file path comments to the top of your source files, making code navigation effortless.
 
-Path-Comment Hook automatically adds a comment at the top of your source files containing the file's relative path from your project root. This simple addition dramatically improves code readability and navigation, especially in large codebases.
+[📖 **Documentation**](https://shouryamaheshwari.github.io/path-comment-hook) • [🚀 **Quick Start**](https://shouryamaheshwari.github.io/path-comment-hook/getting-started/quick-start/) • [⚙️ **Configuration**](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/) • [🛠️ **API Reference**](https://shouryamaheshwari.github.io/path-comment-hook/api/reference/)
 
-### Before and After
+</div>
 
-**Before:**
-```python
-def calculate_tax(amount, rate):
-    return amount * rate
-```
+## ✨ What It Does
 
-**After:**
-```python
-# src/utils/tax_calculator.py
-def calculate_tax(amount, rate):
-    return amount * rate
-```
+Transform your codebase with automatic path headers that provide instant context:
 
-**JavaScript Example:**
-```javascript
-// src/components/UserProfile.jsx
-import React from 'react';
+<div align="center">
 
-export function UserProfile({ user }) {
-    return <div>{user.name}</div>;
-}
-```
+| **Before** | **After** |
+|------------|-----------|
+| ```python<br/>def calculate_tax(amount, rate):<br/>    return amount * rate<br/>``` | ```python<br/># src/utils/tax_calculator.py<br/><br/>def calculate_tax(amount, rate):<br/>    return amount * rate<br/>``` |
 
-## 🎯 Why Use Path-Comment Hook?
+</div>
 
-- **🧭 Enhanced Navigation**: Instantly know which file you're looking at
-- **📝 Better Code Reviews**: Reviewers can quickly identify file locations
-- **🔍 Improved Search**: Easier to find files when copy-pasting code
-- **📚 Documentation**: Self-documenting code with built-in file references
-- **🔧 IDE Integration**: Works seamlessly with any editor or IDE
-- **⚡ Performance**: Parallel processing for fast execution on large codebases
+**Key Benefits:**
+- 🧭 **Enhanced Navigation** - Know exactly where you are in your codebase
+- 📝 **Better Code Reviews** - Reviewers can quickly identify file locations
+- 🔍 **Improved Search** - Context-aware code snippets
+- 📚 **Self-Documenting** - Built-in file references
+- 🚀 **Fast Performance** - Parallel processing for large projects
 
-## 📦 Installation
+## 🎯 Quick Start
 
-### As a Pre-commit Hook (Recommended)
-
-Add to your `.pre-commit-config.yaml`:
-
-```yaml
-repos:
-  - repo: https://github.com/Shorzinator/path-comment-hook
-    rev: v1.0.0  # Use the latest version
-    hooks:
-      - id: path-comment
-```
-
-Then install the pre-commit hook:
-
-```bash
-pre-commit install
-```
-
-### Standalone Installation
+### 1. Install via pip
 
 ```bash
 pip install path-comment-hook
 ```
 
-### Development Installation
+### 2. Add to pre-commit
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+    rev: v0.3.0  # Use the latest version
+    hooks:
+      - id: path-comment
+```
+
+### 3. Install and run
 
 ```bash
-git clone https://github.com/Shorzinator/path-comment-hook.git
-cd path-comment-hook
-pip install -e ".[dev]"
+pre-commit install
+pre-commit run path-comment --all-files
 ```
 
-## 🛠️ Usage
+**That's it!** 🎉 Your files now have path headers for better navigation.
 
-### Pre-commit Hook (Automatic)
+## 🏗️ Supported Languages
 
-Once configured, the hook runs automatically on every commit:
+Works with **10+ programming languages** out of the box:
 
-```bash
-git add .
-git commit -m "Your commit message"
-# Hook runs automatically and adds path comments
-```
+| Language | Extensions | Comment Style | Example |
+|----------|------------|---------------|---------|
+| **Python** | `.py`, `.pyx` | `#` | `# src/models/user.py` |
+| **JavaScript** | `.js` | `//` | `// src/components/Button.js` |
+| **TypeScript** | `.ts`, `.tsx` | `//` | `// src/types/api.ts` |
+| **C/C++** | `.c`, `.cpp`, `.h` | `//` | `// src/core/engine.cpp` |
+| **Shell** | `.sh`, `.bash` | `#` | `# scripts/deploy.sh` |
+| **YAML** | `.yml`, `.yaml` | `#` | `# config/database.yml` |
+| **TOML** | `.toml` | `#` | `# pyproject.toml` |
+| **Makefile** | `Makefile` | `#` | `# Makefile` |
 
-### Manual CLI Usage
+> **Smart Detection**: Automatically handles shebangs, encoding, and file types using the [`identify`](https://github.com/pre-commit/identify) library.
 
-#### Process specific files:
-```bash
-path-comment-hook src/main.py src/utils/helper.js
-```
+## ⚡ Advanced Features
 
-#### Check mode (dry run):
-```bash
-path-comment-hook --check src/
-```
+### 🚀 Performance Optimized
+- **Parallel Processing** - Utilizes all CPU cores
+- **Smart Caching** - Avoids unnecessary modifications
+- **Memory Efficient** - Handles large files safely
 
-#### Process all files in a directory:
-```bash
-find src/ -name "*.py" -o -name "*.js" | xargs path-comment-hook
-```
+### 🛡️ Safe & Reliable
+- **Atomic Operations** - Safe file modifications
+- **Encoding Preservation** - Maintains UTF-8, Latin-1, etc.
+- **Line Ending Preservation** - Keeps LF/CRLF intact
+- **Comprehensive Testing** - 152 tests with 95% coverage
 
-#### Show current configuration:
-```bash
-path-comment-hook show-config
-```
+### 🎨 Rich CLI Experience
+- **Progress Bars** - Visual feedback for large operations
+- **Colored Output** - Easy-to-read status messages
+- **Detailed Reporting** - Comprehensive summaries
+- **Multiple Modes** - Check, fix, and delete operations
 
-### Advanced CLI Options
+## 📊 Real-World Examples
 
-```bash
-path-comment-hook [OPTIONS] FILES...
-
-Options:
-  -c, --check           Dry-run: only verify; exit 1 if any file would change
-  --project-root PATH   Root directory for computing relative paths
-  --workers INTEGER     Number of worker threads (defaults to CPU count)
-  -v, --verbose         Show detailed processing information
-  --progress            Show progress bar during processing
-  --help               Show help message
-```
-
-## ⚙️ Configuration
-
-Configure the hook in your `pyproject.toml`:
-
-```toml
-[tool.path-comment-hook]
-# Files/directories to exclude (glob patterns)
-exclude_globs = [
-    "*.min.js",
-    "dist/*",
-    "node_modules/*",
-    ".git/*",
-    "*.generated.*"
-]
-
-# Custom comment templates for specific file extensions
-custom_comment_map = {
-    ".py" = "# {_path_}",
-    ".js" = "// {_path_}",
-    ".ts" = "// {_path_}",
-    ".yaml" = "# {_path_}",
-    ".sql" = "-- {_path_}"
-}
-
-# Default path resolution mode
-default_mode = "file"  # Options: "file", "folder", "smart"
-```
-
-### Configuration Options
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `exclude_globs` | List of glob patterns for files to skip | `["*.min.js", "dist/*", "node_modules/*", ".git/*"]` |
-| `custom_comment_map` | Custom comment templates by file extension | `{}` (uses auto-detection) |
-| `default_mode` | Path resolution strategy | `"file"` |
-
-### Path Resolution Modes
-
-- **`file`**: Use the exact file path (default)
-- **`folder`**: Use only the directory path
-- **`smart`**: Automatically choose between file and folder based on context
-
-## 🎨 Supported File Types
-
-Path-Comment Hook automatically detects and supports:
-
-- **Python** (`.py`) → `# comment`
-- **JavaScript/TypeScript** (`.js`, `.ts`, `.jsx`, `.tsx`) → `// comment`
-- **Shell Scripts** (`.sh`, `.bash`) → `# comment`
-- **YAML/TOML** (`.yaml`, `.yml`, `.toml`) → `# comment`
-- **C/C++** (`.c`, `.cpp`, `.h`, `.hpp`) → `// comment`
-- **JSON** (`.json`) → `// comment`
-- **Makefile** → `# comment`
-- **Shebang Scripts** (auto-detected from `#!` line)
-
-The tool uses the [`identify`](https://github.com/pre-commit/identify) library for robust file type detection.
-
-## 🔧 Features
-
-### Smart File Detection
-- Automatic file type recognition using multiple heuristics
-- Shebang script detection (`#!/usr/bin/env python`)
-- Binary file exclusion
-- Custom extension mapping
-
-### Performance Optimized
-- **Parallel Processing**: Utilizes multiple CPU cores
-- **Smart Caching**: Avoids unnecessary file modifications
-- **Memory Efficient**: Streams large files without loading entirely into memory
-
-### Encoding & Safety
-- **Encoding Preservation**: Maintains original file encoding (UTF-8, Latin-1, etc.)
-- **Line Ending Preservation**: Keeps original line endings (LF, CRLF)
-- **Atomic Operations**: Safe file modifications with rollback on errors
-- **Backup Support**: Optional backup creation before modifications
-
-### Rich CLI Experience
-- **Progress Bars**: Visual feedback for large operations
-- **Colored Output**: Easy-to-read status messages
-- **Detailed Reporting**: Comprehensive operation summaries
-- **Error Handling**: Clear error messages with context
-
-## 📝 Examples
-
-### Basic Python Project
+### Django Web Application
 
 ```python
-# src/main.py
-from utils.database import connect
-from utils.helpers import format_data
+# apps/users/models.py
 
-def main():
-    conn = connect()
-    data = format_data(conn.fetch_all())
-    print(data)
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=30)
 ```
 
 ### React Component
 
 ```javascript
 // src/components/LoginForm.jsx
+
 import React, { useState } from 'react';
 import { validateEmail } from '../utils/validation';
 
 export function LoginForm({ onSubmit }) {
     const [email, setEmail] = useState('');
-    // ... component logic
+    // Component logic...
 }
 ```
 
-### Configuration File
+### API Configuration
 
 ```yaml
-# config/database.yaml
-host: localhost
-port: 5432
-database: myapp
-credentials:
-  username: user
-  password: secret
+# config/api.yml
+
+environment: production
+database:
+  host: localhost
+  port: 5432
 ```
 
-## 🏗️ Development
+## ⚙️ Configuration
 
-### Setting Up Development Environment
+Customize behavior in your `pyproject.toml`:
 
-```bash
-# Clone the repository
-git clone https://github.com/Shorzinator/path-comment-hook.git
-cd path-comment-hook
-
-# Install dependencies with Poetry
-poetry install
-
-# Install pre-commit hooks
-poetry run pre-commit install
-
-# Run tests
-poetry run pytest
-
-# Run type checking
-poetry run mypy src/path_comment tests
-
-# Run linting
-poetry run ruff check .
-poetry run ruff format .
+```toml
+[tool.path-comment]
+exclude_globs = [
+    "*.md",
+    "tests/fixtures/**",
+    "node_modules/**",
+    "build/**"
+]
 ```
 
-### Using Make Commands (Optional)
+**Popular configurations:**
+- [Python Library](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#python-library)
+- [Web Application](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#web-application)
+- [Data Science Project](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#data-science-project)
+- [Monorepo](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#monorepo)
 
-For convenience, you can use the provided Makefile:
+## 🛠️ CLI Usage
 
 ```bash
-# Install dependencies
-make install
+# Process specific files
+path-comment-hook src/main.py src/utils.py
 
-# Run tests
+# Process entire project
+path-comment-hook --all
+
+# Check mode (dry run)
+path-comment-hook --check --all
+
+# Remove headers
+path-comment-hook --delete --all
+
+# Show configuration
+path-comment-hook show-config
+```
+
+**All options:**
+```bash
+path-comment-hook --help
+```
+
+See the [CLI Usage Guide](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/cli-usage/) for complete details.
+
+## 🧪 Quality & Testing
+
+- **152 Test Cases** - Comprehensive test coverage
+- **95% Code Coverage** - High-quality, reliable code
+- **Type Safe** - Full type hints with mypy
+- **Linted & Formatted** - Ruff for code quality
+- **CI/CD** - GitHub Actions for automated testing
+
+```bash
+# Run tests locally
 make test
-
-# Run linting
-make lint
-
-# Format code
-make format
-
-# Run all checks
-make check
-
-# Clean up temporary files
-make clean
+make test-cov  # With coverage report
 ```
 
-### Running Tests
+## 📚 Documentation
 
-```bash
-# Run all tests
-poetry run pytest
+**Complete documentation available at:** https://shouryamaheshwari.github.io/path-comment-hook
 
-# Run with coverage
-poetry run pytest --cov=path_comment --cov-report=html
-
-# Run specific test file
-poetry run pytest tests/test_config.py
-
-# Run with verbose output
-poetry run pytest -v
-```
-
-### Project Structure
-
-```
-path-comment-hook/
-├── src/path_comment/          # Main package
-│   ├── __init__.py
-│   ├── cli.py                 # CLI interface
-│   ├── config.py              # Configuration management
-│   ├── detectors.py           # File type detection
-│   ├── file_handler.py        # File I/O operations
-│   ├── injector.py            # Core comment injection logic
-│   └── processor.py           # Parallel processing
-├── tests/                     # Test suite
-├── pyproject.toml            # Project configuration
-└── README.md                 # This file
-```
+- 🚀 [Quick Start Guide](https://shouryamaheshwari.github.io/path-comment-hook/getting-started/quick-start/) - Get up and running in 5 minutes
+- 📖 [User Guide](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/cli-usage/) - Complete CLI reference
+- ⚙️ [Configuration](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/) - Customize for your project
+- 🔧 [Pre-commit Setup](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/pre-commit-setup/) - Automate your workflow
+- 🛠️ [API Reference](https://shouryamaheshwari.github.io/path-comment-hook/api/reference/) - Programmatic usage
+- ❓ [FAQ](https://shouryamaheshwari.github.io/path-comment-hook/faq/) - Common questions answered
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+We welcome contributions! Check out our [Development Guide](https://shouryamaheshwari.github.io/path-comment-hook/contributing/development/) to get started.
 
-### Contribution Guidelines
+**Quick setup:**
+```bash
+git clone https://github.com/shouryamaheshwari/path-comment-hook.git
+cd path-comment-hook
+poetry install
+make test
+```
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
+## 🔄 Integration Examples
 
-### Code Standards
+### GitHub Actions
+```yaml
+- name: Check path headers
+  run: path-comment-hook --check --all
+```
 
-- Follow PEP 8 style guidelines
-- Add type hints for all functions
-- Write tests for new features
-- Update documentation as needed
-- Ensure all tests pass
+### GitLab CI
+```yaml
+check-headers:
+  script: path-comment-hook --check --all
+```
+
+### Docker
+```dockerfile
+RUN pip install path-comment-hook && \
+    path-comment-hook --all
+```
+
+See [CI/CD Integration](https://shouryamaheshwari.github.io/path-comment-hook/advanced/ci-integration/) for more examples.
 
 ## 📋 Requirements
 
-- **Python**: 3.9 or higher
-- **Dependencies**:
-  - `typer>=0.9.0` - CLI framework
-  - `rich>=13.0.0` - Rich text and beautiful formatting
-  - `identify>=2.5.0` - File type identification
-  - `chardet>=5.0.0` - Character encoding detection
+- **Python 3.8+** - Modern Python support
+- **Cross-platform** - Works on Linux, macOS, and Windows
+- **Minimal dependencies** - Only essential packages
+
+## 🚨 Troubleshooting
+
+**Common issues:**
+- [Files not being processed](https://shouryamaheshwari.github.io/path-comment-hook/troubleshooting/#files-not-being-processed)
+- [Performance optimization](https://shouryamaheshwari.github.io/path-comment-hook/troubleshooting/#performance-issues)
+- [Pre-commit integration](https://shouryamaheshwari.github.io/path-comment-hook/troubleshooting/#pre-commit-issues)
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## 🌟 Why Choose path-comment-hook?
 
-- Built with [Typer](https://typer.tiangolo.com/) for the CLI interface
-- Uses [Rich](https://rich.readthedocs.io/) for beautiful terminal output
-- File detection powered by [identify](https://github.com/pre-commit/identify)
-- Inspired by the pre-commit ecosystem
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/Shorzinator/path-comment-hook/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Shorzinator/path-comment-hook/discussions)
-- **Documentation**: [Project Wiki](https://github.com/Shorzinator/path-comment-hook/wiki)
+✅ **Production Ready** - Used in real projects with comprehensive testing
+✅ **Well Documented** - Complete guides and examples
+✅ **Actively Maintained** - Regular updates and support
+✅ **Fast & Reliable** - Optimized for performance and safety
+✅ **Easy Integration** - Works with existing tools and workflows
 
 ---
 
-**Happy coding!** 🎉 Make your codebase more navigable with Path-Comment Hook.
+<div align="center">
+
+**⭐ Star us on GitHub • 📖 Read the docs • 🐛 Report issues**
+
+Made with ❤️ for developers who value code organization and navigation.
+
+</div>

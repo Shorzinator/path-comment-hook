@@ -1,0 +1,261 @@
+name: Release to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write  # Required for trusted publishing to PyPI
+
+jobs:
+  test-before-release:
+    name: Pre-release Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Install dependencies
+      run: poetry install --no-interaction
+
+    - name: Run tests
+      run: |
+        poetry run pytest tests/ --cov=path_comment --cov-report=term-missing
+
+    - name: Run linting
+      run: |
+        poetry run ruff check .
+        poetry run mypy src/path_comment tests
+
+  build:
+    name: Build Package
+    runs-on: ubuntu-latest
+    needs: test-before-release
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Extract version from tag
+      id: version
+      run: |
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          VERSION="${{ github.event.inputs.version }}"
+        else
+          VERSION=${GITHUB_REF#refs/tags/}
+        fi
+        echo "version=${VERSION#v}" >> $GITHUB_OUTPUT
+        echo "tag=${VERSION}" >> $GITHUB_OUTPUT
+
+    - name: Update version in pyproject.toml
+      run: |
+        poetry version ${{ steps.version.outputs.version }}
+
+    - name: Build package
+      run: |
+        poetry build
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist-${{ steps.version.outputs.version }}
+        path: dist/
+
+    - name: Test package installation
+      run: |
+        pip install dist/*.whl
+        path-comment-hook --version
+        path-comment-hook welcome
+
+  publish-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: build
+    environment: release
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist-${{ needs.build.outputs.version }}
+        path: dist/
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://upload.pypi.org/legacy/
+        verbose: true
+
+  publish-test-pypi:
+    name: Publish to Test PyPI
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'workflow_dispatch'
+    environment: test-release
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist-${{ needs.build.outputs.version }}
+        path: dist/
+
+    - name: Publish to Test PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        verbose: true
+
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build, publish-pypi]
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist-${{ needs.build.outputs.version }}
+        path: dist/
+
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        # Extract version
+        VERSION="${{ needs.build.outputs.version }}"
+
+        # Create release notes
+        cat > release_notes.md << 'EOF'
+        ## 🎉 path-comment-hook v$VERSION
+
+        ```
+            /·\
+           /│·│\    ┌─┐┌─┐┬ ┬
+          / │·│ \   ├─┘│  ├─┤
+         /  │·│  >   ┴  └─┘┴ ┴
+        /___│·│___\ path-comment-hook
+        ```
+
+        ### Installation
+
+        ```bash
+        pip install path-comment-hook==$VERSION
+        ```
+
+        ### Quick Start
+
+        ```bash
+        # Add to .pre-commit-config.yaml
+        repos:
+          - repo: https://github.com/shouryamaheshwari/path-comment-hook
+            rev: v$VERSION
+            hooks:
+              - id: path-comment
+        ```
+
+        ### What's Changed
+
+        See [CHANGELOG.md](https://github.com/shouryamaheshwari/path-comment-hook/blob/main/CHANGELOG.md) for detailed changes.
+
+        ### Documentation
+
+        📖 **Full Documentation:** https://shouryamaheshwari.github.io/path-comment-hook
+
+        ### Support
+
+        - 🐛 **Report Issues:** https://github.com/shouryamaheshwari/path-comment-hook/issues
+        - 💬 **Discussions:** https://github.com/shouryamaheshwari/path-comment-hook/discussions
+
+        ---
+
+        **Full Changelog:** https://github.com/shouryamaheshwari/path-comment-hook/compare/v$(git describe --tags --abbrev=0 HEAD^)...v$VERSION
+        EOF
+
+        # Replace VERSION placeholder
+        sed -i "s/\$VERSION/$VERSION/g" release_notes.md
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: "🚀 Release ${{ github.ref_name }}"
+        body_path: release_notes.md
+        files: |
+          dist/*
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+
+  test-installation:
+    name: Test PyPI Installation
+    runs-on: ${{ matrix.os }}
+    needs: publish-pypi
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.8", "3.11"]
+    steps:
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Wait for PyPI availability
+      run: |
+        echo "Waiting 2 minutes for PyPI to update..."
+        sleep 120
+
+    - name: Install from PyPI
+      run: |
+        pip install path-comment-hook==${{ needs.build.outputs.version }}
+
+    - name: Test installation
+      run: |
+        path-comment-hook --version
+        path-comment-hook --help
+        path-comment-hook welcome
+
+    - name: Test basic functionality
+      run: |
+        echo "print('hello')" > test.py
+        path-comment-hook test.py
+        grep -q "# test.py" test.py || (echo "Path comment not added!" && exit 1)
+        echo "✅ Installation test passed on ${{ matrix.os }} with Python ${{ matrix.python-version }}"

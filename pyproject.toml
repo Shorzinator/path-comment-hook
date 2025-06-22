@@ -55,7 +55,7 @@ mkdocstrings = {extras = ["python"], version = "^0.26.1"}
 towncrier = "^24.8.0"
 
 [tool.poetry.scripts]
-path-comment-hook = "path_comment.cli:app"
+path-comment-hook = "path_comment.cli:main"
 pch = "path_comment.cli:main"
 path-comment-welcome = "path_comment.welcome:show_welcome"
 

@@ -79,9 +79,7 @@ def detect_line_ending(file_path: Path) -> LineEnding:
             return LineEnding.LF  # Default when no line endings found
 
     except OSError as e:
-        raise FileHandlingError(
-            f"Failed to detect line endings in {file_path}: {e}"
-        ) from e
+        raise FileHandlingError(f"Failed to detect line endings in {file_path}: {e}") from e
 
 
 def detect_encoding(file_path: Path) -> str:
@@ -135,9 +133,7 @@ def detect_encoding(file_path: Path) -> str:
             return "latin-1"
 
     except OSError as e:
-        raise FileHandlingError(
-            f"Failed to detect encoding for {file_path}: {e}"
-        ) from e
+        raise FileHandlingError(f"Failed to detect encoding for {file_path}: {e}") from e
 
 
 class FileHandler:
@@ -165,9 +161,7 @@ class FileHandler:
             FileHandlingError: If the file cannot be read.
         """
         if not self.file_path.exists():
-            raise FileHandlingError(
-                f"Failed to read file: {self.file_path} does not exist"
-            )
+            raise FileHandlingError(f"Failed to read file: {self.file_path} does not exist")
 
         try:
             # Detect characteristics first - this also validates file access
@@ -260,9 +254,7 @@ class FileHandler:
                 raise
 
         except OSError as e:
-            raise FileHandlingError(
-                f"Failed to write file {self.file_path}: {e}"
-            ) from e
+            raise FileHandlingError(f"Failed to write file {self.file_path}: {e}") from e
 
     def _normalize_line_endings(self, content: str, line_ending: LineEnding) -> str:
         """Normalize line endings in content to the specified type.

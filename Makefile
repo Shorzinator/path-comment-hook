@@ -1,3 +1,5 @@
+# Makefile
+
 .PHONY: install test lint format clean help
 
 # Default target

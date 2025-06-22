@@ -1,3 +1,5 @@
+# pyproject.toml
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -32,6 +34,7 @@ typer = "^0.9.0"
 rich = "^13.0.0"
 identify = "^2.5.0"
 chardet = "^5.0.0"
+contextcraft = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0.0"
@@ -53,7 +56,7 @@ towncrier = "^22.0.0"
 
 [tool.poetry.scripts]
 path-comment-hook = "path_comment.cli:app"
-path-comment = "path_comment.cli:main"
+pch = "path_comment.cli:main"
 
 [tool.poetry.urls]
 Documentation = "https://github.com/Shorzinator/path-comment-hook#readme"
@@ -63,7 +66,7 @@ Source = "https://github.com/Shorzinator/path-comment-hook"
 # Tool configurations
 [tool.ruff]
 target-version = "py39"
-line-length = 88
+line-length = 100
 
 [tool.ruff.lint]
 select = [
@@ -182,13 +185,18 @@ showcontent = false
 
 # Path-comment-hook configuration (example)
 [tool.path-comment-hook]
-exclude_globs = ["*.min.js", "dist/*", "node_modules/*", ".git/*"]
+# Additional patterns to exclude (beyond the comprehensive defaults)
+exclude_globs = ["my-custom-exclude/*"]
+# Whether to use built-in ignore patterns (recommended: true)
+use_default_ignores = true
+# Custom comment templates for specific file extensions
 custom_comment_map = {}
+# Default path resolution mode
 default_mode = "file"
 
 [tool.isort]
 profile = "black"
-line_length = 88
+line_length = 100
 multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
@@ -196,8 +204,8 @@ use_parentheses = true
 ensure_newline_before_comments = true
 
 [tool.docformatter]
-wrap_summaries = 88
-wrap_descriptions = 88
+wrap_summaries = 100
+wrap_descriptions = 100
 pre_summary_newline = false
 make_summary_multi_line = false
 

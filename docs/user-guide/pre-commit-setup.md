@@ -28,7 +28,7 @@ Create or update `.pre-commit-config.yaml` in your project root:
 
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0  # Use the latest version
     hooks:
       - id: path-comment
@@ -58,7 +58,7 @@ Pass additional arguments to the hook:
 
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment
@@ -71,7 +71,7 @@ Limit which files the hook processes:
 
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment
@@ -85,7 +85,7 @@ Recommended order with other formatting tools:
 ```yaml
 repos:
   # First: Add path headers
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment
@@ -110,7 +110,7 @@ For large codebases, increase timeout or reduce workers:
 
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment

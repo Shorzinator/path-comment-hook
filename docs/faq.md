@@ -60,7 +60,7 @@ Add to your `.pre-commit-config.yaml`:
 
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0  # Use the latest version
     hooks:
       - id: path-comment
@@ -221,7 +221,7 @@ Yes! path-comment-hook is designed to work with other code formatters. Run it be
 
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment
@@ -281,7 +281,7 @@ This shows:
 
 ### How do I report a bug?
 
-1. Check if it's already reported in [GitHub Issues](https://github.com/shouryamaheshwari/path-comment-hook/issues)
+1. Check if it's already reported in [GitHub Issues](https://github.com/Shorzinator/path-comment-hook/issues)
 2. If not, create a new issue with:
    - Steps to reproduce
    - Expected vs actual behavior
@@ -329,7 +329,7 @@ The tool is designed to be minimally invasive:
 
 ### What features are planned?
 
-See our [roadmap](https://github.com/shouryamaheshwari/path-comment-hook/discussions) for upcoming features:
+See our [roadmap](https://github.com/Shorzinator/path-comment-hook/discussions) for upcoming features:
 
 - Custom header formats
 - More file type support
@@ -338,10 +338,10 @@ See our [roadmap](https://github.com/shouryamaheshwari/path-comment-hook/discuss
 
 ### How can I request a feature?
 
-1. Check [existing discussions](https://github.com/shouryamaheshwari/path-comment-hook/discussions)
+1. Check [existing discussions](https://github.com/Shorzinator/path-comment-hook/discussions)
 2. Create a new discussion or issue
 3. Describe your use case and proposed solution
 
 ---
 
-**Still have questions?** Check our [GitHub Discussions](https://github.com/shouryamaheshwari/path-comment-hook/discussions) or [open an issue](https://github.com/shouryamaheshwari/path-comment-hook/issues).
+**Still have questions?** Check our [GitHub Discussions](https://github.com/Shorzinator/path-comment-hook/discussions) or [open an issue](https://github.com/Shorzinator/path-comment-hook/issues).

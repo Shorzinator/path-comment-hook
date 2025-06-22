@@ -435,7 +435,7 @@ jobs:
 ```yaml
 # .pre-commit-config.yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment
@@ -446,7 +446,7 @@ repos:
 # .pre-commit-config.yaml
 repos:
   # Path headers first
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment
@@ -474,7 +474,7 @@ repos:
 ```yaml
 # .pre-commit-config.yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0
     hooks:
       - id: path-comment

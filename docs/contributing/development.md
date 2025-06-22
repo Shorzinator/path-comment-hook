@@ -16,7 +16,7 @@ Guide for setting up a development environment and contributing to path-comment-
 
 ### Installation
 ```bash
-git clone https://github.com/shouryamaheshwari/path-comment-hook.git
+git clone https://github.com/Shorzinator/path-comment-hook.git
 cd path-comment-hook
 poetry install
 ```

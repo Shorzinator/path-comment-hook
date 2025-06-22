@@ -113,7 +113,7 @@ For automatic path header management, set up pre-commit:
 2. **Create `.pre-commit-config.yaml`** in your project root:
    ```yaml
    repos:
-     - repo: https://github.com/shouryamaheshwari/path-comment-hook
+     - repo: https://github.com/Shorzinator/path-comment-hook
        rev: v0.3.0  # Use the latest version
        hooks:
          - id: path-comment
@@ -253,4 +253,4 @@ Each file now has a clear path header making navigation effortless!
 
 - [Troubleshooting Guide](../troubleshooting.md)
 - [FAQ](../faq.md)
-- [GitHub Issues](https://github.com/shouryamaheshwari/path-comment-hook/issues)
+- [GitHub Issues](https://github.com/Shorzinator/path-comment-hook/issues)

@@ -41,7 +41,7 @@ pip install --upgrade path-comment-hook
 ```
 
 ### GitHub Releases
-Visit [GitHub Releases](https://github.com/shouryamaheshwari/path-comment-hook/releases) for:
+Visit [GitHub Releases](https://github.com/Shorzinator/path-comment-hook/releases) for:
 - Detailed release notes
 - Binary downloads
 - Source code archives
@@ -50,7 +50,7 @@ Visit [GitHub Releases](https://github.com/shouryamaheshwari/path-comment-hook/r
 Update your `.pre-commit-config.yaml`:
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0  # Use latest version
     hooks:
       - id: path-comment
@@ -133,7 +133,7 @@ Security issues are addressed promptly:
 - High: Patch release within 1 week
 - Medium: Include in next scheduled release
 
-To report security issues, see our [Security Policy](https://github.com/shouryamaheshwari/path-comment-hook/security/policy).
+To report security issues, see our [Security Policy](https://github.com/Shorzinator/path-comment-hook/security/policy).
 
 ## Staying Updated
 

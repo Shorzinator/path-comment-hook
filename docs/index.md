@@ -99,7 +99,7 @@ Add to your `.pre-commit-config.yaml`:
 
 ```yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0  # Use the latest version
     hooks:
       - id: path-comment
@@ -123,7 +123,7 @@ repos:
 
 2. **Add to pre-commit config**:
    ```yaml
-   - repo: https://github.com/shouryamaheshwari/path-comment-hook
+   - repo: https://github.com/Shorzinator/path-comment-hook
      rev: v0.3.0
      hooks:
        - id: path-comment
@@ -145,8 +145,8 @@ That's it! Your files now have path headers for better navigation.
 
 ## Community
 
-- [GitHub Issues](https://github.com/shouryamaheshwari/path-comment-hook/issues) - Report bugs or request features
-- [GitHub Discussions](https://github.com/shouryamaheshwari/path-comment-hook/discussions) - Ask questions and share ideas
+- [GitHub Issues](https://github.com/Shorzinator/path-comment-hook/issues) - Report bugs or request features
+- [GitHub Discussions](https://github.com/Shorzinator/path-comment-hook/discussions) - Ask questions and share ideas
 - [Contributing Guide](contributing/development.md) - Help improve the project
 
 ---

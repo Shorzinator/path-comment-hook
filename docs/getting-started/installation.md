@@ -63,7 +63,7 @@ To install the latest development version:
 
 ```bash
 # Clone the repository
-git clone https://github.com/shouryamaheshwari/path-comment-hook.git
+git clone https://github.com/Shorzinator/path-comment-hook.git
 cd path-comment-hook
 
 # Install with pip
@@ -94,7 +94,7 @@ Most users will want to use path-comment-hook as a pre-commit hook. This doesn't
 ```yaml
 # .pre-commit-config.yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0  # Use the latest version
     hooks:
       - id: path-comment

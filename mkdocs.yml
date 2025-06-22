@@ -63,7 +63,9 @@ markdown_extensions:
       smart_enable: all
   - pymdownx.caret
   - pymdownx.details
-  - pymdownx.emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji  # yamllint disable-line rule:line-length
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg  # yamllint disable-line rule:line-length
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span

@@ -16,7 +16,7 @@ from pathlib import Path
 from rich.console import Console
 from rich.progress import Progress, TaskID
 
-from .injector import Result, ensure_header
+from .injector import Result, delete_header, ensure_header
 
 console = Console()
 
@@ -53,18 +53,24 @@ class FileProcessor:
         """
         self.project_root = project_root.resolve()
 
-    def process_file(self, file_path: Path, mode: str = "fix") -> ProcessingResult:
+    def process_file(
+        self, file_path: Path, mode: str = "fix", operation: str = "ensure"
+    ) -> ProcessingResult:
         """Process a single file and return the result.
 
         Args:
             file_path: Path to the file to process.
             mode: Processing mode ("fix" or "check").
+            operation: Operation type ("ensure" or "delete").
 
         Returns:
             ProcessingResult with the outcome and any errors.
         """
         try:
-            result = ensure_header(file_path, self.project_root, mode=mode)
+            if operation == "delete":
+                result = delete_header(file_path, self.project_root, mode=mode)
+            else:
+                result = ensure_header(file_path, self.project_root, mode=mode)
             return ProcessingResult(file_path=file_path, result=result, error=None)
         except Exception as e:
             # Log the error but don't let it break the entire processing
@@ -77,6 +83,7 @@ def process_files_parallel(
     mode: str = "fix",
     workers: int | None = None,
     show_progress: bool = False,
+    operation: str = "ensure",
 ) -> list[ProcessingResult]:
     """Process multiple files in parallel using ThreadPoolExecutor.
 
@@ -86,6 +93,7 @@ def process_files_parallel(
         mode: Processing mode ("fix" or "check").
         workers: Number of worker threads. Defaults to os.cpu_count().
         show_progress: Whether to show a progress bar.
+        operation: Operation type ("ensure" or "delete").
 
     Returns:
         List of ProcessingResult objects in the same order as input files.
@@ -110,10 +118,10 @@ def process_files_parallel(
             with Progress() as progress:
                 task = progress.add_task("Processing files...", total=len(files))
                 _process_with_progress(
-                    files, processor, mode, workers, results, progress, task
+                    files, processor, mode, workers, results, progress, task, operation
                 )
         else:
-            _process_without_progress(files, processor, mode, workers, results)
+            _process_without_progress(files, processor, mode, workers, results, operation)
 
     except Exception as e:
         raise ProcessingError(f"Failed to process files in parallel: {e}") from e
@@ -130,12 +138,13 @@ def _process_with_progress(
     results: list[ProcessingResult | None],
     progress: Progress,
     task: TaskID,
+    operation: str = "ensure",
 ) -> None:
     """Process files with progress bar display."""
     with ThreadPoolExecutor(max_workers=workers) as executor:
         # Submit all tasks and keep track of their index
         future_to_index = {
-            executor.submit(processor.process_file, file_path, mode): i
+            executor.submit(processor.process_file, file_path, mode, operation): i
             for i, file_path in enumerate(files)
         }
 
@@ -161,12 +170,13 @@ def _process_without_progress(
     mode: str,
     workers: int,
     results: list[ProcessingResult | None],
+    operation: str = "ensure",
 ) -> None:
     """Process files without progress bar display."""
     with ThreadPoolExecutor(max_workers=workers) as executor:
         # Submit all tasks and keep track of their index
         future_to_index = {
-            executor.submit(processor.process_file, file_path, mode): i
+            executor.submit(processor.process_file, file_path, mode, operation): i
             for i, file_path in enumerate(files)
         }
 
@@ -193,13 +203,22 @@ def collect_processing_statistics(results: list[ProcessingResult]) -> dict:
     Returns:
         Dictionary with processing statistics.
     """
-    stats = {"total": len(results), "ok": 0, "changed": 0, "skipped": 0, "errors": 0}
+    stats = {
+        "total": len(results),
+        "ok": 0,
+        "changed": 0,
+        "skipped": 0,
+        "removed": 0,
+        "errors": 0,
+    }
 
     for result in results:
         if result.result == Result.OK:
             stats["ok"] += 1
         elif result.result == Result.CHANGED:
             stats["changed"] += 1
+        elif result.result == Result.REMOVED:
+            stats["removed"] += 1
         elif result.result == Result.SKIPPED:
             stats["skipped"] += 1
 
@@ -225,6 +244,7 @@ def print_processing_summary(
     console.print(f"Total files: {stats['total']}")
     console.print(f"[green]OK (no changes needed): {stats['ok']}[/green]")
     console.print(f"[yellow]Changed: {stats['changed']}[/yellow]")
+    console.print(f"[red]Removed: {stats['removed']}[/red]")
     console.print(f"[blue]Skipped: {stats['skipped']}[/blue]")
 
     if stats["errors"] > 0:
@@ -236,6 +256,7 @@ def print_processing_summary(
             status_color = {
                 Result.OK: "green",
                 Result.CHANGED: "yellow",
+                Result.REMOVED: "red",
                 Result.SKIPPED: "blue",
             }.get(result.result, "white")
 
@@ -243,8 +264,6 @@ def print_processing_summary(
             if result.error:
                 status_text += f" (Error: {result.error})"
 
-            console.print(
-                f"  [{status_color}]{status_text}[/{status_color}]: {result.file_path}"
-            )
+            console.print(f"  [{status_color}]{status_text}[/{status_color}]: {result.file_path}")
 
     console.print()

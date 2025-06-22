@@ -50,7 +50,7 @@ commitizen = "^3.20.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs-material = "^9.0.0"
-mkdocstrings = {extras = ["python"], version = "^0.24.0"}
+mkdocstrings = {extras = ["python"], version = "^0.26.1"}
 
 [tool.poetry.group.changelog.dependencies]
 towncrier = "^22.0.0"

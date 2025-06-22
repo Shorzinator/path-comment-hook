@@ -104,30 +104,10 @@ jobs:
         path-comment-hook --version
         path-comment-hook welcome
 
-  publish-pypi:
-    name: Publish to PyPI
-    runs-on: ubuntu-latest
-    needs: build
-    # environment: release  # Configure in GitHub repository settings for additional protection
-    steps:
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: dist-${{ needs.build.outputs.version }}
-        path: dist/
-
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://upload.pypi.org/legacy/
-        verbose: true
-
   publish-test-pypi:
     name: Publish to Test PyPI
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'workflow_dispatch'
-    # environment: test-release  # Configure in GitHub repository settings for additional protection
     steps:
     - name: Download build artifacts
       uses: actions/download-artifact@v4
@@ -139,6 +119,55 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         repository-url: https://test.pypi.org/legacy/
+        verbose: true
+
+  test-testpypi-installation:
+    name: Test TestPyPI Installation
+    runs-on: ubuntu-latest
+    needs: [build, publish-test-pypi]
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Wait for TestPyPI availability
+      run: |
+        echo "Waiting 2 minutes for TestPyPI to update..."
+        sleep 120
+
+    - name: Install from TestPyPI
+      run: |
+        pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ path-comment-hook==${{ needs.build.outputs.version }}
+
+    - name: Test installation
+      run: |
+        path-comment-hook --version
+        path-comment-hook --help
+
+    - name: Test basic functionality
+      run: |
+        echo "print('hello')" > test.py
+        path-comment-hook test.py
+        grep -q "# test.py" test.py || (echo "Path comment not added!" && exit 1)
+        echo "TestPyPI installation test passed!"
+
+  publish-pypi:
+    name: Publish to PyPI (Manual Approval Required)
+    runs-on: ubuntu-latest
+    needs: [build, test-testpypi-installation]
+    # environment: production-release  # Configure this environment in GitHub repo settings for manual approval
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist-${{ needs.build.outputs.version }}
+        path: dist/
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://upload.pypi.org/legacy/
         verbose: true
 
   create-github-release:

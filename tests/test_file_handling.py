@@ -91,9 +91,7 @@ class TestEncodingDetection:
         # Create a file with bytes that are invalid UTF-8
         file_path = tmp_path / "test_invalid_utf8.txt"
         with file_path.open("wb") as f:
-            f.write(
-                b"\xff\xfe\x48\x00\x65\x00\x6c\x00\x6c\x00\x6f\x00"
-            )  # UTF-16 BOM + "Hello"
+            f.write(b"\xff\xfe\x48\x00\x65\x00\x6c\x00\x6c\x00\x6f\x00")  # UTF-16 BOM + "Hello"
 
         encoding = detect_encoding(file_path)
         # Should use chardet fallback
@@ -139,9 +137,7 @@ class TestFileHandler:
         assert result.line_ending == LineEnding.CRLF
 
     @patch("path_comment.file_handler.chardet.detect")
-    def test_read_file_with_encoding_fallback(
-        self, mock_detect, tmp_path: Path
-    ) -> None:
+    def test_read_file_with_encoding_fallback(self, mock_detect, tmp_path: Path) -> None:
         """Test reading file with chardet fallback."""
         file_path = tmp_path / "test.py"
 

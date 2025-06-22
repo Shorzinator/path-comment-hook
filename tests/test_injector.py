@@ -1,4 +1,5 @@
 # tests/test_injector.py
+
 from pathlib import Path
 
 from path_comment.injector import Result, ensure_header

@@ -66,9 +66,7 @@ class TestFileProcessor:
         processor = FileProcessor(project_root)
 
         # Mock ensure_header to raise an exception
-        with patch(
-            "path_comment.processor.ensure_header", side_effect=Exception("Test error")
-        ):
+        with patch("path_comment.processor.ensure_header", side_effect=Exception("Test error")):
             result = processor.process_file(file_path, mode="fix")
 
         assert isinstance(result, ProcessingResult)
@@ -131,9 +129,7 @@ class TestParallelProcessing:
         file_path = tmp_path / "test.py"
         file_path.write_text("print('hello')\n", encoding="utf-8")
 
-        results = process_files_parallel(
-            [file_path], project_root, mode="fix", workers=1
-        )
+        results = process_files_parallel([file_path], project_root, mode="fix", workers=1)
 
         assert len(results) == 1
         assert isinstance(results[0], ProcessingResult)
@@ -193,9 +189,7 @@ class TestParallelProcessing:
             assert result.file_path == files[i]
 
     @patch("path_comment.processor.ensure_header")
-    def test_process_files_parallel_performance(
-        self, mock_ensure_header, tmp_path: Path
-    ) -> None:
+    def test_process_files_parallel_performance(self, mock_ensure_header, tmp_path: Path) -> None:
         """Test that parallel processing provides performance benefits."""
         project_root = tmp_path
 
@@ -215,16 +209,12 @@ class TestParallelProcessing:
 
         # Time sequential processing
         start_time = time.time()
-        results_sequential = process_files_parallel(
-            files, project_root, mode="fix", workers=1
-        )
+        results_sequential = process_files_parallel(files, project_root, mode="fix", workers=1)
         time.time() - start_time
 
         # Time parallel processing
         start_time = time.time()
-        results_parallel = process_files_parallel(
-            files, project_root, mode="fix", workers=4
-        )
+        results_parallel = process_files_parallel(files, project_root, mode="fix", workers=4)
         time.time() - start_time
 
         # Parallel should be significantly faster (at least 1.5x)
@@ -251,9 +241,7 @@ class TestParallelProcessing:
         assert len(results) == 50
 
         # Ensure all files were processed successfully
-        success_count = sum(
-            1 for r in results if r.result in [Result.OK, Result.CHANGED]
-        )
+        success_count = sum(1 for r in results if r.result in [Result.OK, Result.CHANGED])
         assert success_count == 50
 
 
@@ -275,9 +263,7 @@ class TestProcessingResult:
         file_path = tmp_path / "test.py"
         error = Exception("Test error")
 
-        result = ProcessingResult(
-            file_path=file_path, result=Result.SKIPPED, error=error
-        )
+        result = ProcessingResult(file_path=file_path, result=Result.SKIPPED, error=error)
 
         assert result.file_path == file_path
         assert result.result == Result.SKIPPED

@@ -13,14 +13,10 @@ class TestConfigLoading:
         """Test that default config is loaded when no pyproject.toml exists."""
         config = load_config(tmp_path)
 
-        assert config.exclude_globs == [
-            "*.min.js",
-            "dist/*",
-            "node_modules/*",
-            ".git/*",
-        ]
+        assert config.exclude_globs == []  # Now defaults to empty list
         assert config.custom_comment_map == {}
         assert config.default_mode == "file"
+        assert config.use_default_ignores is True  # New field
 
     def test_load_config_from_pyproject_toml(self, tmp_path: Path) -> None:
         """Test loading configuration from pyproject.toml."""
@@ -86,9 +82,7 @@ exclude_globs = "not a list"
         with pytest.raises(ConfigError, match="exclude_globs must be a list"):
             load_config(tmp_path)
 
-    def test_load_config_validates_custom_comment_map_type(
-        self, tmp_path: Path
-    ) -> None:
+    def test_load_config_validates_custom_comment_map_type(self, tmp_path: Path) -> None:
         """Test validation that custom_comment_map is a dict."""
         pyproject_content = """
 [tool.path-comment-hook]
@@ -108,14 +102,10 @@ class TestConfigClass:
         """Test creating Config with default values."""
         config = Config()
 
-        assert config.exclude_globs == [
-            "*.min.js",
-            "dist/*",
-            "node_modules/*",
-            ".git/*",
-        ]
+        assert config.exclude_globs == []  # Now defaults to empty list
         assert config.custom_comment_map == {}
         assert config.default_mode == "file"
+        assert config.use_default_ignores is True  # New field
 
     def test_config_creation_with_custom_values(self) -> None:
         """Test creating Config with custom values."""
@@ -136,6 +126,18 @@ class TestConfigClass:
         assert config.should_exclude(Path("app.min.js")) is True
         assert config.should_exclude(Path("dist/bundle.js")) is True
         assert config.should_exclude(Path("src/app.js")) is False
+
+    def test_config_should_exclude_with_default_ignores(self, tmp_path: Path) -> None:
+        """Test should_exclude with default ignore patterns."""
+        config = Config(use_default_ignores=True)
+
+        # Create test paths
+        cache_file = tmp_path / "__pycache__" / "test.py"
+        regular_file = tmp_path / "regular.py"
+
+        # Test with project_root for relative path matching
+        assert config.should_exclude(cache_file, tmp_path) is True  # Should be ignored
+        assert config.should_exclude(regular_file, tmp_path) is False  # Should not be ignored
 
     def test_config_get_comment_prefix(self) -> None:
         """Test getting comment prefix from custom map."""
@@ -159,10 +161,15 @@ class TestConfigClass:
             default_mode="folder",
         )
 
-        expected = {
-            "exclude_globs": ["*.test"],
-            "custom_comment_map": {".py": "# {_path_}"},
-            "default_mode": "folder",
-        }
+        result = config.to_dict()
 
-        assert config.to_dict() == expected
+        # Check the basic fields
+        assert result["exclude_globs"] == ["*.test"]
+        assert result["custom_comment_map"] == {".py": "# {_path_}"}
+        assert result["default_mode"] == "folder"
+        assert result["use_default_ignores"] is True
+
+        # Check that default_ignore_patterns is present and contains patterns
+        assert "default_ignore_patterns" in result
+        assert isinstance(result["default_ignore_patterns"], list)
+        assert len(result["default_ignore_patterns"]) > 0  # Should have patterns

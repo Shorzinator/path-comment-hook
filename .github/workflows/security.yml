@@ -195,7 +195,7 @@ jobs:
         pip-licenses --format=markdown --output-file=licenses.md
 
         # Check for problematic licenses
-        pip-licenses --fail-on="GPL" --fail-on="AGPL" || echo "⚠️ Found copyleft licenses"
+        pip-licenses --fail-on="GPL" --fail-on="AGPL" || echo "WARNING: Found copyleft licenses"
 
     - name: Upload license report
       uses: actions/upload-artifact@v3
@@ -213,7 +213,7 @@ jobs:
     if: always()
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
 
     - name: Generate security summary
       run: |
@@ -230,9 +230,9 @@ jobs:
 
         # Check if we have any reports with issues
         if find . -name "*report*" -size +100c | grep -q .; then
-          echo "⚠️ Some security issues may have been found. Check the individual reports." >> security-summary.md
+          echo "WARNING: Some security issues may have been found. Check the individual reports." >> security-summary.md
         else
-          echo "✅ No major security issues detected." >> security-summary.md
+          echo "No major security issues detected." >> security-summary.md
         fi
 
         echo "" >> security-summary.md

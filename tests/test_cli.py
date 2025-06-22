@@ -216,28 +216,6 @@ class TestRunCommand:
         assert result.exit_code == 1
         assert "Configuration Error" in result.output
 
-    # TODO: Fix permission error handling - see POA.md
-    # def test_run_with_errors_shows_summary(self, runner, tmp_path: Path) -> None:
-    #     """Test that errors are shown in summary."""
-    #     # Create a file that will cause an error (e.g., no read permissions)
-    #     test_file = tmp_path / "test.py"
-    #     test_file.write_text("print('hello')\n", encoding="utf-8")
-    #     test_file.chmod(0o000)  # Remove all permissions
-
-    #     try:
-    #         result = runner.invoke(app, [
-    #             "run",
-    #             "--verbose",
-    #             str(test_file),
-    #             "--project-root", str(tmp_path)
-    #         ])
-
-    #         assert result.exit_code == 1
-    #         assert "Errors: 1" in result.output
-    #     finally:
-    #         # Restore permissions for cleanup
-    #         test_file.chmod(0o644)
-
     def test_run_relative_paths(self, runner, tmp_path: Path) -> None:
         """Test with relative file paths (as pre-commit provides)."""
         # Create test file
@@ -327,59 +305,6 @@ class TestPreCommitCompatibility:
     def runner(self):
         """Create a CLI runner for testing."""
         return CliRunner()
-
-    # TODO: Implement pre-commit shorthand syntax - see POA.md
-    # def test_files_without_subcommand(self, runner, tmp_path: Path) -> None:
-    #     """Test pre-commit pattern: path-comment-hook file1.py file2.py
-    #        This will now rely on Typer's invoke_without_command behavior.
-    #     """
-    #     file1 = tmp_path / "file1.py"
-    #     file2 = tmp_path / "file2.py"
-    #     file1.write_text("print('1')\n", encoding="utf-8")
-    #     file2.write_text("print('2')\n", encoding="utf-8")
-
-    #     # Assuming your Typer app is set up with invoke_without_command=True
-    #     # and a callback that defaults to the 'run' logic.
-    #     result = runner.invoke(app, [
-    #         str(file1),
-    #         str(file2),
-    #         "--project-root", str(tmp_path)
-    #         # NO "run" here - testing if the callback works
-    #     ])
-
-    #     assert result.exit_code == 0, result.output # Add output for easier debugging
-    #     assert file1.read_text().startswith("# file1.py\n")
-    #     assert file2.read_text().startswith("# file2.py\n")
-
-    # def test_check_flag_without_subcommand(self, runner, tmp_path: Path) -> None:
-    #     """Test pre-commit pattern with check: path-comment-hook --check file.py
-    #        This will now rely on Typer's invoke_without_command behavior.
-    #     """
-    #     test_file = tmp_path / "test.py"
-    #     test_file.write_text("print('hello')\n", encoding="utf-8")
-
-    #     result = runner.invoke(app, [
-    #         "--check", # This is an option for the default/run command
-    #         str(test_file),
-    #         "--project-root", str(tmp_path)
-    #         # NO "run" here
-    #     ])
-
-    #     assert result.exit_code == 1, result.output # Changes needed
-    #     assert "Would update" in result.output
-    #     assert test_file.read_text() == "print('hello')\n"
-
-    # TODO: Implement -h flag support - see POA.md
-    # def test_help_flag_not_modified(self, runner) -> None:
-    #     """Test that help flags work correctly."""
-    #     # These should be handled by Typer before any default command logic
-    #     result_help = runner.invoke(app, ["--help"])
-    #     assert result_help.exit_code == 0, result_help.output
-    #     assert "Insert or verify a relative-path comment" in result_help.output
-
-    #     result_h = runner.invoke(app, ["-h"])
-    #     assert result_h.exit_code == 0, result_h.output
-    #     assert "Insert or verify a relative-path comment" in result_h.output
 
 
 class TestEdgeCases:

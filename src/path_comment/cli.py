@@ -20,7 +20,7 @@ from rich.table import Table
 from .__about__ import __version__
 from .config import ConfigError, load_config
 from .processor import print_processing_summary, process_files_parallel
-from .welcome import show_welcome
+from .welcome import display_welcome
 
 if TYPE_CHECKING:
     from .config import Config
@@ -340,7 +340,7 @@ def delete(
 @app.command()
 def welcome() -> None:
     """Display the welcome message with ASCII art and quick start guide."""
-    show_welcome()
+    display_welcome()
 
 
 def _discover_files(project_root: Path, config: Config) -> List[Path]:

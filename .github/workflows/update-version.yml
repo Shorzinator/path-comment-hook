@@ -64,16 +64,16 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: "docs: update version references to ${{ steps.version.outputs.version }}"
-        title: "📝 Update version references to ${{ steps.version.outputs.version }}"
+        title: "Update version references to ${{ steps.version.outputs.version }}"
         body: |
-          ## 🔄 Automated Version Update
+          ## Automated Version Update
 
           This PR updates all version references in documentation and configuration files to `${{ steps.version.outputs.version }}`.
 
           ### Changes Made:
-          - ✅ Updated README.md examples and badges
-          - ✅ Updated documentation files
-          - ✅ Updated pyproject.toml version
+          - Updated README.md examples and badges
+          - Updated documentation files
+          - Updated pyproject.toml version
 
           ### Files Modified:
           - `README.md`

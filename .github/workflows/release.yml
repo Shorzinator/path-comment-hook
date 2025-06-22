@@ -110,10 +110,10 @@ jobs:
     name: Publish to PyPI
     runs-on: ubuntu-latest
     needs: build
-    environment: release
+    # environment: release  # Configure in GitHub repository settings for additional protection
     steps:
     - name: Download build artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: dist-${{ needs.build.outputs.version }}
         path: dist/
@@ -129,10 +129,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'workflow_dispatch'
-    environment: test-release
+    # environment: test-release  # Configure in GitHub repository settings for additional protection
     steps:
     - name: Download build artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: dist-${{ needs.build.outputs.version }}
         path: dist/
@@ -155,20 +155,30 @@ jobs:
         fetch-depth: 0
 
     - name: Download build artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: dist-${{ needs.build.outputs.version }}
         path: dist/
 
-    - name: Generate release notes
+    - name: Set up Python for changelog automation
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Generate release notes with changelog automation
       id: release_notes
       run: |
         # Extract version
         VERSION="${{ needs.build.outputs.version }}"
 
-        # Create release notes
-        cat > release_notes.md << 'EOF'
-        ## 🎉 path-comment-hook v$VERSION
+        # Use our changelog automation script to generate release notes
+        python scripts/update-changelog.py generate "$VERSION" > release_notes.md
+
+        # Fallback to manual generation if script fails
+        if [[ ! -s release_notes.md ]]; then
+          echo "Changelog automation failed, using fallback..."
+          cat > release_notes.md << 'EOF'
+        ## path-comment-hook v$VERSION
 
         ```
             /·\
@@ -189,7 +199,7 @@ jobs:
         ```bash
         # Add to .pre-commit-config.yaml
         repos:
-          - repo: https://github.com/shouryamaheshwari/path-comment-hook
+          - repo: https://github.com/Shorzinator/path-comment-hook
             rev: v$VERSION
             hooks:
               - id: path-comment
@@ -197,30 +207,47 @@ jobs:
 
         ### What's Changed
 
-        See [CHANGELOG.md](https://github.com/shouryamaheshwari/path-comment-hook/blob/main/CHANGELOG.md) for detailed changes.
+        See [CHANGELOG.md](https://github.com/Shorzinator/path-comment-hook/blob/main/CHANGELOG.md) for detailed changes.
 
         ### Documentation
 
-        📖 **Full Documentation:** https://shouryamaheshwari.github.io/path-comment-hook
+        **Full Documentation:** https://shorzinator.github.io/path-comment-hook
 
         ### Support
 
-        - 🐛 **Report Issues:** https://github.com/shouryamaheshwari/path-comment-hook/issues
-        - 💬 **Discussions:** https://github.com/shouryamaheshwari/path-comment-hook/discussions
+        - **Report Issues:** https://github.com/Shorzinator/path-comment-hook/issues
+        - **Discussions:** https://github.com/Shorzinator/path-comment-hook/discussions
+        - **Security Issues:** shorz2905@gmail.com
 
         ---
 
-        **Full Changelog:** https://github.com/shouryamaheshwari/path-comment-hook/compare/v$(git describe --tags --abbrev=0 HEAD^)...v$VERSION
+        **Full Changelog:** https://github.com/Shorzinator/path-comment-hook/compare/v$(git describe --tags --abbrev=0 HEAD^)...v$VERSION
         EOF
 
-        # Replace VERSION placeholder
-        sed -i "s/\$VERSION/$VERSION/g" release_notes.md
+        EOF
+          # Replace VERSION placeholder in fallback
+          sed -i "s/\$VERSION/$VERSION/g" release_notes.md
+        fi
+
+    - name: Update changelog for release
+      run: |
+        # Update the changelog to mark the release date
+        python scripts/update-changelog.py update "${{ needs.build.outputs.version }}"
+
+        # Commit changelog update if there are changes
+        if [[ -n "$(git status --porcelain CHANGELOG.md)" ]]; then
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add CHANGELOG.md
+          git commit -m "chore: update changelog for v${{ needs.build.outputs.version }} release"
+          git push
+        fi
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ github.ref_name }}
-        name: "🚀 Release ${{ github.ref_name }}"
+        name: "Release ${{ github.ref_name }}"
         body_path: release_notes.md
         files: |
           dist/*
@@ -262,4 +289,4 @@ jobs:
         echo "print('hello')" > test.py
         path-comment-hook test.py
         grep -q "# test.py" test.py || (echo "Path comment not added!" && exit 1)
-        echo "✅ Installation test passed on ${{ matrix.os }} with Python ${{ matrix.python-version }}"
+        echo "Installation test passed on ${{ matrix.os }} with Python ${{ matrix.python-version }}"

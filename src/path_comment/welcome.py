@@ -3,57 +3,42 @@
 """Welcome message for path-comment-hook installation."""
 
 from rich.console import Console
-from rich.panel import Panel
-from rich.text import Text
+
+WELCOME_BANNER = r"""
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                         PATH COMMENT HOOK v0.1.0                             ║
+║                                                                               ║
+║    Add file path comments to source files for better navigation              ║
+║    and code organization                                                      ║
+║                                                                               ║
+║    Repository: https://github.com/Shorzinator/path-comment-hook               ║
+║    Documentation: https://shorzinator.github.io/path-comment-hook            ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+"""
 
 
-def show_welcome() -> None:
-    """Display the welcome ASCII art and installation message."""
+def display_welcome() -> None:
+    """Display welcome message with banner and next steps."""
     console = Console()
 
-    # ASCII art
-    ascii_art = """    /·\\
-   /│·│\\    ┌─┐┌─┐┬ ┬
-  / │·│ \\   ├─┘│  ├─┤
- /  │·│  >   ┴  └─┘┴ ┴
-/___│·│___\\ path-comment-hook"""
+    # Display banner
+    console.print(WELCOME_BANNER, style="cyan")
 
-    # Create a rich text object for styling
-    art_text = Text(ascii_art, style="bold cyan")
+    # Next steps
+    console.print("\nNext Steps:", style="bold green")
+    console.print("1. Run: path-comment --help", style="dim")
+    console.print("2. Try: path-comment your_file.py", style="dim")
+    console.print("3. Set up pre-commit hooks for automation", style="dim")
+    console.print("4. Configure custom settings in pyproject.toml", style="dim")
 
-    # Welcome message
-    welcome_msg = Text.assemble(
-        "\n🎉 ",
-        ("Welcome to path-comment-hook!", "bold green"),
-        " 🎉\n\n",
-        "Thank you for installing path-comment-hook!\n",
-        "Add file path headers to your source code for better navigation.\n\n",
-        ("Quick Start:", "bold yellow"),
-        "\n",
-        "• Set up pre-commit: ",
-        ("pip install pre-commit", "dim"),
-        "\n• Add to .pre-commit-config.yaml\n",
-        "• Run: ",
-        ("pre-commit install", "dim"),
-        "\n\n",
-        ("Documentation:", "bold blue"),
-        " https://shouryamaheshwari.github.io/path-comment-hook\n",
-        ("Issues & Support:", "bold blue"),
-        " https://github.com/shouryamaheshwari/path-comment-hook/issues\n\n",
-        ("Happy coding! 🚀", "bold magenta"),
-    )
+    console.print("\nDocumentation:", style="bold blue")
+    console.print("https://shorzinator.github.io/path-comment-hook", style="dim")
 
-    # Create panel with the art and message
     console.print(
-        Panel(
-            Text.assemble(art_text, "\n\n", welcome_msg),
-            title="[bold green]Installation Complete[/bold green]",
-            border_style="green",
-            expand=False,
-            padding=(1, 2),
-        )
+        ("Happy coding!", "bold magenta"),
     )
 
 
 if __name__ == "__main__":
-    show_welcome()
+    display_welcome()

@@ -202,6 +202,6 @@ pip install path-comment-hook
 
 Now that you have path-comment-hook installed:
 
-- [🚀 Quick Start](quick-start.md) - Run your first path comment operation
-- [🔧 Pre-commit Setup](../user-guide/pre-commit-setup.md) - Integrate with your workflow
-- [⚙️ Configuration](../user-guide/configuration.md) - Customize for your project
+- [Quick Start](quick-start.md) - Run your first path comment operation
+- [Pre-commit Setup](../user-guide/pre-commit-setup.md) - Integrate with your workflow
+- [Configuration](../user-guide/configuration.md) - Customize for your project

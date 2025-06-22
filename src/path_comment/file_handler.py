@@ -245,12 +245,18 @@ class FileHandler:
                     try:
                         os.close(temp_fd)
                     except OSError:
-                        pass
+                        # Ignore cleanup errors to avoid masking original exception
+                        console.print(
+                            "[yellow]Warning:[/yellow] Failed to close temporary file descriptor"
+                        )
                 if temp_path and temp_path.exists():
                     try:
                         temp_path.unlink()
                     except OSError:
-                        pass
+                        # Ignore cleanup errors to avoid masking original exception
+                        console.print(
+                            f"[yellow]Warning:[/yellow] Failed to remove temporary file {temp_path}"
+                        )
                 raise
 
         except OSError as e:

@@ -38,7 +38,7 @@ chardet = "^5.0.0"
 tomli = {version = "^2.0.0", python = "<3.11"}
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.0.0"
+pytest = "^8.3.5"
 pytest-cov = "^5.0.0"
 ruff = "^0.1.0"
 mypy = "^1.7.0"

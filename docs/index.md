@@ -107,12 +107,12 @@ repos:
 
 ## Key Features
 
-- **🚀 Fast**: Parallel processing for large codebases
-- **🔧 Configurable**: Customize comment styles and exclusions
-- **🌍 Multi-language**: Support for 10+ programming languages
-- **📦 Zero dependencies**: Lightweight and reliable
-- **🔄 Reversible**: Easy to add or remove headers
-- **🎯 Smart detection**: Handles shebangs and encoding automatically
+- **Fast**: Parallel processing for large codebases
+- **Configurable**: Customize comment styles and exclusions
+- **Multi-language**: Support for 10+ programming languages
+- **Zero dependencies**: Lightweight and reliable
+- **Reversible**: Easy to add or remove headers
+- **Smart detection**: Handles shebangs and encoding automatically
 
 ## Quick Start
 
@@ -138,10 +138,10 @@ That's it! Your files now have path headers for better navigation.
 
 ## What's Next?
 
-- [🚀 Quick Start Guide](getting-started/quick-start.md) - Get up and running in 5 minutes
-- [📖 User Guide](user-guide/cli-usage.md) - Learn all the commands and options
-- [⚙️ Configuration](user-guide/configuration.md) - Customize for your project
-- [🔧 Pre-commit Setup](user-guide/pre-commit-setup.md) - Integrate with your workflow
+- [Quick Start Guide](getting-started/quick-start.md) - Get up and running in 5 minutes
+- [User Guide](user-guide/cli-usage.md) - Learn all the commands and options
+- [Configuration](user-guide/configuration.md) - Customize for your project
+- [Pre-commit Setup](user-guide/pre-commit-setup.md) - Integrate with your workflow
 
 ## Community
 

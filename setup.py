@@ -7,7 +7,6 @@ import sys
 from pathlib import Path
 from typing import Any, Dict
 
-from setuptools import setup
 from setuptools.command.install import install
 
 
@@ -23,7 +22,7 @@ class PostInstallCommand(install):
                 [
                     sys.executable,
                     "-c",
-                    "from path_comment.welcome import show_welcome; show_welcome()",
+                    "from path_comment.welcome import display_welcome; display_welcome()",
                 ],
                 check=False,
                 capture_output=True,
@@ -36,14 +35,14 @@ class PostInstallCommand(install):
             print("  / │·│ \\   ├─┘│  ├─┤")
             print(" /  │·│  >   ┴  └─┘┴ ┴")
             print("/___│·│___\\ path-comment-hook")
-            print("\n🎉 Welcome to path-comment-hook! 🎉")
+            print("\nWelcome to path-comment-hook!")
             print("\nThank you for installing path-comment-hook!")
             print("Add file path headers to your source code for better navigation.")
             print("\nQuick Start:")
             url = "https://shouryamaheshwari.github.io/path-comment-hook"
             print(f"• Documentation: {url}")
             print("• Run 'path-comment-welcome' for this message anytime")
-            print("\nHappy coding! 🚀")
+            print("\nHappy coding!")
             print("=" * 60 + "\n")
 
 
@@ -74,15 +73,10 @@ def read_pyproject() -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    pyproject_data = read_pyproject()
-
-    setup(
-        name=pyproject_data.get("name", "path-comment-hook"),
-        version=pyproject_data.get("version", "0.1.0"),
-        description=pyproject_data.get(
-            "description", "Pre-commit hook that adds file path headers"
-        ),
-        cmdclass={
-            "install": PostInstallCommand,
-        },
-    )
+    print("\nWelcome to path-comment-hook!")
+    print("━" * 50)
+    print("Add file path headers to your source code for better navigation.")
+    print("Documentation: https://shorzinator.github.io/path-comment-hook")
+    print("GitHub: https://github.com/Shorzinator/path-comment-hook")
+    print("━" * 50)
+    print("\nHappy coding!")

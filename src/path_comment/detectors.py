@@ -49,7 +49,8 @@ def _get_shebang_tag(path: Path) -> str | None:
                 if "sh" in first_line.lower():
                     return "shell"
     except (OSError, UnicodeDecodeError):
-        pass
+        # File cannot be read or contains invalid UTF-8 - skip shebang detection
+        return None
     return None
 
 

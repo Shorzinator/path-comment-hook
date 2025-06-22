@@ -139,10 +139,10 @@ To report security issues, see our [Security Policy](https://github.com/Shorzina
 
 Stay informed about releases:
 
-- ⭐ **Star the repository** on GitHub for updates
-- 📧 **Watch releases** to get notifications
-- 📰 **Follow the changelog** for detailed changes
-- 🐦 **Follow updates** through GitHub Discussions
+- **Star the repository** on GitHub for updates
+- **Watch releases** to get notifications
+- **Follow the changelog** for detailed changes
+- **Follow updates** through GitHub Discussions
 
 ## Version Support
 
@@ -151,6 +151,6 @@ Stay informed about releases:
 - **Older versions**: Community support only
 
 Currently supported versions:
-- 0.3.x: ✅ Full support
-- 0.2.x: ⚠️ Security updates only
-- 0.1.x: ❌ No longer supported
+- 0.3.x: Full support
+- 0.2.x: Security updates only
+- 0.1.x: No longer supported

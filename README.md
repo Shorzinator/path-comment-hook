@@ -22,11 +22,11 @@
 
 Never lose track of where you are in large codebases. This pre-commit hook automatically adds file path comments to the top of your source files, making code navigation effortless.
 
-[📖 **Documentation**](https://shorzinator.github.io/path-comment-hook) • [🚀 **Quick Start**](https://shorzinator.github.io/path-comment-hook/getting-started/quick-start/) • [⚙️ **Configuration**](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/) • [🛠️ **API Reference**](https://shorzinator.github.io/path-comment-hook/api/reference/)
+[**Documentation**](https://shorzinator.github.io/path-comment-hook) • [**Quick Start**](https://shorzinator.github.io/path-comment-hook/getting-started/quick-start/) • [**Configuration**](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/) • [**API Reference**](https://shorzinator.github.io/path-comment-hook/api/reference/)
 
 </div>
 
-## ✨ What It Does
+## What It Does
 
 Transform your codebase with automatic path headers that provide instant context:
 
@@ -39,13 +39,13 @@ Transform your codebase with automatic path headers that provide instant context
 </div>
 
 **Key Benefits:**
-- 🧭 **Enhanced Navigation** - Know exactly where you are in your codebase
-- 📝 **Better Code Reviews** - Reviewers can quickly identify file locations
-- 🔍 **Improved Search** - Context-aware code snippets
-- 📚 **Self-Documenting** - Built-in file references
-- 🚀 **Fast Performance** - Parallel processing for large projects
+- **Enhanced Navigation** - Know exactly where you are in your codebase
+- **Better Code Reviews** - Reviewers can quickly identify file locations
+- **Improved Search** - Context-aware code snippets
+- **Self-Documenting** - Built-in file references
+- **Fast Performance** - Parallel processing for large projects
 
-## 🎯 Quick Start
+## Quick Start
 
 ### 1. Install via pip
 
@@ -71,9 +71,9 @@ pre-commit install
 pre-commit run path-comment --all-files
 ```
 
-**That's it!** 🎉 Your files now have path headers for better navigation.
+**That's it!** Your files now have path headers for better navigation.
 
-## 🏗️ Supported Languages
+## Supported Languages
 
 Works with **10+ programming languages** out of the box:
 
@@ -90,26 +90,26 @@ Works with **10+ programming languages** out of the box:
 
 > **Smart Detection**: Automatically handles shebangs, encoding, and file types using the [`identify`](https://github.com/pre-commit/identify) library.
 
-## ⚡ Advanced Features
+## Advanced Features
 
-### 🚀 Performance Optimized
+### Performance Optimized
 - **Parallel Processing** - Utilizes all CPU cores
 - **Smart Caching** - Avoids unnecessary modifications
 - **Memory Efficient** - Handles large files safely
 
-### 🛡️ Safe & Reliable
+### Safe & Reliable
 - **Atomic Operations** - Safe file modifications
 - **Encoding Preservation** - Maintains UTF-8, Latin-1, etc.
 - **Line Ending Preservation** - Keeps LF/CRLF intact
 - **Comprehensive Testing** - 152 tests with 95% coverage
 
-### 🎨 Rich CLI Experience
+### Rich CLI Experience
 - **Progress Bars** - Visual feedback for large operations
 - **Colored Output** - Easy-to-read status messages
 - **Detailed Reporting** - Comprehensive summaries
 - **Multiple Modes** - Check, fix, and delete operations
 
-## 📊 Real-World Examples
+## Real-World Examples
 
 ### Django Web Application
 
@@ -149,7 +149,7 @@ database:
   port: 5432
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 Customize behavior in your `pyproject.toml`:
 
@@ -169,7 +169,7 @@ exclude_globs = [
 - [Data Science Project](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/#data-science-project)
 - [Monorepo](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/#monorepo)
 
-## 🛠️ CLI Usage
+## CLI Usage
 
 ```bash
 # Process specific files
@@ -195,7 +195,7 @@ path-comment-hook --help
 
 See the [CLI Usage Guide](https://shorzinator.github.io/path-comment-hook/user-guide/cli-usage/) for complete details.
 
-## 🧪 Quality & Testing
+## Quality & Testing
 
 - **152 Test Cases** - Comprehensive test coverage
 - **Real-time Coverage** - Monitored via Codecov integration
@@ -209,18 +209,18 @@ make test
 make test-cov  # With coverage report
 ```
 
-## 📚 Documentation
+## Documentation
 
 **Complete documentation available at:** https://shorzinator.github.io/path-comment-hook
 
-- 🚀 [Quick Start Guide](https://shorzinator.github.io/path-comment-hook/getting-started/quick-start/) - Get up and running in 5 minutes
-- 📖 [User Guide](https://shorzinator.github.io/path-comment-hook/user-guide/cli-usage/) - Complete CLI reference
-- ⚙️ [Configuration](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/) - Customize for your project
-- 🔧 [Pre-commit Setup](https://shorzinator.github.io/path-comment-hook/user-guide/pre-commit-setup/) - Automate your workflow
-- 🛠️ [API Reference](https://shorzinator.github.io/path-comment-hook/api/reference/) - Programmatic usage
-- ❓ [FAQ](https://shorzinator.github.io/path-comment-hook/faq/) - Common questions answered
+- [Quick Start Guide](https://shorzinator.github.io/path-comment-hook/getting-started/quick-start/) - Get up and running in 5 minutes
+- [User Guide](https://shorzinator.github.io/path-comment-hook/user-guide/cli-usage/) - Complete CLI reference
+- [Configuration](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/) - Customize for your project
+- [Pre-commit Setup](https://shorzinator.github.io/path-comment-hook/user-guide/pre-commit-setup/) - Automate your workflow
+- [API Reference](https://shorzinator.github.io/path-comment-hook/api/reference/) - Programmatic usage
+- [FAQ](https://shorzinator.github.io/path-comment-hook/faq/) - Common questions answered
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Check out our [Development Guide](https://shorzinator.github.io/path-comment-hook/contributing/development/) to get started.
 
@@ -232,7 +232,7 @@ poetry install
 make test
 ```
 
-## 🔄 Integration Examples
+## Integration Examples
 
 ### GitHub Actions
 ```yaml
@@ -254,37 +254,34 @@ RUN pip install path-comment-hook && \
 
 See [CI/CD Integration](https://shorzinator.github.io/path-comment-hook/advanced/ci-integration/) for more examples.
 
-## 📋 Requirements
+## Requirements
 
 - **Python 3.8+** - Modern Python support
 - **Cross-platform** - Works on Linux, macOS, and Windows
 - **Minimal dependencies** - Only essential packages
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 **Common issues:**
 - [Files not being processed](https://shorzinator.github.io/path-comment-hook/troubleshooting/#files-not-being-processed)
 - [Performance optimization](https://shorzinator.github.io/path-comment-hook/troubleshooting/#performance-issues)
 - [Pre-commit integration](https://shorzinator.github.io/path-comment-hook/troubleshooting/#pre-commit-issues)
 
-## 📄 License
+## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🌟 Why Choose path-comment-hook?
+## Why Choose path-comment-hook?
 
-✅ **Production Ready** - Used in real projects with comprehensive testing
-✅ **Well Documented** - Complete guides and examples
-✅ **Actively Maintained** - Regular updates and support
-✅ **Fast & Reliable** - Optimized for performance and safety
-✅ **Easy Integration** - Works with existing tools and workflows
+**Production Ready** - Used in real projects with comprehensive testing
+**Zero Configuration** - Works immediately with sensible defaults
+**Language Agnostic** - Supports 10+ programming languages
+**Performance Focused** - Parallel processing for large codebases
+**Developer Friendly** - Rich CLI with progress bars and colored output
+**Well Documented** - Comprehensive guides and examples
+**Actively Maintained** - Regular updates and community support
+**Easy Integration** - Works with existing tools and workflows
 
----
+**Star us on GitHub • Read the docs • Report issues**
 
-<div align="center">
-
-**⭐ Star us on GitHub • 📖 Read the docs • 🐛 Report issues**
-
-Made with ❤️ for developers who value code organization and navigation.
-
-</div>
+Made with care for developers who value code organization and navigation.

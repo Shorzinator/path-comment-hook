@@ -28,8 +28,9 @@ Future development beyond `v0.1.0` will be strictly driven by user feedback and 
 
 *   **Active Users:** 0 (outside of developer)
 *   **GitHub Stars:** 0 (or current number if any)
-*   **Test Coverage:** ~78% (significant improvement from 56%)
-*   **Test Suite:** 78 passing tests across all functionality
+*   **Test Coverage:** ~69% (monitored via Codecov integration)
+*   **Test Suite:** 152 passing tests across all functionality
+*   **CI/CD Status:** Fully operational with cross-platform testing
 *   **Market Validation:** None to date
 *   **Competition:** Editor snippets, manual commenting, potentially other small scripts.
 *   **Primary Value Proposition Focus (for v0.1.0):** **Reliability & Ease of Use** – a comprehensive tool that *just works* for both adding and managing path comments across projects.
@@ -112,19 +113,29 @@ Future development beyond `v0.1.0` will be strictly driven by user feedback and 
 *   ✅ **Concise Output**: Bulk operations show "Successfully updated X files" instead of listing each file
 *   ✅ **Comprehensive Ignores**: 52 default ignore patterns covering version control, build artifacts, caches, IDEs
 *   ✅ **Enhanced Config Display**: `custom_comment_map` and all config options properly explained
-*   ✅ **Test Suite Stability**: All 78 tests passing consistently, improved coverage
+*   ✅ **Test Suite Stability**: All 152 tests passing consistently, enhanced coverage
 *   ✅ **Smart Path Detection**: Intelligent path comment detection for deletion operations
+*   ✅ **CI/CD Pipeline**: Comprehensive GitHub Actions with cross-platform testing, security scanning, and automated releases
+*   ✅ **Codecov Integration**: Real-time coverage reporting and monitoring
+*   ✅ **Documentation Infrastructure**: Complete MkDocs site with Material theme and GitHub Pages deployment
+*   ✅ **ASCII Art Integration**: Professional welcome message and post-install display
+*   ✅ **Cross-Platform Compatibility**: Resolved Windows line ending issues and Poetry installation problems
 
 **Current Technical Debt & Remaining Priorities for `v0.1.0`:**
-*   **Test Coverage**: Increase from ~78% to >90% (MEDIUM PRIORITY - significant progress made)
-*   **Documentation Site**: Create basic MkDocs site with essential user guides and API docs (HIGH PRIORITY)
-*   **Windows CI Testing**: Add Windows to CI matrix and ensure all tests pass (MEDIUM PRIORITY)
+*   **Test Coverage**: Increase from ~69% to >90% (MEDIUM PRIORITY - monitoring via Codecov)
 *   **PyPI Packaging**: Final packaging and metadata preparation for PyPI release (HIGH PRIORITY)
+*   **Version Bump**: Update version from 0.0.0 to 0.1.0 in preparation for release (HIGH PRIORITY)
+*   **Release Notes**: Prepare comprehensive changelog and release documentation (MEDIUM PRIORITY)
 
 **Deferred Items (Previously Problematic, Now Resolved):**
 *   ~~Permission Error Handling~~ → ✅ **RESOLVED**: Proper error handling implemented
 *   ~~Pre-commit Shorthand Syntax~~ → ✅ **RESOLVED**: Auto-insert functionality implemented
 *   ~~-h Flag Support~~ → ✅ **RESOLVED**: Full `-h` flag support added
+*   ~~Documentation Site~~ → ✅ **RESOLVED**: Complete MkDocs site with Material theme deployed
+*   ~~Windows CI Testing~~ → ✅ **RESOLVED**: Windows added to CI matrix, all tests pass
+*   ~~Cross-Platform Line Endings~~ → ✅ **RESOLVED**: Binary file handling fixes Windows compatibility
+*   ~~CI/CD Pipeline Failures~~ → ✅ **RESOLVED**: Docformatter conflicts eliminated, Poetry issues fixed
+*   ~~Badge Accuracy~~ → ✅ **RESOLVED**: All README badges now display real-time, accurate information
 
 ---
 
@@ -139,9 +150,9 @@ Future development beyond `v0.1.0` will be strictly driven by user feedback and 
 
 | ID    | Task                                  | Sub-Tasks & Details                                                                                                                                                                                             | Acceptance Criteria (AC)                                                                                                                               | Priority   |
 | :---- | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
-| **P1-01** | **Test Coverage >90%**                | 1. Analyze current ~78% coverage; identify gaps in CLI, edge cases. <br> 2. Write targeted tests for remaining uncovered paths. <br> 3. Enforce >90% coverage in CI. | • Test coverage consistently ≥ 90%. <br> • All major features fully tested. <br> • CI enforces coverage threshold.                                            | **MEDIUM** (Improved from CRITICAL) |
-| **P1-02** | **Windows CI & Compatibility**        | 1. Add `windows-latest` to GitHub Actions CI matrix. <br> 2. Debug and fix any tests failing on Windows. <br> 3. Manually test basic CLI functionality on a Windows machine.                               | • All tests pass on Windows CI. <br> • Basic CLI operations function correctly on Windows.                                                                | **MEDIUM**     |
-| **P1-03** | **Basic Documentation Site (MkDocs)** | 1. Initialize MkDocs with Material theme in `docs/`. <br> 2. Create essential pages: Installation, Quick Start, Configuration, CLI Reference, Delete Command Guide. <br> 3. Integrate `mkdocstrings` for API reference. <br> 4. Setup GHA to deploy to GitHub Pages. | • Docs site covers all features including delete, version, config. <br> • API docs are generated. <br> • Clear usage examples for all commands. | **HIGH**     |
+| **P1-01** | **Test Coverage >90%**                | 1. Analyze current ~69% coverage; identify gaps in CLI, edge cases. <br> 2. Write targeted tests for remaining uncovered paths. <br> 3. Maintain >90% coverage target via Codecov. | • Test coverage consistently ≥ 90%. <br> • All major features fully tested. <br> • Codecov integration monitors coverage.                                            | **MEDIUM** |
+| ~~**P1-02**~~ | ~~**Windows CI & Compatibility**~~        | ✅ **COMPLETED**: Windows added to CI matrix, all line ending issues resolved via binary file handling.                               | ✅ All tests pass on Windows CI. Cross-platform compatibility verified.                                                                | ~~**COMPLETE**~~     |
+| ~~**P1-03**~~ | ~~**Basic Documentation Site (MkDocs)**~~ | ✅ **COMPLETED**: MkDocs with Material theme deployed, comprehensive documentation structure created with all essential pages. | ✅ Complete docs site covers all features, API reference, usage examples. | ~~**COMPLETE**~~     |
 | **P1-04** | **PyPI Release `v0.1.0`**             | 1. Polish `README.md` for PyPI with new features. <br> 2. Finalize `pyproject.toml` metadata (version `0.1.0`, feature descriptions). <br> 3. Build package (`poetry build`). <br> 4. Test publishing to TestPyPI. <br> 5. Publish to PyPI. <br> 6. Create `v0.1.0` git tag and GitHub Release. | • Package successfully installs via `pip install path-comment-hook`. <br> • All CLI commands work after fresh install. <br> • PyPI page reflects full feature set. | **HIGH**     |
 | **P1-05** | **Performance Validation**    | 1. Test tool on medium-sized directory (100-500 files). <br> 2. Validate both `run --all` and `delete --all` performance. <br> 3. Ensure concise output works correctly at scale. | • Tool processes 500 files in reasonable time (<10 seconds). <br> • Bulk operations show proper summary messages. | **LOW**   |
 

@@ -14,15 +14,15 @@
 [![PyPI version](https://badge.fury.io/py/path-comment-hook.svg)](https://badge.fury.io/py/path-comment-hook)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![Tests](https://github.com/shouryamaheshwari/path-comment-hook/workflows/Tests/badge.svg)](https://github.com/shouryamaheshwari/path-comment-hook/actions)
-[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://shouryamaheshwari.github.io/path-comment-hook)
-[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/shouryamaheshwari/path-comment-hook)
+[![CI](https://github.com/Shorzinator/path-comment-hook/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/Shorzinator/path-comment-hook/actions)
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://shorzinator.github.io/path-comment-hook)
+[![Coverage](https://codecov.io/gh/Shorzinator/path-comment-hook/branch/main/graph/badge.svg)](https://codecov.io/gh/Shorzinator/path-comment-hook)
 
 **Automatically add file path headers to your source code for better navigation and context.**
 
 Never lose track of where you are in large codebases. This pre-commit hook automatically adds file path comments to the top of your source files, making code navigation effortless.
 
-[📖 **Documentation**](https://shouryamaheshwari.github.io/path-comment-hook) • [🚀 **Quick Start**](https://shouryamaheshwari.github.io/path-comment-hook/getting-started/quick-start/) • [⚙️ **Configuration**](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/) • [🛠️ **API Reference**](https://shouryamaheshwari.github.io/path-comment-hook/api/reference/)
+[📖 **Documentation**](https://shorzinator.github.io/path-comment-hook) • [🚀 **Quick Start**](https://shorzinator.github.io/path-comment-hook/getting-started/quick-start/) • [⚙️ **Configuration**](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/) • [🛠️ **API Reference**](https://shorzinator.github.io/path-comment-hook/api/reference/)
 
 </div>
 
@@ -58,7 +58,7 @@ pip install path-comment-hook
 ```yaml
 # .pre-commit-config.yaml
 repos:
-  - repo: https://github.com/shouryamaheshwari/path-comment-hook
+  - repo: https://github.com/Shorzinator/path-comment-hook
     rev: v0.3.0  # Use the latest version
     hooks:
       - id: path-comment
@@ -164,10 +164,10 @@ exclude_globs = [
 ```
 
 **Popular configurations:**
-- [Python Library](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#python-library)
-- [Web Application](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#web-application)
-- [Data Science Project](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#data-science-project)
-- [Monorepo](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/#monorepo)
+- [Python Library](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/#python-library)
+- [Web Application](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/#web-application)
+- [Data Science Project](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/#data-science-project)
+- [Monorepo](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/#monorepo)
 
 ## 🛠️ CLI Usage
 
@@ -193,12 +193,12 @@ path-comment-hook show-config
 path-comment-hook --help
 ```
 
-See the [CLI Usage Guide](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/cli-usage/) for complete details.
+See the [CLI Usage Guide](https://shorzinator.github.io/path-comment-hook/user-guide/cli-usage/) for complete details.
 
 ## 🧪 Quality & Testing
 
 - **152 Test Cases** - Comprehensive test coverage
-- **95% Code Coverage** - High-quality, reliable code
+- **Real-time Coverage** - Monitored via Codecov integration
 - **Type Safe** - Full type hints with mypy
 - **Linted & Formatted** - Ruff for code quality
 - **CI/CD** - GitHub Actions for automated testing
@@ -211,22 +211,22 @@ make test-cov  # With coverage report
 
 ## 📚 Documentation
 
-**Complete documentation available at:** https://shouryamaheshwari.github.io/path-comment-hook
+**Complete documentation available at:** https://shorzinator.github.io/path-comment-hook
 
-- 🚀 [Quick Start Guide](https://shouryamaheshwari.github.io/path-comment-hook/getting-started/quick-start/) - Get up and running in 5 minutes
-- 📖 [User Guide](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/cli-usage/) - Complete CLI reference
-- ⚙️ [Configuration](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/configuration/) - Customize for your project
-- 🔧 [Pre-commit Setup](https://shouryamaheshwari.github.io/path-comment-hook/user-guide/pre-commit-setup/) - Automate your workflow
-- 🛠️ [API Reference](https://shouryamaheshwari.github.io/path-comment-hook/api/reference/) - Programmatic usage
-- ❓ [FAQ](https://shouryamaheshwari.github.io/path-comment-hook/faq/) - Common questions answered
+- 🚀 [Quick Start Guide](https://shorzinator.github.io/path-comment-hook/getting-started/quick-start/) - Get up and running in 5 minutes
+- 📖 [User Guide](https://shorzinator.github.io/path-comment-hook/user-guide/cli-usage/) - Complete CLI reference
+- ⚙️ [Configuration](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/) - Customize for your project
+- 🔧 [Pre-commit Setup](https://shorzinator.github.io/path-comment-hook/user-guide/pre-commit-setup/) - Automate your workflow
+- 🛠️ [API Reference](https://shorzinator.github.io/path-comment-hook/api/reference/) - Programmatic usage
+- ❓ [FAQ](https://shorzinator.github.io/path-comment-hook/faq/) - Common questions answered
 
 ## 🤝 Contributing
 
-We welcome contributions! Check out our [Development Guide](https://shouryamaheshwari.github.io/path-comment-hook/contributing/development/) to get started.
+We welcome contributions! Check out our [Development Guide](https://shorzinator.github.io/path-comment-hook/contributing/development/) to get started.
 
 **Quick setup:**
 ```bash
-git clone https://github.com/shouryamaheshwari/path-comment-hook.git
+git clone https://github.com/Shorzinator/path-comment-hook.git
 cd path-comment-hook
 poetry install
 make test
@@ -252,7 +252,7 @@ RUN pip install path-comment-hook && \
     path-comment-hook --all
 ```
 
-See [CI/CD Integration](https://shouryamaheshwari.github.io/path-comment-hook/advanced/ci-integration/) for more examples.
+See [CI/CD Integration](https://shorzinator.github.io/path-comment-hook/advanced/ci-integration/) for more examples.
 
 ## 📋 Requirements
 
@@ -263,9 +263,9 @@ See [CI/CD Integration](https://shouryamaheshwari.github.io/path-comment-hook/ad
 ## 🚨 Troubleshooting
 
 **Common issues:**
-- [Files not being processed](https://shouryamaheshwari.github.io/path-comment-hook/troubleshooting/#files-not-being-processed)
-- [Performance optimization](https://shouryamaheshwari.github.io/path-comment-hook/troubleshooting/#performance-issues)
-- [Pre-commit integration](https://shouryamaheshwari.github.io/path-comment-hook/troubleshooting/#pre-commit-issues)
+- [Files not being processed](https://shorzinator.github.io/path-comment-hook/troubleshooting/#files-not-being-processed)
+- [Performance optimization](https://shorzinator.github.io/path-comment-hook/troubleshooting/#performance-issues)
+- [Pre-commit integration](https://shorzinator.github.io/path-comment-hook/troubleshooting/#pre-commit-issues)
 
 ## 📄 License
 

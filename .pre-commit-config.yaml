@@ -30,12 +30,7 @@ repos:
   #     - id: isort
   #       args: ["--profile", "black"]
 
-  # Documentation formatting
-  - repo: https://github.com/pycqa/docformatter
-    rev: v1.7.5
-    hooks:
-      - id: docformatter
-        args: ["--in-place", "--wrap-summaries", "88"]
+  # Documentation formatting - removed due to conflicts with other tools
 
   # Commit message formatting
   - repo: https://github.com/commitizen-tools/commitizen

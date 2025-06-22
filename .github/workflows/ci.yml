@@ -138,9 +138,7 @@ jobs:
       run: |
         poetry run bandit -r src/path_comment
 
-    - name: Run docformatter
-      run: |
-        poetry run docformatter --check --recursive src/path_comment
+# Docformatter removed due to persistent conflicts with other formatting tools
 
   build:
     name: Build Package

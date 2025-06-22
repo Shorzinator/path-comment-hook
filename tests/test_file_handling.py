@@ -115,7 +115,8 @@ class TestFileHandler:
         """Test reading UTF-8 file."""
         content = "Hello, 世界!\nLine 2\n"
         file_path = tmp_path / "test.py"
-        file_path.write_text(content, encoding="utf-8")
+        # Use binary write to ensure exact line endings across platforms
+        file_path.write_bytes(content.encode("utf-8"))
 
         handler = FileHandler(file_path)
         result = handler.read()
@@ -180,7 +181,8 @@ class TestFileHandler:
         """Test writing file with LF line endings."""
         original_content = "line1\nline2\nline3\n"
         file_path = tmp_path / "test.py"
-        file_path.write_text(original_content, encoding="utf-8")
+        # Use binary write to ensure exact line endings across platforms
+        file_path.write_bytes(original_content.encode("utf-8"))
 
         handler = FileHandler(file_path)
         file_info = handler.read()

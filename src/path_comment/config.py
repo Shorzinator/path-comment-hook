@@ -172,9 +172,7 @@ class Config:
             "custom_comment_map": self.custom_comment_map,
             "default_mode": self.default_mode,
             "use_default_ignores": self.use_default_ignores,
-            "default_ignore_patterns": DEFAULT_IGNORE_PATTERNS
-            if self.use_default_ignores
-            else [],
+            "default_ignore_patterns": DEFAULT_IGNORE_PATTERNS if self.use_default_ignores else [],
         }
 
 

@@ -24,9 +24,7 @@ class TestRunCommand:
         test_file.write_text("print('hello')\n", encoding="utf-8")
 
         # Run the command with proper project root
-        result = runner.invoke(
-            app, ["run", str(test_file), "--project-root", str(tmp_path)]
-        )
+        result = runner.invoke(app, ["run", str(test_file), "--project-root", str(tmp_path)])
 
         # Check success
         assert result.exit_code == 0
@@ -84,9 +82,7 @@ class TestRunCommand:
         """Test error handling for non-existent files."""
         nonexistent = tmp_path / "nonexistent.py"
 
-        result = runner.invoke(
-            app, ["run", str(nonexistent), "--project-root", str(tmp_path)]
-        )
+        result = runner.invoke(app, ["run", str(nonexistent), "--project-root", str(tmp_path)])
 
         assert result.exit_code == 1
         assert "does not exist" in result.output
@@ -96,9 +92,7 @@ class TestRunCommand:
         test_dir = tmp_path / "testdir"
         test_dir.mkdir()
 
-        result = runner.invoke(
-            app, ["run", str(test_dir), "--project-root", str(tmp_path)]
-        )
+        result = runner.invoke(app, ["run", str(test_dir), "--project-root", str(tmp_path)])
 
         assert result.exit_code == 1
         assert "is not a file" in result.output
@@ -168,9 +162,7 @@ class TestRunCommand:
             files.append(str(f))
 
         # Run with progress flag
-        result = runner.invoke(
-            app, ["run", "--progress", "--project-root", str(tmp_path)] + files
-        )
+        result = runner.invoke(app, ["run", "--progress", "--project-root", str(tmp_path)] + files)
 
         assert result.exit_code == 0
         # All files should be processed
@@ -199,9 +191,7 @@ class TestRunCommand:
         test_file = tmp_path / "src" / "utils" / "helpers" / "math.py"
         test_file.write_text("def add(a, b): return a + b\n", encoding="utf-8")
 
-        result = runner.invoke(
-            app, ["run", str(test_file), "--project-root", str(tmp_path)]
-        )
+        result = runner.invoke(app, ["run", str(test_file), "--project-root", str(tmp_path)])
 
         assert result.exit_code == 0
         # Should have path relative to project root
@@ -318,9 +308,7 @@ default_mode = "folder"
         with patch("path_comment.cli.load_config") as mock_config:
             mock_config.side_effect = Exception("Unexpected error")
 
-            result = runner.invoke(
-                app, ["show-config", "--project-root", str(tmp_path)]
-            )
+            result = runner.invoke(app, ["show-config", "--project-root", str(tmp_path)])
 
         assert result.exit_code == 1
         assert "Unexpected error" in result.output
@@ -401,9 +389,7 @@ class TestEdgeCases:
         empty_file = tmp_path / "empty.py"
         empty_file.write_text("", encoding="utf-8")
 
-        result = runner.invoke(
-            app, ["run", str(empty_file), "--project-root", str(tmp_path)]
-        )
+        result = runner.invoke(app, ["run", str(empty_file), "--project-root", str(tmp_path)])
 
         assert result.exit_code == 0
         assert empty_file.read_text() == "# empty.py\n"
@@ -411,13 +397,9 @@ class TestEdgeCases:
     def test_shebang_file_processing(self, runner, tmp_path: Path) -> None:
         """Test processing files with shebang."""
         script_file = tmp_path / "script"
-        script_file.write_text(
-            "#!/usr/bin/env python\nprint('hello')\n", encoding="utf-8"
-        )
+        script_file.write_text("#!/usr/bin/env python\nprint('hello')\n", encoding="utf-8")
 
-        result = runner.invoke(
-            app, ["run", str(script_file), "--project-root", str(tmp_path)]
-        )
+        result = runner.invoke(app, ["run", str(script_file), "--project-root", str(tmp_path)])
 
         assert result.exit_code == 0
         content = script_file.read_text()
@@ -442,9 +424,7 @@ class TestEdgeCases:
         unicode_file = tmp_path / "unicode.py"
         unicode_file.write_text("print('Hello, 世界! 🌍')\n", encoding="utf-8")
 
-        result = runner.invoke(
-            app, ["run", str(unicode_file), "--project-root", str(tmp_path)]
-        )
+        result = runner.invoke(app, ["run", str(unicode_file), "--project-root", str(tmp_path)])
 
         assert result.exit_code == 0
         content = unicode_file.read_text(encoding="utf-8")

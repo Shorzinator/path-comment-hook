@@ -8,11 +8,21 @@ rest of the codebase can rely on a single, validated source of truth.
 from __future__ import annotations
 
 import fnmatch
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import tomllib
+# Python 3.11+ has tomllib in stdlib, older versions need tomli
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    try:
+        import tomli as tomllib
+    except ImportError as e:
+        raise ImportError(
+            "tomli is required for Python < 3.11. Install with: pip install tomli"
+        ) from e
 
 
 class ConfigError(Exception):

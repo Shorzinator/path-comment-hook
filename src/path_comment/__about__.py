@@ -13,9 +13,9 @@ from __future__ import annotations
 
 TYPE_CHECKING = False
 if TYPE_CHECKING:
-    from typing import Union
+    from typing import Tuple, Union
 
-    VERSION_TUPLE = tuple[Union[int, str], ...]
+    VERSION_TUPLE = Tuple[Union[int, str], ...]
 else:
     VERSION_TUPLE = object
 

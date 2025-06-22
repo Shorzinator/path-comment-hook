@@ -85,7 +85,10 @@ class TestRunCommand:
         result = runner.invoke(app, ["run", str(nonexistent), "--project-root", str(tmp_path)])
 
         assert result.exit_code == 1
-        assert "does not exist" in result.output
+        # Check for key parts that should be present, robust against line wrapping
+        assert "Error" in result.output
+        assert "nonexistent.py" in result.output
+        assert "does not exist" in result.output or "not exist" in result.output
 
     def test_run_directory_instead_of_file(self, runner, tmp_path: Path) -> None:
         """Test error handling when directory is passed instead of file."""

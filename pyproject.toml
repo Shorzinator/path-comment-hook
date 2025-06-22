@@ -83,7 +83,10 @@ select = [
 ]
 ignore = [
   "D203",  # 1 blank line required before class docstring
+  "D205",  # 1 blank line required between summary line and description (conflicts with docformatter)
   "D213",  # Multi-line docstring summary should start at the second line
+  "UP006", # Use `list` instead of `List` for type annotation (Python 3.8 needs typing.List)
+  "UP007", # Use X | Y for type annotations (Python 3.8 needs typing.Union)
 ]
 
 [tool.ruff.lint.pydocstyle]
@@ -116,6 +119,10 @@ disallow_untyped_decorators = false
 [[tool.mypy.overrides]]
 module = "path_comment.cli"
 disallow_untyped_decorators = false
+
+[[tool.mypy.overrides]]
+module = "tomli"
+ignore_missing_imports = true
 
 [tool.coverage.run]
 source_pkgs = ["path_comment"]

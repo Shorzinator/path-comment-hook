@@ -12,6 +12,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Dict, List, Union
 
 from rich.console import Console
 from rich.progress import Progress, TaskID
@@ -39,7 +40,7 @@ class ProcessingResult:
 
     file_path: Path
     result: Result
-    error: Exception | None = None
+    error: Union[Exception, None] = None
 
 
 class FileProcessor:
@@ -78,13 +79,13 @@ class FileProcessor:
 
 
 def process_files_parallel(
-    files: list[Path],
+    files: List[Path],
     project_root: Path,
     mode: str = "fix",
-    workers: int | None = None,
+    workers: Union[int, None] = None,
     show_progress: bool = False,
     operation: str = "ensure",
-) -> list[ProcessingResult]:
+) -> List[ProcessingResult]:
     """Process multiple files in parallel using ThreadPoolExecutor.
 
     Args:
@@ -111,7 +112,7 @@ def process_files_parallel(
     workers = min(workers, len(files))
 
     processor = FileProcessor(project_root)
-    results: list[ProcessingResult | None] = [None] * len(files)
+    results: List[Union[ProcessingResult, None]] = [None] * len(files)
 
     try:
         if show_progress:
@@ -131,11 +132,11 @@ def process_files_parallel(
 
 
 def _process_with_progress(
-    files: list[Path],
+    files: List[Path],
     processor: FileProcessor,
     mode: str,
     workers: int,
-    results: list[ProcessingResult | None],
+    results: List[Union[ProcessingResult, None]],
     progress: Progress,
     task: TaskID,
     operation: str = "ensure",
@@ -165,11 +166,11 @@ def _process_with_progress(
 
 
 def _process_without_progress(
-    files: list[Path],
+    files: List[Path],
     processor: FileProcessor,
     mode: str,
     workers: int,
-    results: list[ProcessingResult | None],
+    results: List[Union[ProcessingResult, None]],
     operation: str = "ensure",
 ) -> None:
     """Process files without progress bar display."""
@@ -194,7 +195,7 @@ def _process_without_progress(
                 )
 
 
-def collect_processing_statistics(results: list[ProcessingResult]) -> dict:
+def collect_processing_statistics(results: List[ProcessingResult]) -> Dict:
     """Collect statistics from processing results.
 
     Args:
@@ -229,7 +230,7 @@ def collect_processing_statistics(results: list[ProcessingResult]) -> dict:
 
 
 def print_processing_summary(
-    results: list[ProcessingResult], mode: str, show_details: bool = False
+    results: List[ProcessingResult], mode: str, show_details: bool = False
 ) -> None:
     """Print a summary of processing results.
 

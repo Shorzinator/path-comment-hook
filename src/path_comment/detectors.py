@@ -1,18 +1,20 @@
 # src/path_comment/detectors.py
-"""detectors.py.
+"""Detector utilities for recognizing file types and managing comment prefixes.
 
-Translate a source-file *tag* (from `identify`) into the correct one-line
-comment syntax we will prepend. This keeps the mapping in exactly one place.
+Providing centralized logic for identifying programming languages and
+their corresponding comment styles ensures consistent behavior across
+the tool.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Dict, Set
 
 from identify.identify import tags_from_path
 
 # Map an *identify* tag → the prefix that starts a line-comment
-COMMENT_PREFIXES: dict[str, str] = {
+COMMENT_PREFIXES: Dict[str, str] = {
     # python / shell-style
     "python": "#",
     "cython": "#",
@@ -29,7 +31,7 @@ COMMENT_PREFIXES: dict[str, str] = {
 }
 
 # Files we intentionally ignore (binaries, markdown, images, etc.)
-_SKIP_TAGS: set[str] = {
+_SKIP_TAGS: Set[str] = {
     "binary",
     "archive",  # zip, tar …
     "pdf",

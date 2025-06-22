@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 import typer
 from rich.console import Console
@@ -91,7 +91,7 @@ ALL_FILES_OPTION = typer.Option(
 
 @app.command()
 def run(
-    files: list[str] = FILES_ARGUMENT,
+    files: List[str] = FILES_ARGUMENT,
     check: bool = CHECK_OPTION,
     project_root: Path = PROJECT_ROOT_OPTION,
     workers: int = WORKERS_OPTION,
@@ -241,7 +241,7 @@ def show_config(
 
 @app.command()
 def delete(
-    files: list[str] = FILES_ARGUMENT,
+    files: List[str] = FILES_ARGUMENT,
     check: bool = CHECK_OPTION,
     project_root: Path = PROJECT_ROOT_OPTION,
     workers: int = WORKERS_OPTION,
@@ -343,7 +343,7 @@ def welcome() -> None:
     show_welcome()
 
 
-def _discover_files(project_root: Path, config: Config) -> list[Path]:
+def _discover_files(project_root: Path, config: Config) -> List[Path]:
     """Recursively discover files to process under *project_root*.
 
     The discovery respects *exclude_globs* from the configuration and also
@@ -352,7 +352,7 @@ def _discover_files(project_root: Path, config: Config) -> list[Path]:
     """
     from .detectors import comment_prefix  # local import to avoid CLI startup cost
 
-    files: list[Path] = []
+    files: List[Path] = []
     for path in project_root.rglob("*"):
         if path.is_file() and not config.should_exclude(path, project_root):
             if comment_prefix(path) is not None:  # only supported types

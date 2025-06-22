@@ -3,7 +3,7 @@
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 
 from setuptools import setup
 from setuptools.command.install import install
@@ -46,7 +46,7 @@ class PostInstallCommand(install):
 
 
 # Read the pyproject.toml to get package info
-def read_pyproject() -> dict[str, Any]:
+def read_pyproject() -> Dict[str, Any]:
     """Read basic info from pyproject.toml for fallback setup."""
     try:
         import tomllib

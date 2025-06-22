@@ -11,18 +11,21 @@ import fnmatch
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
 
 # Python 3.11+ has tomllib in stdlib, older versions need tomli
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    try:
+try:
+    if sys.version_info >= (3, 11):
+        import tomllib
+    else:
         import tomli as tomllib
-    except ImportError as e:
+except ImportError as e:
+    if sys.version_info < (3, 11):
         raise ImportError(
             "tomli is required for Python < 3.11. Install with: pip install tomli"
         ) from e
+    else:
+        raise
 
 
 class ConfigError(Exception):
@@ -107,8 +110,8 @@ class Config:
         use_default_ignores: Whether to include default ignore patterns.
     """
 
-    exclude_globs: list[str] = field(default_factory=list)
-    custom_comment_map: dict[str, str] = field(default_factory=dict)
+    exclude_globs: List[str] = field(default_factory=list)
+    custom_comment_map: Dict[str, str] = field(default_factory=dict)
     default_mode: str = "file"
     use_default_ignores: bool = True
 
@@ -171,7 +174,7 @@ class Config:
         """
         return self.custom_comment_map.get(extension)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         """Convert config to dictionary representation.
 
         Returns:
@@ -246,7 +249,7 @@ def load_config(project_root: Path) -> Config:
         raise
 
 
-def show_config(project_root: Path) -> dict[str, Any]:
+def show_config(project_root: Path) -> Dict[str, Any]:
     """Load and return configuration for display purposes.
 
     Args:

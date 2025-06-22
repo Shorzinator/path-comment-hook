@@ -207,6 +207,7 @@ Future development beyond `v0.1.0` will be strictly driven by user feedback and 
 | **P2-02** | **Bug Fixing & Stability**            | 1. Prioritize and fix bugs in new features (delete, ignore patterns, etc.). <br> 2. Release patch versions as needed.                                                        | • Critical bugs in all features resolved.                          |
 | **P2-03** | **Usage Analytics & Optimization**    | 1. Understand which features are most/least used. <br> 2. Optimize based on real usage patterns. <br> 3. Enhance documentation for popular workflows. | • Clear understanding of feature adoption and user preferences. |
 | **P2-04** | **Quality-of-Life Improvements**      | Based on feedback, implement small UX improvements. Examples: <br> • Enhanced ignore pattern syntax. <br> • More flexible comment templates. <br> • Additional CLI shortcuts. | • User-requested improvements enhance daily workflow. |
+| **P2-05** | **Security Scanning Workflow**        | 1. Implement automated security scanning workflow in CI/CD. <br> 2. Add dependency vulnerability scanning. <br> 3. Integrate with GitHub Security Advisories. <br> 4. Set up automated security alerts and patches. | • Automated security scanning running in CI. <br> • Vulnerability reports and remediation process established. |
 
 **Definition of Done for Phase 2:**
 *   `v0.1.0` comprehensive feature set has been validated by external users.

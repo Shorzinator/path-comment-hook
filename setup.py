@@ -32,7 +32,7 @@ class PostInstallCommand(install):
             print("    /·\\")
             print("   /│·│\\    ┌─┐┌─┐┬ ┬")
             print("  / │·│ \\   ├─┘│  ├─┤")
-            print(" /  │·│  >  ┴  └─┘┴ ┴")
+            print(" /  │·│  >   ┴  └─┘┴ ┴")
             print("/___│·│___\\ path-comment-hook")
             print("\n🎉 Welcome to path-comment-hook! 🎉")
             print("\nThank you for installing path-comment-hook!")

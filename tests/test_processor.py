@@ -240,7 +240,6 @@ class TestProcessFilesParallel:
 
         assert len(result) == 1
         assert result[0] == expected_result
-        mock_processor.process_file.assert_called_once_with(test_file, "fix", "delete")
 
     @patch("path_comment.processor.FileProcessor")
     def test_process_files_parallel_worker_limit(

@@ -1,489 +1,253 @@
-## Path-Comment-Hook – Expanded & Granular Project Plan 🧭
+## Path-Comment-Hook – Lean & Focused Project Plan
 
-> **Goal:** Deliver an ergonomic, rock-solid Python package + pre-commit hook
-> that guarantees every source file starts with a relative-path header, then
-> expand into an ecosystem (IDE plugins, AI helpers, enterprise tooling).
-
----
-
-### **Project Vision & Principles:**
-
-*   **User-Centricity:** Prioritize ease of use, clear documentation, and sensible defaults.
-*   **Reliability:** Strive for correctness, idempotency, and robustness across platforms and edge cases.
-*   **Performance:** Ensure the tool is fast enough not to hinder developer workflows, especially in large repositories.
-*   **Extensibility:** Design for future growth, allowing new comment styles, integrations, and features.
-*   **Community:** Foster an open and welcoming environment for contributors and users.
+> **Goal:** Deliver a simple, reliable Python package + pre-commit hook
+> that adds relative-path headers to source files. Validate its utility with real users.
 
 ---
 
-## 0 ▸ Executive Summary & Phased Rollout
+### **Project Vision & Principles (Simplified):**
 
-*(Updated timeline based on accelerated progress. Current status: **Phase 1 COMPLETE**, Phase 2 in progress.)*
-
-| Stage | Target Version(s) | Calendar Slot* | Key Outcomes & Focus | Status |
-|-------|--------------------|----------------|----------------------|--------|
-| **Phase 0: Foundation & Bootstrap** | v0.1.0 | ✅ **COMPLETE** | Core logic, essential tests, repository setup, basic pre-commit hook functionality. | ✅ **DONE** |
-| **Phase 1: Configurable MVP & DX** | v0.2.x | ✅ **COMPLETE** | User configuration (`pyproject.toml`), CRLF/encoding safety, multiprocessing, comprehensive test suite, Poetry migration, development automation. | ✅ **DONE** |
-| **Phase 2: Advanced Features & Polish** | v0.3.x – v0.4.x | 🚧 **IN PROGRESS** | Performance optimization, advanced testing (fuzzing), security hardening, plugin architecture, documentation site. | 🚧 **CURRENT** |
-| **Phase 3: AI-Powered Intelligence** | v0.5.x | Q1 2025 | LLM integration for smart header suggestions, context-aware path resolution, automated refactoring assistance. | 📋 **PLANNED** |
-| **Phase 4: Enterprise & Integration** | v0.6.x – v0.7.x | Q2 2025 | GitHub App, Language Server Protocol (LSP), advanced IDE plugins, enterprise features (SAML, audit logs). | 📋 **PLANNED** |
-| **Phase 5: Stable Release** | **v1.0.0** | Q2 2025 | Semantic Versioning contract, full PyPI release, comprehensive documentation, community support. | 📋 **PLANNED** |
-| **Phase 6: Ecosystem & Innovation** | v1.x+ | Q3 2025+ | Real-time collaboration features, code archaeology tools, advanced monorepo support, cross-language expansion. | 🔮 **FUTURE** |
-| **Phase 7: Experimental & Research** | v2.x+ | Q1 2026+ | Quantum computing integration, neural code synthesis, biometric authentication, holographic visualization, space-grade verification. | 🔬 **RESEARCH** |
-
-*dates are illustrative; adjust to capacity and sprint outcomes.*
+*   **Utility First:** Solve one small problem well.
+*   **Reliability:** Make it work correctly and consistently.
+*   **Ease of Use:** Simple to install, configure, and run.
+*   **Performance:** Fast enough not to be annoying.
 
 ---
 
-## 1 ▸ Work Completed (Current Status @ v0.2.x) ✅
+## 0 ▸ Executive Summary
 
-*(Significantly expanded from original plan - project has exceeded Phase 0 and completed most of Phase 1)*
+`path-comment-hook` is a Python tool designed to automatically add or update a comment at the top of source files, indicating the file's relative path within the project. This can aid in navigation and context, especially in large codebases or when viewing files outside an IDE.
+
+The tool has evolved significantly with comprehensive functionality including file processing, deletion of headers, intelligent ignore patterns, and user-friendly command-line interface. The immediate goal is to create a stable, well-tested `v0.1.0` release that is easily installable via PyPI.
+
+Future development beyond `v0.1.0` will be strictly driven by user feedback and validated needs. If this core tool proves useful to a tangible number of users/projects, we will then consider adding more advanced configuration or features based on direct requests.
+
+---
+
+## 0.1 ▸ Current Reality
+
+*   **Active Users:** 0 (outside of developer)
+*   **GitHub Stars:** 0 (or current number if any)
+*   **Test Coverage:** ~78% (significant improvement from 56%)
+*   **Test Suite:** 78 passing tests across all functionality
+*   **Market Validation:** None to date
+*   **Competition:** Editor snippets, manual commenting, potentially other small scripts.
+*   **Primary Value Proposition Focus (for v0.1.0):** **Reliability & Ease of Use** – a comprehensive tool that *just works* for both adding and managing path comments across projects.
+
+---
+
+## 0.2 ▸ Hard Questions
+
+1.  **Why would someone use this over editor snippets or existing IDE features?**
+    *   *Hypothesis:* For automated, consistent enforcement across a whole project/team, especially via pre-commit hooks, which snippets don't offer. The delete functionality also provides cleanup capabilities that snippets lack.
+2.  **What's the actual, specific pain point this solves?**
+    *   *Hypothesis:* Quickly understanding a file's location and context when viewed in isolation (e.g., in code reviews, terminal output, or simple editors) without relying on IDE-specific navigation. Reduces cognitive load for frequently context-switching developers. Also provides project hygiene by cleaning up headers when needed.
+3.  **Have we talked to at least 10 developers (outside the project) who genuinely express a need for this specific solution?**
+    *   *Action:* This needs to be done post-v0.1.0 release.
+4.  **What, if anything, would make someone pay for an advanced version of this?**
+    *   *Hypothesis (Highly speculative, for far future):* Enterprise compliance, deep VCS integration for context, advanced analytics. Not a concern for v0.1.0.
+5.  **Is this a vitamin (nice-to-have) or a painkiller (solves a real, acute problem)?**
+    *   *Hypothesis:* Currently a vitamin. The goal of v0.1.0 and subsequent user feedback is to determine if it can become a painkiller for specific workflows or teams.
+
+---
+
+## 1 ▸ Work Completed (Status @ v0.3.x internally, pre-first-release)
+
+*(This section details the existing foundation, which is solid technical work and should be acknowledged. Recent advancements have significantly enhanced functionality.)*
 
 | Area | Deliverables | Status | Notes |
 |------|--------------|--------|-------|
-| **Repository & Infrastructure** | ✅ Complete | ✅ | |
-| ├─ Poetry migration | `pyproject.toml` (Poetry), dependency groups, scripts | ✅ | Migrated from Hatch for better dependency management |
+| **Repository & Infrastructure** |  | ✅ | |
+| ├─ Poetry migration | `pyproject.toml` (Poetry), dependency groups, scripts | ✅ | Migrated for dependency management |
 | ├─ Development automation | `Makefile`, `setup-dev.sh`, VS Code config | ✅ | Streamlined developer experience |
 | ├─ Git workflow | `develop`/`main` branches, conventional commits | ✅ | Professional git workflow established |
-| └─ Pre-commit integration | Comprehensive hook suite (ruff, mypy, bandit, etc.) | ✅ | Production-ready code quality gates |
-| **Core Functionality** | ✅ Complete | ✅ | |
+| └─ Pre-commit integration | Comprehensive hook suite (ruff, mypy, bandit, etc.) | ✅ | Code quality gates |
+| **Core Functionality** |  | ✅ | |
 | ├─ File detection | `detectors.py` with binary/shebang handling | ✅ | Robust file type detection |
-| ├─ Header injection | `injector.py` with preservation logic | ✅ | Smart header insertion preserving existing content |
-| ├─ CLI interface | Typer-based CLI with `--check`, `--all` flags | ✅ | User-friendly command-line interface |
-| └─ Auto-discovery | Recursive file discovery with exclusions | ✅ | **NEW**: `--all` flag for project-wide processing |
-| **Configuration System** | ✅ Complete | ✅ | |
+| ├─ Header injection | `injector.py` with preservation logic | ✅ | Smart header insertion |
+| ├─ Header deletion | **NEW**: `delete_header()` with intelligent detection | ✅ | **Complete removal of path comments** |
+| ├─ CLI interface | Typer-based CLI with comprehensive commands | ✅ | **Enhanced with delete, version, help support** |
+| ├─ Auto-discovery | Recursive file discovery with advanced exclusions | ✅ | `--all` flag for project-wide processing |
+| └─ Command shortcuts | **NEW**: Auto-insert run command (`pch --all` = `pch run --all`) | ✅ | **Improved user experience** |
+| **Configuration System** |  | ✅ | |
 | ├─ TOML configuration | `[tool.path-comment-hook]` in `pyproject.toml` | ✅ | User-configurable behavior |
-| ├─ Exclusion patterns | Glob-based file exclusions | ✅ | Flexible file filtering |
+| ├─ Advanced exclusions | **ENHANCED**: 52 default ignore patterns + custom globs | ✅ | **Comprehensive file filtering** |
+| ├─ Ignore system | Version control, build artifacts, caches, IDEs | ✅ | **Smart defaults for common exclusions** |
+| ├─ Configuration display | `show-config` command with detailed output | ✅ | **Enhanced config introspection** |
 | └─ Custom comment maps | File extension to comment style mapping | ✅ | Extensible comment formats |
-| **File Handling & Safety** | ✅ Complete | ✅ | |
+| **File Handling & Safety** |  | ✅ | |
 | ├─ Encoding detection | UTF-8 + chardet fallback | ✅ | Robust encoding handling |
 | ├─ Line ending preservation | CRLF/LF detection and preservation | ✅ | Cross-platform compatibility |
 | ├─ Atomic writes | Temporary file + rename for safety | ✅ | Data integrity protection |
 | └─ Error handling | Comprehensive exception handling | ✅ | Graceful failure modes |
-| **Performance & Concurrency** | ✅ Complete | ✅ | |
-| ├─ Multiprocessing | ThreadPoolExecutor for parallel processing | ✅ | Significant performance improvement |
-| ├─ Progress reporting | Rich-based progress bars | ✅ | User feedback during processing |
+| **Performance & Concurrency** |  | ✅ | |
+| ├─ Multiprocessing | ThreadPoolExecutor for parallel processing | ✅ | Performance improvement |
+| ├─ Progress reporting | Rich-based progress bars | ✅ | User feedback |
+| ├─ Concise output | **NEW**: Summary messages for bulk operations | ✅ | **Clean, professional output** |
 | └─ Worker configuration | Configurable thread count | ✅ | Tunable performance |
-| **Testing & Quality** | 🚧 In Progress (56% coverage) | 🚧 | |
-| ├─ Test suite | 54 tests across all modules | ✅ | **EXCEEDED**: Comprehensive test coverage |
-| ├─ Test categories | Unit, integration, file handling, config | ✅ | Multiple test dimensions |
+| **CLI & User Experience** |  | ✅ | |
+| ├─ Version support | **NEW**: `--version` flag with proper version display | ✅ | **Professional CLI behavior** |
+| ├─ Help system | **ENHANCED**: `-h` flag support for all commands | ✅ | **Improved accessibility** |
+| ├─ Multiple commands | `run`, `delete`, `show-config` with full option parity | ✅ | **Comprehensive functionality** |
+| ├─ Bulk operations | Smart output for `--all` operations (summary vs. detailed) | ✅ | **Enhanced user experience** |
+| └─ Pre-commit integration | Seamless integration with pre-commit hooks | ✅ | **Ready for team adoption** |
+| **Testing & Quality** |  | ✅ | |
+| ├─ Test suite | **IMPROVED**: 78 tests across all modules (vs. 54 previously) | ✅ | **Comprehensive test coverage** |
+| ├─ Test categories | Unit, integration, file handling, config, CLI, deletion | ✅ | **Multiple test dimensions including new features** |
+| ├─ All tests passing | **FIXED**: All 78 tests now pass consistently | ✅ | **Stable, reliable codebase** |
 | ├─ CI/CD pipeline | GitHub Actions with matrix testing | ✅ | Automated quality assurance |
 | ├─ Code quality | Ruff, mypy, bandit, docformatter | ✅ | Production-ready code standards |
-| └─ Coverage target | **TODO**: Increase from 56% to 95% | 📋 | Current blocker for Phase 2 completion |
-| **Documentation** | 🚧 In Progress | 🚧 | |
+| └─ Coverage improvement | **IMPROVED**: ~78% (from 56%) | ✅ | **Significant progress toward 90% target** |
+| **Documentation** |  | 🚧 | |
 | ├─ README | Comprehensive installation and usage guide | ✅ | Detailed user documentation |
 | ├─ Code documentation | Docstrings, type hints throughout | ✅ | Self-documenting codebase |
-| └─ API documentation | **TODO**: Auto-generated API docs | 📋 | Planned for Phase 2 |
+| ├─ Feature documentation | **NEW**: All new features documented inline | ✅ | **Complete feature coverage** |
+| └─ API documentation | **NEEDS WORK**: Auto-generated API docs via MkDocs | 📋 | **Priority for v0.1.0** |
 
-**Key Achievements Beyond Original Plan:**
-- **Poetry Migration**: Switched from Hatch to Poetry for better dependency management
-- **Development Automation**: Added Makefile and setup scripts for streamlined development
-- **Advanced File Handling**: Implemented comprehensive encoding detection and atomic writes
-- **Multiprocessing**: Added parallel processing capabilities with progress reporting
-- **Auto-Discovery**: `--all` flag for automatic file discovery across projects
-- **Header Preservation**: Smart logic to preserve existing content when inserting headers
-- **Comprehensive Testing**: 54 tests covering all major functionality
-- **Production-Ready CI**: Full pre-commit hook suite with multiple quality gates
-- **Type Safety**: Complete type annotations with mypy strict checking
-- **Code Quality**: Automated formatting, linting, and security scanning
-- **Modular Architecture**: Clean separation of concerns with plugin-ready design
+**Major Recent Advancements (Completed):**
+*   ✅ **Delete Command**: Full-featured `pch delete` command with `--all`, `--check`, `--verbose` support
+*   ✅ **Version Support**: Professional `--version` flag displaying current version
+*   ✅ **Auto-insert Run**: `pch --all` automatically becomes `pch run --all` for better UX
+*   ✅ **Help Flag Support**: `-h` flag works alongside `--help` for all commands
+*   ✅ **Concise Output**: Bulk operations show "Successfully updated X files" instead of listing each file
+*   ✅ **Comprehensive Ignores**: 52 default ignore patterns covering version control, build artifacts, caches, IDEs
+*   ✅ **Enhanced Config Display**: `custom_comment_map` and all config options properly explained
+*   ✅ **Test Suite Stability**: All 78 tests passing consistently, improved coverage
+*   ✅ **Smart Path Detection**: Intelligent path comment detection for deletion operations
 
-**Current State Assessment (December 2024):**
-- **Project Maturity**: Advanced beyond original Phase 0 expectations
-- **Code Quality**: Production-ready with comprehensive linting and type checking
-- **Architecture**: Well-structured, modular design ready for extensions
-- **Performance**: Multiprocessing implemented, but not formally benchmarked
-- **Testing**: Good test suite (54 tests) but coverage needs improvement (56% → 95%)
-- **Documentation**: Excellent README, but missing formal documentation site
-- **Community**: Ready for community contributions with proper development setup
+**Current Technical Debt & Remaining Priorities for `v0.1.0`:**
+*   **Test Coverage**: Increase from ~78% to >90% (MEDIUM PRIORITY - significant progress made)
+*   **Documentation Site**: Create basic MkDocs site with essential user guides and API docs (HIGH PRIORITY)
+*   **Windows CI Testing**: Add Windows to CI matrix and ensure all tests pass (MEDIUM PRIORITY)
+*   **PyPI Packaging**: Final packaging and metadata preparation for PyPI release (HIGH PRIORITY)
 
-**Current Technical Debt & Immediate Priorities:**
-- **Test Coverage**: Increase from 56% to 95% (blocking Phase 2 completion)
-- **CLI Module Coverage**: 0% coverage on CLI module needs immediate attention
-- **Processor Module Coverage**: 45% coverage needs significant improvement
-- **Documentation Site**: Missing auto-generated API documentation
-- **Windows Testing**: No Windows CI matrix testing yet
-- **Performance Benchmarking**: No formal performance testing framework
+**Deferred Items (Previously Problematic, Now Resolved):**
+*   ~~Permission Error Handling~~ → ✅ **RESOLVED**: Proper error handling implemented
+*   ~~Pre-commit Shorthand Syntax~~ → ✅ **RESOLVED**: Auto-insert functionality implemented
+*   ~~-h Flag Support~~ → ✅ **RESOLVED**: Full `-h` flag support added
 
 ---
 
-## 2 ▸ Phase 2: Advanced Features & Polish (Target: v0.3.x – v0.4.x) 🛡️
+## 2 ▸ Lean Roadmap (Focus: `v0.1.0` Release & Validation)
 
-*Duration: Estimated 3-4 weeks. Focus: Performance optimization, advanced testing, security, and extensibility.*
-**Sprint Goal:** Achieve production-grade reliability, performance, and extensibility while establishing documentation infrastructure.
+### **Phase 1: Finalize & Ship `v0.1.0` (IMMEDIATE FOCUS)**
+**Goal:** Release a stable, feature-complete, and well-documented first version to PyPI.
+**Key Outcomes:**
+    *   Comprehensive functionality is robust and tested.
+    *   Users can easily install and use the full feature set.
+    *   Professional documentation exists.
 
-| ID | Task | Sub-Tasks & Details | Acceptance Criteria (AC) | Priority |
-|----|------|-----------------------|--------------------------|----------|
-| **P2-S1: Performance Optimization** | Benchmarking & Tuning | 1. **Benchmark Suite**: Create standardized performance tests using `pytest-benchmark`. <br> 2. **Large Repository Testing**: Test on repos with 10k, 50k, 100k files. <br> 3. **Memory Profiling**: Use `memory_profiler` to identify memory bottlenecks. <br> 4. **Optimization**: Implement lazy loading, efficient globbing, optimized I/O patterns. <br> 5. **Caching**: Add intelligent caching for file type detection and exclusion patterns. | • Process 10k files in <30 seconds on reference hardware. <br> • Memory usage remains <500MB for 100k file repos. <br> • Performance regression tests in CI. | **HIGH** |
-| **P2-S2: Advanced Testing - Fuzzing** | Hypothesis Integration | 1. **Fuzz Core Functions**: Add Hypothesis tests for path parsing, comment generation, file content manipulation. <br> 2. **Property-Based Testing**: Test invariants like idempotency, encoding preservation. <br> 3. **Edge Case Generation**: Generate malformed files, unusual paths, mixed encodings. <br> 4. **CI Integration**: Run fuzz tests in CI with reasonable time limits. | • 5+ critical functions covered by Hypothesis tests. <br> • No crashes or data corruption found by fuzzing. <br> • Fuzz tests complete in <2 minutes in CI. | **HIGH** |
-| **P2-S3: Security Hardening** | SAST & Vulnerability Management | 1. **Static Analysis**: Integrate Bandit, CodeQL, and Semgrep. <br> 2. **Dependency Scanning**: Add `pip-audit` and `safety` to CI. <br> 3. **Security Documentation**: Create `SECURITY.md` with reporting procedures. <br> 4. **Secure Defaults**: Review and harden default configurations. | • Zero high-severity security issues. <br> • All dependencies have known vulnerabilities patched. <br> • Security scan results clean in CI. | **HIGH** |
-| **P2-S4: Plugin Architecture** | Extensible Comment System | 1. **Plugin Interface**: Design plugin system using `importlib.metadata.entry_points`. <br> 2. **Core Refactoring**: Refactor detectors/injectors to use plugin system. <br> 3. **Example Plugins**: Create plugins for Vue, Svelte, Terraform, Dockerfile. <br> 4. **Plugin Documentation**: Write guide for creating custom plugins. | • Plugins can be discovered and loaded dynamically. <br> • Example plugins work correctly. <br> • Plugin development guide is clear and complete. | **MEDIUM** |
-| **P2-S5: Documentation Site** | MkDocs Material | 1. **Site Setup**: Initialize MkDocs with Material theme. <br> 2. **Content Creation**: API docs, tutorials, configuration guide, FAQ. <br> 3. **Auto-generation**: Use `mkdocstrings` for API documentation. <br> 4. **Deployment**: GitHub Actions to deploy to GitHub Pages. | • Documentation site is live and navigable. <br> • API documentation is auto-generated and current. <br> • Site deploys automatically on changes. | **MEDIUM** |
-| **P2-S6: Cross-Platform Testing** | Windows & Edge Cases | 1. **Windows CI**: Add Windows to GitHub Actions matrix. <br> 2. **Path Handling**: Test Windows paths, UNC paths, drive letters. <br> 3. **Symlink Handling**: Define and test symlink behavior across platforms. <br> 4. **File System Edge Cases**: Test with various file systems and permissions. | • All tests pass on Windows CI. <br> • Windows-specific path handling works correctly. <br> • Symlink behavior is documented and consistent. | **MEDIUM** |
-| **P2-S7: Test Coverage > 95%** | Comprehensive Coverage | 1. **Coverage Analysis**: Identify uncovered code paths (currently 56% → 95%). <br> 2. **CLI Testing**: Add comprehensive CLI command testing. <br> 3. **Error Path Testing**: Test exception handling and edge cases. <br> 4. **Integration Tests**: Add end-to-end workflow tests. <br> 5. **Coverage Enforcement**: Set CI to fail below 95% coverage. | • Test coverage consistently ≥ 95%. <br> • All error paths are tested. <br> • CLI commands fully tested. <br> • CI enforces coverage threshold. | **CRITICAL** |
+| ID    | Task                                  | Sub-Tasks & Details                                                                                                                                                                                             | Acceptance Criteria (AC)                                                                                                                               | Priority   |
+| :---- | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
+| **P1-01** | **Test Coverage >90%**                | 1. Analyze current ~78% coverage; identify gaps in CLI, edge cases. <br> 2. Write targeted tests for remaining uncovered paths. <br> 3. Enforce >90% coverage in CI. | • Test coverage consistently ≥ 90%. <br> • All major features fully tested. <br> • CI enforces coverage threshold.                                            | **MEDIUM** (Improved from CRITICAL) |
+| **P1-02** | **Windows CI & Compatibility**        | 1. Add `windows-latest` to GitHub Actions CI matrix. <br> 2. Debug and fix any tests failing on Windows. <br> 3. Manually test basic CLI functionality on a Windows machine.                               | • All tests pass on Windows CI. <br> • Basic CLI operations function correctly on Windows.                                                                | **MEDIUM**     |
+| **P1-03** | **Basic Documentation Site (MkDocs)** | 1. Initialize MkDocs with Material theme in `docs/`. <br> 2. Create essential pages: Installation, Quick Start, Configuration, CLI Reference, Delete Command Guide. <br> 3. Integrate `mkdocstrings` for API reference. <br> 4. Setup GHA to deploy to GitHub Pages. | • Docs site covers all features including delete, version, config. <br> • API docs are generated. <br> • Clear usage examples for all commands. | **HIGH**     |
+| **P1-04** | **PyPI Release `v0.1.0`**             | 1. Polish `README.md` for PyPI with new features. <br> 2. Finalize `pyproject.toml` metadata (version `0.1.0`, feature descriptions). <br> 3. Build package (`poetry build`). <br> 4. Test publishing to TestPyPI. <br> 5. Publish to PyPI. <br> 6. Create `v0.1.0` git tag and GitHub Release. | • Package successfully installs via `pip install path-comment-hook`. <br> • All CLI commands work after fresh install. <br> • PyPI page reflects full feature set. | **HIGH**     |
+| **P1-05** | **Performance Validation**    | 1. Test tool on medium-sized directory (100-500 files). <br> 2. Validate both `run --all` and `delete --all` performance. <br> 3. Ensure concise output works correctly at scale. | • Tool processes 500 files in reasonable time (<10 seconds). <br> • Bulk operations show proper summary messages. | **LOW**   |
 
-**Definition of Done for Phase 2 (v0.3.x - v0.4.x):**
-*   All P2 tasks completed and ACs met.
-*   Performance benchmarks meet targets.
-*   Security scans pass with zero high-severity issues.
-*   Documentation site is live and comprehensive.
-*   Test coverage ≥ 95%.
-*   Plugin system is functional with example plugins.
-
----
-
-## 3 ▸ Phase 3: AI-Powered Intelligence (Target: v0.5.x) 🤖
-
-*Duration: Estimated 4-6 weeks. Focus: Integrating AI capabilities for intelligent code analysis and suggestions.*
-**Sprint Goal:** Transform path-comment-hook from a simple header tool into an intelligent code assistant that understands context and provides smart suggestions.
-
-| ID | Task | Sub-Tasks & Details | Acceptance Criteria (AC) | Priority |
-|----|------|-----------------------|--------------------------|----------|
-| **P3-S1: LLM Integration Framework** | AI Service Abstraction | 1. **Provider Abstraction**: Create unified interface for OpenAI, Anthropic, local LLMs (Ollama). <br> 2. **Configuration System**: Add AI provider settings to `pyproject.toml`. <br> 3. **Fallback Strategy**: Graceful degradation when AI services are unavailable. <br> 4. **Cost Management**: Token usage tracking and limits. | • Multiple AI providers supported through unified interface. <br> • Graceful fallback to non-AI functionality. <br> • Token usage is tracked and configurable limits respected. | **HIGH** |
-| **P3-S2: Smart Header Suggestions** | Context-Aware Headers | 1. **Code Analysis**: Parse file content to understand purpose and context. <br> 2. **Smart Naming**: Generate descriptive headers based on file content, not just path. <br> 3. **Template System**: AI-generated header templates for different file types. <br> 4. **Learning System**: Learn from user preferences and corrections. | • AI generates contextually appropriate headers. <br> • Headers include purpose, dependencies, and key functions. <br> • System learns from user feedback. | **HIGH** |
-| **P3-S3: Intelligent Path Resolution** | Context-Aware Paths | 1. **Monorepo Detection**: Automatically detect monorepo structure (Bazel, Nx, Lerna). <br> 2. **Workspace-Relative Paths**: Generate paths relative to logical workspace roots. <br> 3. **Dependency Analysis**: Understand import relationships for smarter path suggestions. <br> 4. **Project Structure Learning**: AI learns project conventions and applies them. | • Automatically detects and respects monorepo structures. <br> • Paths are relative to most logical root. <br> • Import relationships influence path generation. | **MEDIUM** |
-| **P3-S4: Code Archaeology Assistant** | Historical Context | 1. **Git Integration**: Analyze git history to understand file evolution. <br> 2. **Change Impact Analysis**: Identify files that frequently change together. <br> 3. **Author Attribution**: Include original author and key contributors in headers. <br> 4. **Deprecation Detection**: Identify potentially deprecated or unused files. | • Headers include relevant historical context. <br> • Change patterns influence header content. <br> • Deprecated files are flagged appropriately. | **MEDIUM** |
-| **P3-S5: Automated Refactoring Assistant** | AI-Powered Maintenance | 1. **Header Standardization**: AI suggests improvements to existing headers. <br> 2. **Consistency Checking**: Identify and fix inconsistencies across project. <br> 3. **Bulk Operations**: AI-assisted bulk header updates with review. <br> 4. **Migration Assistant**: Help migrate between different header formats. | • AI suggests header improvements. <br> • Inconsistencies are automatically detected. <br> • Bulk operations maintain quality and consistency. | **LOW** |
-| **P3-S6: Natural Language Interface** | Conversational AI | 1. **Chat Interface**: Add `path-comment chat` command for natural language queries. <br> 2. **Query Understanding**: Parse natural language requests about headers and files. <br> 3. **Explanation Generation**: AI explains why certain headers were suggested. <br> 4. **Interactive Refinement**: Allow users to refine suggestions through conversation. | • Users can interact with tool using natural language. <br> • AI explains its reasoning clearly. <br> • Suggestions can be refined through conversation. | **LOW** |
-
-**Definition of Done for Phase 3 (v0.5.x):**
-*   AI integration framework is stable and extensible.
-*   Smart header suggestions work for major file types.
-*   Monorepo detection and workspace-relative paths function correctly.
-*   Natural language interface provides useful interactions.
-*   All AI features have appropriate fallbacks and error handling.
+**Definition of Done for Phase 1 (`v0.1.0`):**
+*   All P1 tasks completed.
+*   `path-comment-hook==0.1.0` is published on PyPI with full feature set.
+*   Documentation site covers all functionality.
+*   Project is ready for initial user feedback with comprehensive capabilities.
 
 ---
 
-## 4 ▸ Phase 4: Enterprise & Integration (Target: v0.6.x – v0.7.x) 🏢
+### **Phase 2: Validate & Enhance (Post-`v0.1.0` Release)**
+**Goal:** Gather user feedback on comprehensive feature set, fix bugs, and add quality-of-life improvements.
+**Key Outcomes:**
+    *   Early user pain points addressed.
+    *   Tool's comprehensive functionality validated in real-world use.
+    *   Clear understanding of most valuable features.
 
-*Duration: Estimated 6-8 weeks. Focus: Enterprise features, deep IDE integration, and ecosystem expansion.*
-**Sprint Goal:** Make path-comment-hook enterprise-ready with advanced integrations, compliance features, and seamless developer workflow integration.
+*(This phase is intentionally less detailed now; its content will be defined by user feedback from v0.1.0)*
 
-| ID | Task | Sub-Tasks & Details | Acceptance Criteria (AC) | Priority |
-|----|------|-----------------------|--------------------------|----------|
-| **P4-S1: GitHub App & Integration** | Native GitHub Integration | 1. **GitHub App Development**: Create GitHub App with repository access permissions. <br> 2. **PR Integration**: Automatic header checking and suggestions in PRs. <br> 3. **Status Checks**: Native GitHub status checks for header compliance. <br> 4. **Auto-fix PRs**: Bot can create PRs with header fixes. <br> 5. **Organization Management**: Org-level configuration and enforcement. | • GitHub App is published and installable. <br> • PR checks work reliably. <br> • Auto-fix PRs are generated correctly. <br> • Organization-level policies can be enforced. | **HIGH** |
-| **P4-S2: Language Server Protocol (LSP)** | Real-time IDE Integration | 1. **LSP Server**: Implement LSP server using `pygls`. <br> 2. **Diagnostics**: Real-time header validation in editors. <br> 3. **Code Actions**: Quick fixes and header insertion actions. <br> 4. **Hover Information**: Show header information on hover. <br> 5. **Multi-editor Support**: Test with VS Code, Neovim, Emacs, IntelliJ. | • LSP server provides real-time diagnostics. <br> • Code actions work in multiple editors. <br> • Performance is acceptable for large files. | **HIGH** |
-| **P4-S3: Advanced IDE Plugins** | Native Editor Extensions | 1. **VS Code Extension**: Rich extension with GUI configuration, tree views. <br> 2. **JetBrains Plugin**: IntelliJ Platform plugin for all JetBrains IDEs. <br> 3. **Vim/Neovim Plugin**: Lua-based plugin for Neovim. <br> 4. **Emacs Package**: Elisp package for Emacs integration. | • Extensions are published to respective marketplaces. <br> • Each extension provides native UI integration. <br> • Extensions work reliably across editor versions. | **MEDIUM** |
-| **P4-S4: Enterprise Features** | Compliance & Governance | 1. **SAML/SSO Integration**: Enterprise authentication for GitHub App. <br> 2. **Audit Logging**: Comprehensive audit trails for all operations. <br> 3. **Policy Engine**: Configurable policies for different teams/projects. <br> 4. **Compliance Reporting**: Generate compliance reports for audits. <br> 5. **Role-Based Access**: Different permissions for different user roles. | • Enterprise authentication works with major providers. <br> • Audit logs capture all relevant events. <br> • Policies can be configured and enforced. <br> • Compliance reports meet enterprise requirements. | **MEDIUM** |
-| **P4-S5: Advanced Monorepo Support** | Large-Scale Repository Management | 1. **Workspace Detection**: Support for Bazel, Buck, Nx, Rush, Lerna workspaces. <br> 2. **Selective Processing**: Process only changed files or specific workspaces. <br> 3. **Dependency-Aware Headers**: Headers reflect workspace dependencies. <br> 4. **Build System Integration**: Integration with major build systems. | • All major monorepo tools are supported. <br> • Selective processing significantly improves performance. <br> • Headers accurately reflect workspace structure. | **MEDIUM** |
-| **P4-S6: API & Webhook System** | Programmatic Access | 1. **REST API**: HTTP API for programmatic access to all functionality. <br> 2. **Webhook Support**: Webhooks for integration with external systems. <br> 3. **SDK Development**: Python SDK and potentially other languages. <br> 4. **Rate Limiting**: Proper rate limiting and authentication for API. | • REST API is fully functional and documented. <br> • Webhooks work reliably with major platforms. <br> • SDK provides convenient programmatic access. | **LOW** |
+| ID    | Task                                  | Details                                                                                                                                                               | AC                                                                     |
+| :---- | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------- |
+| **P2-01** | **Gather User Feedback**              | 1. Announce `v0.1.0` with full feature set. <br> 2. Actively solicit feedback on delete functionality, ignore patterns, CLI UX. <br> 3. Get 5-10 projects to try comprehensive workflow. | • Feedback on delete, ignore patterns, CLI shortcuts received.                 |
+| **P2-02** | **Bug Fixing & Stability**            | 1. Prioritize and fix bugs in new features (delete, ignore patterns, etc.). <br> 2. Release patch versions as needed.                                                        | • Critical bugs in all features resolved.                          |
+| **P2-03** | **Usage Analytics & Optimization**    | 1. Understand which features are most/least used. <br> 2. Optimize based on real usage patterns. <br> 3. Enhance documentation for popular workflows. | • Clear understanding of feature adoption and user preferences. |
+| **P2-04** | **Quality-of-Life Improvements**      | Based on feedback, implement small UX improvements. Examples: <br> • Enhanced ignore pattern syntax. <br> • More flexible comment templates. <br> • Additional CLI shortcuts. | • User-requested improvements enhance daily workflow. |
 
-**Definition of Done for Phase 4 (v0.6.x - v0.7.x):**
-*   GitHub App is published and functional.
-*   LSP server works with major editors.
-*   At least 2 native IDE plugins are published.
-*   Enterprise features meet basic compliance requirements.
-*   Monorepo support handles major workspace types.
-
----
-
-## 5 ▸ Phase 5: Stable Release v1.0.0 (Target: Q2 2025) 🚢
-
-*Duration: Estimated 2-3 weeks. Focus: Final polish, comprehensive testing, and official release.*
-**Sprint Goal:** Release a stable, production-ready v1.0.0 with comprehensive documentation and community support.
-
-| Step | Task | Details & Checks | Priority |
-|------|------|--------------------|----------|
-| 1. | **Feature Freeze & Stabilization** | Complete all planned v1.0 features. Address critical bugs. Freeze API. | **CRITICAL** |
-| 2. | **Comprehensive Documentation** | Complete user guide, API docs, tutorials, migration guides. | **HIGH** |
-| 3. | **Security Audit** | Third-party security review. Penetration testing. Vulnerability assessment. | **HIGH** |
-| 4. | **Performance Validation** | Validate performance targets on large repositories. Stress testing. | **HIGH** |
-| 5. | **Beta Testing Program** | Recruit 50+ beta testers. Collect and address feedback. | **MEDIUM** |
-| 6. | **PyPI Release Preparation** | Configure trusted publishing. Prepare release automation. | **HIGH** |
-| 7. | **Legal & Compliance Review** | License compliance. Export control review. Privacy policy. | **MEDIUM** |
-| 8. | **Community Infrastructure** | Discord/Slack community. Support documentation. Issue templates. | **MEDIUM** |
-| 9. | **Marketing & Launch** | Blog posts, social media, conference talks, press releases. | **LOW** |
-| 10. | **Post-Launch Support** | Monitor issues. Rapid response team. Patch release process. | **HIGH** |
-
-**Definition of Done for v1.0.0:**
-*   All critical features are stable and well-tested.
-*   Documentation is comprehensive and user-friendly.
-*   Security audit passes with no critical issues.
-*   Performance targets are met.
-*   Community infrastructure is in place.
-*   Package is available on PyPI with proper metadata.
+**Definition of Done for Phase 2:**
+*   `v0.1.0` comprehensive feature set has been validated by external users.
+*   Critical feedback has been addressed.
+*   Clear data on feature usage and user preferences exists.
 
 ---
 
-## 6 ▸ Phase 6: Ecosystem & Innovation (Target: v1.x+) 🚀
+### **Phase 3: Strategic Decision (Post-Phase 2)**
+**Goal:** Decide the project's future based on validated usage of comprehensive feature set.
+**Key Outcomes:**
+    *   Data-driven decision on project direction: maintain, expand, pivot, or sunset.
 
-*Duration: Ongoing. Focus: Expanding the ecosystem and exploring cutting-edge features.*
-**Sprint Goal:** Build a comprehensive ecosystem around path-comment-hook and explore innovative features that push the boundaries of code organization and traceability.
-
-| Epic | Innovative Features | Potential Impact | Timeline |
-|------|---------------------|------------------|----------|
-| **Real-time Collaboration** | Live header synchronization, collaborative editing, conflict resolution | Teams can maintain consistent headers across distributed development | Q3 2025 |
-| **Code Archaeology & Analytics** | File relationship mapping, change impact analysis, technical debt detection | Deep insights into codebase evolution and maintenance needs | Q4 2025 |
-| **Cross-Language Expansion** | Rust, Go, Java, C++ support with native tooling integration | Universal header management across polyglot codebases | Q1 2026 |
-| **Blockchain Integration** | Immutable header history, code provenance tracking, smart contracts for compliance | Cryptographic proof of code lineage and compliance | Q2 2026 |
-| **AR/VR Code Visualization** | 3D codebase visualization with header-based navigation, spatial code organization | Revolutionary way to understand and navigate large codebases | Q3 2026 |
-| **Quantum-Safe Cryptography** | Quantum-resistant signatures for headers, future-proof security | Prepare for post-quantum computing era | Q4 2026 |
-
-### **Detailed Innovation Roadmap:**
-
-#### **6.1 Real-time Collaboration Features**
-- **Live Header Sync**: WebSocket-based real-time header synchronization across team members
-- **Collaborative Header Editing**: Multiple developers can edit headers simultaneously with conflict resolution
-- **Team Awareness**: See who's working on which files through header metadata
-- **Change Broadcasting**: Real-time notifications when headers are modified
-- **Collaborative AI**: Team-shared AI learning from collective header preferences
-
-#### **6.2 Advanced Code Archaeology**
-- **Temporal Header Analysis**: Track how headers evolve over time with git integration
-- **Dependency Graph Visualization**: Visual representation of file relationships based on headers
-- **Technical Debt Detection**: AI identifies files with outdated or inconsistent headers
-- **Change Impact Prediction**: Predict which files might need header updates based on changes
-- **Code Genealogy**: Track file lineage through renames, moves, and splits
-
-#### **6.3 Cross-Language Ecosystem**
-- **Native Rust Tool**: High-performance Rust implementation for speed-critical environments
-- **Go Integration**: Native Go tooling with goroutine-based parallel processing
-- **Java Maven/Gradle Plugins**: Deep integration with Java build systems
-- **C++ CMake Integration**: Header management for C++ projects with CMake
-- **Universal Header Format**: Cross-language header format for polyglot projects
-
-#### **6.4 Blockchain & Cryptographic Features**
-- **Immutable Header History**: Blockchain-based tamper-proof header change log
-- **Code Provenance Tracking**: Cryptographic proof of code authorship and modifications
-- **Smart Contract Compliance**: Automated compliance checking through smart contracts
-- **Decentralized Header Registry**: Distributed registry of header standards and templates
-- **Zero-Knowledge Proofs**: Prove header compliance without revealing code content
-
-#### **6.5 AR/VR Code Visualization**
-- **3D Codebase Navigation**: Navigate codebases in 3D space using header relationships
-- **Spatial Code Organization**: Organize files in virtual space based on header metadata
-- **Immersive Code Review**: VR-based code review with header-guided navigation
-- **Gesture-Based Header Editing**: Edit headers using hand gestures in VR
-- **Collaborative Virtual Workspaces**: Team coding sessions in shared virtual environments
-
-#### **6.6 Quantum-Safe Security**
-- **Post-Quantum Signatures**: Quantum-resistant digital signatures for headers
-- **Quantum Key Distribution**: Ultra-secure key exchange for header encryption
-- **Quantum Random Header Generation**: True quantum randomness for header IDs
-- **Quantum-Safe Audit Trails**: Tamper-proof audit logs using quantum cryptography
-- **Future-Proof Security**: Prepare for quantum computing threats to current cryptography
+| Decision Point                                       | Criteria                                                                                                     | Potential Action                                                                                                |
+| :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| **Low Adoption** (<10 active users, minimal feedback on comprehensive features) | Comprehensive feature set is not solving significant problems for others. | • **Sunset:** Archive the project. <br> • **Personal Tool:** Maintain for personal use only. |
+| **Selective Adoption** (Users primarily use only some features, clear preferences emerge) | Some features are highly valued, others ignored. Tool serves specific needs well. | • **Focused Maintenance:** Emphasize popular features, consider deprecating unused ones. <br> • **Targeted Documentation:** Focus on validated use cases. |
+| **Broad Adoption** (>50 users, active use of multiple features, community engagement) | Comprehensive feature set is solving real problems across different workflows. | • **Community Building:** Foster contributions and feature requests. <br> • **Cautious Expansion:** Consider advanced features for proven high-value use cases. |
 
 ---
 
-## 7 ▸ Risk Management (Updated)
+## 3 ▸ Realistic Success Metrics (Updated for Enhanced Functionality)
 
-*(Expanded with new risks from advanced features and AI integration)*
-
-| Risk | Likelihood | Impact | Mitigation Strategy | Contingency Plan |
-|------|------------|--------|---------------------|--------------------|
-| **AI Hallucination/Incorrect Suggestions** | High | Medium | 1. Implement confidence scoring for AI suggestions. <br> 2. Always show AI suggestions as optional with clear disclaimers. <br> 3. Maintain human review for all AI-generated content. <br> 4. Provide easy rollback mechanisms. | Disable AI features if accuracy drops below threshold. Provide manual override options. |
-| **AI Service Costs/Rate Limits** | Medium | Medium | 1. Implement local LLM fallbacks (Ollama). <br> 2. Aggressive caching of AI responses. <br> 3. User-configurable cost limits. <br> 4. Batch processing for efficiency. | Switch to local models. Implement request queuing and retry logic. |
-| **Privacy Concerns with AI** | Medium | High | 1. Local processing options for sensitive code. <br> 2. Clear privacy policy and data handling documentation. <br> 3. Option to disable AI features entirely. <br> 4. On-premises deployment options. | Provide fully offline mode. Implement data anonymization. |
-| **Performance Degradation with AI** | Medium | High | 1. Asynchronous AI processing. <br> 2. Configurable AI timeout limits. <br> 3. Progressive enhancement (AI as optional layer). <br> 4. Performance monitoring and alerting. | Graceful degradation to non-AI functionality. Performance-based feature toggling. |
-| **Enterprise Security Requirements** | Medium | High | 1. SOC 2 Type II compliance preparation. <br> 2. Regular security audits and penetration testing. <br> 3. Enterprise-grade authentication and authorization. <br> 4. Comprehensive audit logging. | Engage security consultants. Implement additional security layers as needed. |
-| **Cross-Platform Compatibility Issues** | Medium | Medium | 1. Comprehensive CI matrix testing. <br> 2. Platform-specific testing environments. <br> 3. Community beta testing program. <br> 4. Platform-specific documentation. | Prioritize most common platforms. Provide platform-specific workarounds. |
-| **Ecosystem Fragmentation** | Low | High | 1. Maintain backward compatibility. <br> 2. Clear migration paths between versions. <br> 3. Standardized plugin interfaces. <br> 4. Community governance model. | Establish compatibility guarantees. Provide migration tools. |
-| **Quantum Computing Threats** | Low | High | 1. Monitor quantum computing developments. <br> 2. Implement crypto-agility in design. <br> 3. Plan migration to post-quantum cryptography. <br> 4. Regular security architecture reviews. | Rapid deployment of quantum-safe algorithms when available. |
+*   **Test Coverage:** Achieved and maintained >90%.
+*   **Feature Adoption:** Clear data on which features (run, delete, ignore patterns) are most valuable to users.
+*   **Installations & Use:** At least 10 distinct projects/users have installed and actively used `v0.1.0` within 1-2 months.
+*   **GitHub Stars:** 25-50 stars (as indicator of interest in comprehensive functionality).
+*   **Quality Feedback:** At least 3 developers provide feedback specifically on delete functionality, ignore patterns, or CLI UX.
+*   **Documentation Effectiveness:** Users successfully adopt multiple features based on documentation.
+*   **Real-world Validation:** Evidence that both add and delete workflows are valuable in practice.
 
 ---
 
-## 8 ▸ Success Metrics & KPIs
+## 4 ▸ Resources
 
-*(New section to track project success)*
-
-### **Technical Metrics**
-- **Performance**: Process 100k files in <60 seconds
-- **Reliability**: 99.9% uptime for cloud services
-- **Test Coverage**: Maintain >95% code coverage
-- **Security**: Zero critical vulnerabilities
-- **Compatibility**: Support 95% of common development environments
-
-### **Adoption Metrics**
-- **Downloads**: 10k+ monthly PyPI downloads by v1.0
-- **GitHub Stars**: 1k+ stars by v1.0, 5k+ by v2.0
-- **Enterprise Adoption**: 50+ enterprise customers by v1.5
-- **Plugin Ecosystem**: 25+ community plugins by v1.2
-- **IDE Integration**: Available in 5+ major IDEs by v1.0
-
-### **Community Metrics**
-- **Contributors**: 25+ active contributors by v1.0
-- **Issues Resolution**: <48 hour response time for critical issues
-- **Documentation**: 90%+ user satisfaction with documentation
-- **Support**: Active community support channels
-- **Conferences**: Presented at 5+ major conferences by v1.5
-
-### **Innovation Metrics**
-- **AI Accuracy**: >90% user satisfaction with AI suggestions
-- **Feature Adoption**: >60% of users use advanced features
-- **Cross-Language Support**: 10+ programming languages supported
-- **Research Impact**: 3+ academic papers citing the project
-- **Industry Recognition**: Awards or recognition from major tech organizations
+*   **Lead Developer (You):** Focused effort on Phase 1 completion. Subsequent investment based on Phase 3 decision.
+*   **Contributors:** 1-2 external individuals interested in comprehensive toolset for feedback and contributions.
+*   **Budget:** $0 (all tools and platforms are free tier).
+*   **Timeline:** Aim to ship feature-complete `v0.1.0` within 2-3 weeks focused effort on remaining priorities.
 
 ---
 
-## 9 ▸ Resource & Role Matrix (Updated)
+## 5 ▸ When to Kill This Project
 
-*(Expanded for larger project scope)*
-
-| Role | Responsibility | Estimated FTE* | Potential Candidates/Notes |
-|------|----------------|----------------|--------------------------|
-| **Lead Maintainer** | Architecture, roadmap, releases, community leadership | 0.3 - 0.6 | You (primary) |
-| **AI/ML Engineer** | LLM integration, AI features, model optimization | 0.2 - 0.4 | Recruit specialist or upskill |
-| **DevOps Engineer** | CI/CD, infrastructure, security, performance | 0.1 - 0.3 | Community contributor or consultant |
-| **Frontend Developer** | IDE plugins, web interfaces, documentation site | 0.1 - 0.2 | Community contributor |
-| **Technical Writer** | Documentation, tutorials, blog posts | 0.1 - 0.2 | Community contributor or freelancer |
-| **Community Manager** | Discord/forums, user support, evangelism | 0.1 - 0.2 | Community volunteer |
-| **Security Specialist** | Security audits, compliance, enterprise features | 0.05 - 0.1 | Consultant or security-focused contributor |
-| **UX Designer** | User experience, interface design, usability testing | 0.05 - 0.1 | Community contributor or freelancer |
-
-\*fraction of one full-time engineer; adjust based on project growth and funding
+*   If comprehensive `v0.1.0` fails to attract <5 users providing feedback within 2-3 months of promotion.
+*   If user feedback indicates the comprehensive feature set is overwhelming or unnecessary for the core problem.
+*   If >90% test coverage proves unachievable or maintenance burden exceeds value.
+*   If no external interest in the full feature set emerges within 3-4 months post-release.
+*   If personal motivation wanes due to lack of validation of the comprehensive approach.
 
 ---
 
-## 10 ▸ Definition of Done (Updated for v1.0.0)
+## 6 ▸ Governance & Quality Gates
 
-### **Core Functionality**
-*   ✅ All Phase 1-2 features implemented and stable
-*   ✅ Test coverage >95% with comprehensive test suite
-*   ✅ Performance targets met (100k files in <60 seconds)
-*   ✅ Cross-platform compatibility (Windows, macOS, Linux)
-*   ✅ Security audit passed with zero critical issues
-
-### **AI Features**
-*   🚧 LLM integration with multiple provider support
-*   🚧 Smart header suggestions with >90% user satisfaction
-*   🚧 Context-aware path resolution for monorepos
-*   🚧 Natural language interface functional
-
-### **Enterprise Features**
-*   📋 GitHub App published and functional
-*   📋 LSP server working with major editors
-*   📋 Basic enterprise authentication and audit logging
-*   📋 At least 2 native IDE plugins published
-
-### **Documentation & Community**
-*   📋 Comprehensive documentation site live
-*   📋 API documentation auto-generated and current
-*   📋 Community support channels active
-*   📋 Contributor guidelines and governance model established
-
-### **Release Infrastructure**
-*   📋 PyPI package published with proper metadata
-*   📋 Automated release pipeline functional
-*   📋 Semantic versioning contract established
-*   📋 Backward compatibility guarantees documented
-
-### **Success Metrics**
-*   📋 1k+ GitHub stars
-*   📋 10k+ monthly PyPI downloads
-*   📋 50+ beta testers provided feedback
-*   📋 Zero critical bugs in production
-*   📋 Community contributions from 10+ external contributors
-
-**Stretch Goals for v1.0.0:**
-*   🔮 Featured in major tech publications
-*   🔮 Adopted by 5+ major open source projects
-*   🔮 Speaking opportunity at major conference
-*   🔮 Enterprise pilot customers signed
-*   🔮 Academic research collaboration established
+| Aspect | Policy |
+|--------|--------|
+| **Semantic Versioning** | MAJOR ⇒ breaking, MINOR ⇒ new features, PATCH ⇒ bug-fix. |
+| **Branch Model** | `develop` default, `main` protected for releases, `feature/*`, `fix/*`. |
+| **CI Gates** | Ruff, mypy (strict), pytest + >90% coverage target, Bandit. |
+| **Review Rules** | Self-review for solo dev, external review preferred if contributors emerge. |
 
 ---
 
-## 11 ▸ Innovation Showcase: Mind-Boggling Features
+## 7 ▸ Lessons Learned & What's Working Well
 
-*(New section highlighting the most innovative and ambitious features)*
+### **Recent Successful Strategies**
+- **Comprehensive Feature Development**: Building delete, version, help, and ignore functionality created a complete tool
+- **User Experience Focus**: Auto-insert commands and concise output significantly improve daily usage
+- **Intelligent Defaults**: 52 default ignore patterns solve real-world file filtering needs without configuration
+- **Test-Driven Improvements**: Fixing all 78 tests created a stable foundation for new features
+- **Incremental Enhancement**: Each feature built naturally on existing architecture
 
-### **🧠 Cognitive Code Understanding**
-- **Semantic Header Generation**: AI understands code semantics to generate meaningful headers beyond just file paths
-- **Intent Recognition**: Detect developer intent from code patterns and suggest appropriate header metadata
-- **Code Relationship Mapping**: Automatically discover and document relationships between files
-- **Evolutionary Header Tracking**: Headers that evolve with code complexity and purpose
+### **Validated Technical Decisions**
+- **Modular Architecture**: Easy addition of delete functionality proves design flexibility
+- **Rich CLI Framework**: Typer enabled sophisticated command structure with minimal complexity
+- **Comprehensive Configuration**: TOML-based config system handles growing feature set elegantly
+- **Parallel Processing**: Performance remains good even with expanded functionality
 
-### **🌐 Distributed Development Intelligence**
-- **Global Header Synchronization**: Synchronize headers across distributed teams and repositories
-- **Cross-Repository Dependencies**: Track and manage headers across multiple related repositories
-- **Federated Header Standards**: Participate in industry-wide header standardization efforts
-- **Blockchain-Verified Provenance**: Immutable proof of code authorship and modification history
-
-### **🔮 Predictive Code Maintenance**
-- **Technical Debt Prediction**: Predict which files will need maintenance based on header patterns
-- **Refactoring Opportunity Detection**: Identify refactoring opportunities through header analysis
-- **Code Quality Forecasting**: Predict code quality trends based on header evolution
-- **Automated Maintenance Scheduling**: AI-driven scheduling of header maintenance tasks
-
-### **🎯 Hyper-Personalized Development**
-- **Developer Behavior Learning**: Learn individual developer preferences and coding patterns
-- **Contextual Header Suggestions**: Suggestions based on current task, time of day, and project phase
-- **Mood-Aware Interfaces**: Adapt interface and suggestions based on developer stress levels
-- **Productivity Optimization**: Optimize header workflows for maximum developer productivity
-
-### **🚀 Next-Generation Interfaces**
-- **Voice-Controlled Header Management**: "Add header to authentication module"
-- **Gesture-Based Code Navigation**: Navigate codebases using hand gestures
-- **Brain-Computer Interface Integration**: Direct thought-to-header translation (experimental)
-- **Augmented Reality Code Overlay**: See headers and metadata overlaid on physical code printouts
-
-### **🌍 Ecosystem Integration**
-- **Universal Code Standards**: Participate in cross-industry code organization standards
-- **Academic Research Platform**: Provide anonymized data for software engineering research
-- **Open Source Intelligence**: Contribute to open source project health and sustainability
-- **Developer Education Platform**: Teach best practices through interactive header management
-
-### **🔬 Experimental & Research Features**
-- **Code DNA Sequencing**: Generate unique genetic signatures for files based on structure and content
-- **Temporal Code Archaeology**: Time-travel through code history with immersive visualization
-- **Quantum Entangled Headers**: Headers that maintain quantum correlation across distributed systems
-- **Neural Code Synthesis**: AI that writes code based on header specifications
-- **Biometric Code Authentication**: Verify code authorship through typing patterns and style analysis
-- **Holographic Code Projection**: 3D holographic display of code structure and relationships
-
-### **🌟 Social & Collaborative Innovation**
-- **Code Social Network**: Connect developers through shared header patterns and coding styles
-- **Gamified Header Management**: Achievement systems, leaderboards, and coding challenges
-- **Crowdsourced Header Intelligence**: Community-driven header suggestions and improvements
-- **Code Mentorship Platform**: Match junior developers with mentors based on header quality
-- **Global Code Health Index**: Real-time metrics on worldwide code organization quality
-- **Developer Mood Analytics**: Correlate header quality with developer well-being and productivity
-
-### **🚀 Futuristic Integration**
-- **IoT Code Deployment**: Headers that trigger automatic deployment to IoT devices
-- **Space-Grade Code Verification**: Headers with cosmic ray error detection for space applications
-- **Metaverse Code Environments**: Virtual reality coding spaces organized by header metadata
-- **AI Code Companions**: Personal AI assistants that learn from your header preferences
-- **Blockchain Code Contracts**: Smart contracts that enforce header compliance automatically
-- **Quantum Computing Integration**: Headers optimized for quantum algorithm development
-
----
-
-*This POA represents an ambitious but achievable roadmap for transforming path-comment-hook from a simple utility into a revolutionary code organization and intelligence platform. The phased approach ensures steady progress while the innovation showcase provides inspiration for future development.*
-
----
-
-## 12 ▸ Lessons Learned & What's Working Well
-
-### **✅ Successful Strategies**
-- **Poetry Migration**: Switching from Hatch to Poetry significantly improved dependency management
-- **Comprehensive Pre-commit Hooks**: Automated quality gates prevent technical debt accumulation
-- **Modular Architecture**: Clean separation allows for easy testing and future extensions
-- **Type Safety First**: Complete type annotations caught many bugs early in development
-- **Development Automation**: Makefile and setup scripts dramatically improved developer experience
-
-### **🔄 Iterative Improvements**
-- **Test-Driven Development**: Writing tests first would have prevented current coverage debt
-- **Performance Testing**: Should have established benchmarks earlier in development
-- **Documentation as Code**: Auto-generated docs should be part of CI/CD pipeline
-- **Community Engagement**: Earlier community involvement could have provided valuable feedback
-
-### **🎯 Key Success Factors**
-- **Clear Vision**: Well-defined goals and phases keep development focused
-- **Quality Over Speed**: Emphasis on code quality pays dividends in maintainability
-- **Automation**: Automated testing and formatting reduce manual overhead
-- **Incremental Progress**: Small, focused commits make progress trackable and reversible
-
-### **🚀 Momentum Builders**
-- **Working Software**: Having a functional tool early builds confidence and motivation
-- **Visible Progress**: Regular commits and clear milestones maintain momentum
-- **Technical Excellence**: High code quality attracts contributors and users
-- **Innovation Vision**: Ambitious future features inspire continued development
-
----
-
-**Last Updated**: December 2024
-**Next Review**: January 2025
-**Version**: 2.0 (Major revision reflecting current progress and expanded vision)
+### **Key Success Factors for v0.1.0**
+- **Feature Completeness**: Comprehensive add/delete/configure workflow addresses full user journey
+- **Professional Polish**: Version support, help systems, concise output create professional tool experience
+- **Smart Defaults**: Intelligent ignore patterns and auto-insert commands reduce configuration burden
+- **Stable Foundation**: All tests passing provides confidence in comprehensive feature set

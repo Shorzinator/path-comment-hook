@@ -1,3 +1,5 @@
+# mkdocs.yml
+
 site_name: path-comment-hook
 site_description: Pre-commit hook that adds file path headers to source code
 site_author: Shourya Maheshwari

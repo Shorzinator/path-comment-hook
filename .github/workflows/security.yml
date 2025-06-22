@@ -1,3 +1,5 @@
+# .github/workflows/security.yml
+
 name: Security Scan
 
 on:

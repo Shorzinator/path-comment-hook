@@ -1,3 +1,5 @@
+# setup.py
+
 """Setup script with post-install welcome message."""
 
 import subprocess

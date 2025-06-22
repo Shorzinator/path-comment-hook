@@ -1,3 +1,5 @@
+# src/path_comment/welcome.py
+
 """Welcome message for path-comment-hook installation."""
 
 from rich.console import Console

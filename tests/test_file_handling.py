@@ -1,6 +1,7 @@
 # tests/test_file_handling.py
 """Including CRLF preservation, encoding detection, and atomic writes."""
 
+import os
 from pathlib import Path
 from unittest.mock import patch
 
@@ -220,6 +221,7 @@ class TestFileHandler:
         new_stat = file_path.stat()
         assert new_stat.st_mode == file_path.stat().st_mode
 
+    @pytest.mark.skipif(os.name == "nt", reason="Permission handling differs on Windows")
     def test_atomic_write_failure_cleanup(self, tmp_path: Path) -> None:
         """Test that failed atomic write cleans up temporary file."""
         file_path = tmp_path / "test.py"
@@ -252,6 +254,7 @@ class TestFileHandler:
         with pytest.raises(FileHandlingError, match="Failed to read file"):
             handler.read()
 
+    @pytest.mark.skipif(os.name == "nt", reason="Permission handling differs on Windows")
     def test_read_permission_denied(self, tmp_path: Path) -> None:
         """Test reading file with no permissions raises appropriate error."""
         file_path = tmp_path / "no_read.py"

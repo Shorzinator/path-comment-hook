@@ -218,9 +218,9 @@ class FileHandler:
                 )
                 temp_path = Path(temp_path_str)
 
-                # Write to temporary file
-                with os.fdopen(temp_fd, "w", encoding="utf-8") as f:
-                    f.write(normalized_content)
+                # Write to temporary file in binary mode for precise line ending control
+                with os.fdopen(temp_fd, "wb") as f:
+                    f.write(normalized_content.encode("utf-8"))
                     f.flush()
                     os.fsync(f.fileno())
                 temp_fd = None  # Closed by context manager

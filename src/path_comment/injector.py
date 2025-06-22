@@ -208,10 +208,10 @@ def ensure_header(
         new_lines = lines.copy()
 
         if header_pos == 1:  # Insert after shebang
-            if len(new_lines) > 1:
+            if len(new_lines) > 1 and _is_path_comment(new_lines[1], file_path, project_root):
                 new_lines[1] = expected_line  # Replace existing header
             else:
-                new_lines.append(expected_line)  # Add header after shebang
+                new_lines.insert(1, expected_line)  # Insert header after shebang
         else:  # Insert at beginning
             # Prepend header, keep original first line, and add blank line
             original_first = new_lines[0]

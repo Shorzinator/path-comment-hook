@@ -12,7 +12,11 @@ def test_fix_plain_python(tmp_path: Path) -> None:
     target.write_text("print('hi')\n", encoding="utf-8")
 
     assert ensure_header(target, project, mode="fix") is Result.CHANGED
-    assert target.read_text().startswith("# scripts/foo.py\n")
+    content = target.read_text(encoding="utf-8")
+    # Use splitlines to be robust against line ending differences
+    lines = content.splitlines()
+    assert lines[0] == "# scripts/foo.py"
+    assert "print('hi')" in content
     assert ensure_header(target, project, mode="check") is Result.OK
 
 
@@ -34,9 +38,10 @@ def test_fix_shebang(tmp_path: Path) -> None:
     sh.write_text("#!/usr/bin/env python\nprint('hi')\n", encoding="utf-8")
 
     assert ensure_header(sh, tmp_path, mode="fix") is Result.CHANGED
-    lines = sh.read_text().splitlines()
+    lines = sh.read_text(encoding="utf-8").splitlines()
     assert lines[0].startswith("#!")  # shebang preserved
     assert lines[1] == "# bin/foo"  # header inserted right after
+    assert "print('hi')" in sh.read_text(encoding="utf-8")
 
 
 def test_fix_c_file(tmp_path: Path) -> None:

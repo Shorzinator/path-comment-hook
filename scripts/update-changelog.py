@@ -132,7 +132,7 @@ def generate_github_release_notes(version: str) -> str:
     /·\\
    /│·│\\    ┌─┐┌─┐┬ ┬
   / │·│ \\   ├─┘│  ├─┤
- /  │·│  >  ┴  └─┘┴ ┴
+ /  │·│  >   ┴  └─┘┴ ┴
 /___│·│___\\ path-comment-hook
 ```
 

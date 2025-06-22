@@ -22,6 +22,8 @@
 
 Never lose track of where you are in large codebases. This pre-commit hook automatically adds file path comments to the top of your source files, making code navigation effortless.
 
+**Use `pch` for quick access** - convenient shorthand for all operations.
+
 [**Documentation**](https://shorzinator.github.io/path-comment-hook) • [**Quick Start**](https://shorzinator.github.io/path-comment-hook/getting-started/quick-start/) • [**Configuration**](https://shorzinator.github.io/path-comment-hook/user-guide/configuration/) • [**API Reference**](https://shorzinator.github.io/path-comment-hook/api/reference/)
 
 </div>
@@ -53,18 +55,28 @@ Transform your codebase with automatic path headers that provide instant context
 pip install path-comment-hook
 ```
 
-### 2. Add to pre-commit
+### 2. Try it out instantly
+
+```bash
+# Using the convenient shorthand
+pch your_file.py
+
+# Or the full command name
+path-comment-hook your_file.py
+```
+
+### 3. Add to pre-commit
 
 ```yaml
 # .pre-commit-config.yaml
 repos:
   - repo: https://github.com/Shorzinator/path-comment-hook
-    rev: v0.3.0  # Use the latest version
+    rev: v0.1.0  # Use the latest version
     hooks:
       - id: path-comment
 ```
 
-### 3. Install and run
+### 4. Install and run
 
 ```bash
 pre-commit install
@@ -72,6 +84,8 @@ pre-commit run path-comment --all-files
 ```
 
 **That's it!** Your files now have path headers for better navigation.
+
+Use `pch` for quick access to all features!
 
 ## Supported Languages
 
@@ -101,13 +115,14 @@ Works with **10+ programming languages** out of the box:
 - **Atomic Operations** - Safe file modifications
 - **Encoding Preservation** - Maintains UTF-8, Latin-1, etc.
 - **Line Ending Preservation** - Keeps LF/CRLF intact
-- **Comprehensive Testing** - 152 tests with 95% coverage
+- **Comprehensive Testing** - 152 tests with 69% coverage
 
 ### Rich CLI Experience
 - **Progress Bars** - Visual feedback for large operations
 - **Colored Output** - Easy-to-read status messages
 - **Detailed Reporting** - Comprehensive summaries
 - **Multiple Modes** - Check, fix, and delete operations
+- **Convenient Shorthand** - Use `pch` instead of `path-comment-hook`
 
 ## Real-World Examples
 
@@ -171,26 +186,48 @@ exclude_globs = [
 
 ## CLI Usage
 
+The tool provides both full and shorthand commands for convenience:
+
 ```bash
-# Process specific files
+# Using full command name
 path-comment-hook src/main.py src/utils.py
-
-# Process entire project
 path-comment-hook --all
-
-# Check mode (dry run)
 path-comment-hook --check --all
-
-# Remove headers
 path-comment-hook --delete --all
-
-# Show configuration
 path-comment-hook show-config
+
+# Using convenient shorthand (pch)
+pch src/main.py src/utils.py
+pch --all
+pch --check --all
+pch --delete --all
+pch show-config
+```
+
+**Common workflows:**
+```bash
+# Quick project-wide update
+pch --all
+
+# Check what would change (dry run)
+pch --check --all
+
+# Remove all path headers
+pch delete --all
+
+# Process specific file types
+pch src/**/*.py tests/**/*.py
+
+# Show current configuration
+pch show-config
+
+# View help
+pch --help
 ```
 
 **All options:**
 ```bash
-path-comment-hook --help
+pch --help  # or path-comment-hook --help
 ```
 
 See the [CLI Usage Guide](https://shorzinator.github.io/path-comment-hook/user-guide/cli-usage/) for complete details.
@@ -198,10 +235,11 @@ See the [CLI Usage Guide](https://shorzinator.github.io/path-comment-hook/user-g
 ## Quality & Testing
 
 - **152 Test Cases** - Comprehensive test coverage
-- **Real-time Coverage** - Monitored via Codecov integration
+- **Real-time Coverage** - Monitored via Codecov integration (69% current)
 - **Type Safe** - Full type hints with mypy
 - **Linted & Formatted** - Ruff for code quality
-- **CI/CD** - GitHub Actions for automated testing
+- **Cross-Platform CI** - Ubuntu, Windows, macOS testing
+- **Professional Standards** - Enterprise-grade code quality
 
 ```bash
 # Run tests locally
@@ -230,6 +268,10 @@ git clone https://github.com/Shorzinator/path-comment-hook.git
 cd path-comment-hook
 poetry install
 make test
+
+# Try the tool locally with shorthand
+pch --help
+pch examples/basic_usage.py
 ```
 
 ## Integration Examples
@@ -237,19 +279,19 @@ make test
 ### GitHub Actions
 ```yaml
 - name: Check path headers
-  run: path-comment-hook --check --all
+  run: pch --check --all
 ```
 
 ### GitLab CI
 ```yaml
 check-headers:
-  script: path-comment-hook --check --all
+  script: pch --check --all
 ```
 
 ### Docker
 ```dockerfile
 RUN pip install path-comment-hook && \
-    path-comment-hook --all
+    pch --all
 ```
 
 See [CI/CD Integration](https://shorzinator.github.io/path-comment-hook/advanced/ci-integration/) for more examples.
@@ -263,9 +305,9 @@ See [CI/CD Integration](https://shorzinator.github.io/path-comment-hook/advanced
 ## Troubleshooting
 
 **Common issues:**
-- [Files not being processed](https://shorzinator.github.io/path-comment-hook/troubleshooting/#files-not-being-processed)
-- [Performance optimization](https://shorzinator.github.io/path-comment-hook/troubleshooting/#performance-issues)
-- [Pre-commit integration](https://shorzinator.github.io/path-comment-hook/troubleshooting/#pre-commit-issues)
+- [Files not being processed](https://shorzinator.github.io/path-comment-hook/troubleshooting/#files-not-being-processed) - Try `pch --verbose --all`
+- [Performance optimization](https://shorzinator.github.io/path-comment-hook/troubleshooting/#performance-issues) - Use `pch --workers 8 --all`
+- [Pre-commit integration](https://shorzinator.github.io/path-comment-hook/troubleshooting/#pre-commit-issues) - Test with `pch --check --all`
 
 ## License
 

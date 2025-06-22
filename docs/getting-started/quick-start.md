@@ -81,7 +81,7 @@ Let's add path headers to a sample file:
        return a + b
    ```
 
-🎉 **Success!** The path header has been added to your file.
+**Success!** The path header has been added to your file.
 
 ## Step 4: Process Multiple Files
 

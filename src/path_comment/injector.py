@@ -192,11 +192,9 @@ def ensure_header(
         else:
             # File only has shebang, need to add header
             needs_change = True
-            present_header = ""
     else:
         header_pos = 0
-        present_header = first_line
-        needs_change = present_header != expected_line
+        needs_change = first_line != expected_line
 
     if not needs_change:
         return Result.OK

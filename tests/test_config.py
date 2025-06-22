@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pytest
+
 from path_comment.config import Config, ConfigError, load_config
 
 

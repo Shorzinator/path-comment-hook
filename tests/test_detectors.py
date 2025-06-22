@@ -4,6 +4,7 @@
 from pathlib import Path
 
 import pytest
+
 from path_comment.detectors import COMMENT_PREFIXES, _get_shebang_tag, comment_prefix
 
 

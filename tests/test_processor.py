@@ -6,6 +6,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
+
 from path_comment.injector import Result
 from path_comment.processor import (
     FileProcessor,

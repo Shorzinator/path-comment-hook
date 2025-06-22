@@ -119,8 +119,7 @@ class Config:
         """Validate configuration after initialization."""
         if self.default_mode not in {"file", "folder", "smart"}:
             raise ConfigError(
-                f"Invalid default_mode '{self.default_mode}'. "
-                "Must be one of: file, folder, smart"
+                f"Invalid default_mode '{self.default_mode}'. Must be one of: file, folder, smart"
             )
 
     def should_exclude(self, file_path: Path, project_root: Path | None = None) -> bool:

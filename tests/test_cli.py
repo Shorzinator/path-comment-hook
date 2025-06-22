@@ -5,8 +5,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-from path_comment.cli import app
 from typer.testing import CliRunner
+
+from path_comment.cli import app
 
 
 class TestRunCommand:
